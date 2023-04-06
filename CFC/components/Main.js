@@ -68,10 +68,13 @@ export default function Main(){
                     <FlatList keyExtractor={item => item.id} data={graphicData} renderItem={({item}) =>
                             <View>
                                <TouchableWithoutFeedback>
-                                            <View style={[styles.category, {backgroundColor: item.fill + "30"}]}>
+                                            <View style={[styles.category, {backgroundColor: item.fill + "20"}]}>
                                                 <View style={[styles.circle, {backgroundColor: item.fill}]}>
                                                 </View>
-                                                <Text style={styles.categoryText}>{item.x}</Text>
+                                                <View style={{width:"70%", flexDirection: "row", justifyContent: "space-between"}}>
+                                                    <Text style={styles.categoryText}>{item.x}</Text>
+                                                    <Text style={[styles.categoryText, {direction: 'ltr'}]}>${item.y}</Text>
+                                                </View>
                                             </View>
                                         </TouchableWithoutFeedback>      
                             </View>
