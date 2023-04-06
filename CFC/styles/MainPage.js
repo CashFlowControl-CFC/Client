@@ -20,7 +20,13 @@ const styles = StyleSheet.create({
         color: '#D8D8D8',
         fontStyle: 'normal',
         fontWeight: 400,
-        fontSize: 14,
+        fontSize: 15,
+       },
+       categoryText:{
+        color: '#FFFFFF',
+        fontStyle: 'normal',
+        fontWeight: 500,
+        fontSize: 17,
        },
        periodBtns:{
         width: "100%",
@@ -30,6 +36,33 @@ const styles = StyleSheet.create({
        },
        pieChart:{
         height: height * 0.25,
+       },
+       category:{
+        width: "100%",
+        height: height * 0.07,
+        borderRadius: "100%",
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: "3%",
+       },
+       circle:{
+        width: 40,
+        height: 40,
+        borderRadius: "100%",
+        margin: "5%",
+       },
+       addBtn:{
+        width: 25,
+        height: 25,
+        borderRadius: "100%",
+        top: "60%",
+        left: "60%",
+        margin: "5%",
+        backgroundColor: "#FECC7A",
+        position: "absolute",
+        alignItems: "center",
+        justifyContent: 'center'
        }
     }
 )
