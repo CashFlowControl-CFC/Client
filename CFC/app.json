@@ -9,7 +9,18 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "packagerOpts": {
+        "config": "metro.config.js",
+        "sourceExts": ["js", "jsx", "svg"]
+      },
+      "extra": {
+        "expo": {
+          "svg": {
+            "useDefauls": true
+          }
+        }
+      }
     },
     "assetBundlePatterns": [
       "**/*"

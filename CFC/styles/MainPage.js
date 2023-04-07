@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: "100%",
         margin: "5%",
+        alignItems: 'center',
+        justifyContent: 'center'
        },
        addBtn:{
         width: 25,
@@ -62,7 +64,19 @@ const styles = StyleSheet.create({
         backgroundColor: "#FECC7A",
         position: "absolute",
         alignItems: "center",
-        justifyContent: 'center'
+        justifyContent: 'center',
+       },
+       header:{
+        width: "100%",
+        height: height * 0.14,
+        alignItems: "center",
+        justifyContent: 'space-around'
+       },
+       totalMoney:{
+           color: "#FFFFFF",
+           fontSize: 23,
+           fontWeight: 500,
+           marginLeft: '1%'
        }
     }
 )
