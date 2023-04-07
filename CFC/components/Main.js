@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import { View, Text, TouchableWithoutFeedback, FlatList, Image } from "react-native";
 import styles from "../styles/MainPage"
 import { VictoryPie} from "victory-native";
-import SvgComponent from "../resources/plus-svgrepo-com";
 
 export default function Main(){
     const [transactionMoney, setTransactionMoney] = useState(345);
@@ -53,7 +52,7 @@ export default function Main(){
                         /> 
                 <TouchableWithoutFeedback>
                     <View style={styles.addBtn}>
-                        <SvgComponent width={30} height={30}/>
+                        <Image source={require(`../resources/"plus-svgrepo-com".png`)} style={{width: 30, height: 30}} />
                     </View>
                 </TouchableWithoutFeedback>
                 <Text style={{
