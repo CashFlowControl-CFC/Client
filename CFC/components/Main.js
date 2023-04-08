@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, TouchableWithoutFeedback, FlatList, Image, Dimensions } from "react-native";
 import styles from "../styles/MainPage"
 import { VictoryPie} from "victory-native";
@@ -7,7 +7,7 @@ import BagDollar from "../resources/bagDollar";
 const { width, height } = Dimensions.get('window');
 
 export default function Main(){
-    const [transactionMoney, setTransactionMoney] = useState(345);
+    const [transactionMoney, setTransactionMoney] = useState(0);
     const [totalMoney, setTotalMoney] = useState(1457);
     const [graphicData, setGraphicData] = useState([
     { x: "food", y: 10, fill: "#64EBC2", id: 1, image: "food.js" },
@@ -19,6 +19,27 @@ export default function Main(){
     { x: "health", y: 30, fill: "#8CFF98", id: 7, image: "health.js" },
     { x: "health", y: 30, fill: "#8CFF98", id: 8, image: "health.js" },
     { x: "health", y: 30, fill: "#8CFF98", id: 9, image: "health.js" },])
+    const [combinedData, setCombinedData] = useState([]);
+    useEffect(() =>{
+        combine();
+        sum();
+    }, [])
+    const combine = () =>{
+        const newData = graphicData.reduce((acc, cur) => {
+            const index = acc.findIndex(item => item.x === cur.x);
+            if (index === -1) {
+              acc.push({ x: cur.x, y: cur.y, fill: cur.fill, id: cur.id, image: cur.image });
+            } else {
+              acc[index].y += cur.y;
+            }
+            return acc;
+          }, []);
+          setCombinedData(newData);
+    }
+   const sum = () =>{
+    const total = combinedData.reduce((acc, cur) => acc + cur.y, 0);
+    setTransactionMoney(total);
+   }
     return(
         <View style={styles.app}>
             <View style={styles.header}>
@@ -61,7 +82,7 @@ export default function Main(){
 
                 <View style={{alignItems: "center", justifyContent: 'center'}}>
                     <VictoryPie
-                        data={graphicData}
+                        data={combinedData}
                         width={250}
                         height={250}
                         innerRadius={70}
@@ -79,20 +100,20 @@ export default function Main(){
                         /> 
                 <TouchableWithoutFeedback>
                     <View style={styles.addBtn}>
-                        <Image source={require(`../resources/plus-svgrepo-com.png`)} style={{width: 30, height: 30}} />
+                        <Image source={require(`../resources/plus-svgrepo-com.png`)} style={{width: 25, height: 25}} />
                     </View>
                 </TouchableWithoutFeedback>
                 <Text style={{
                     position: 'absolute',
                     color: '#FFFFFF',
                     fontWeight: 700,
-                    fontSize: 24,
+                    fontSize: 25,
                     }}> ${transactionMoney} </Text>
                 </View>
 
-                <View style={{width: "95%"}}>
+                <View style={{width: "95%", flex: 1}}>
                     <FlatList keyExtractor={item => item.id} 
-                        data={graphicData} 
+                        data={combinedData} 
                         renderItem={({item}) =>
                             <View key={item.id}>
                                <TouchableWithoutFeedback>

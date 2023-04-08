@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
        },
        addBtn:{
-        width: 25,
-        height: 25,
+        width: 20,
+        height: 20,
         borderRadius: "100%",
         top: "60%",
         left: "60%",
@@ -77,6 +77,10 @@ const styles = StyleSheet.create({
            fontSize: 23,
            fontWeight: 500,
            marginLeft: '1%'
+       },
+       flatList:{
+        width: "100%",
+        flexGrow: 1,
        }
     }
 )
