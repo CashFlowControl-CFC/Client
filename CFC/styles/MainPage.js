@@ -107,7 +107,14 @@ const styles = StyleSheet.create({
        selected:{
         color: "#FDCD81",
         textDecorationLine: 'underline'
-       }
+       },
+       date:{
+        width: "100%",
+        marginTop: "7%",
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center'
+       },
     }
 )
 

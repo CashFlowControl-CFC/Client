@@ -1,18 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableWithoutFeedback, FlatList, Image, Dimensions, Modal, TextInput, Keyboard  } from "react-native";
+import { View, Text, TouchableWithoutFeedback, FlatList, Image, Modal, TextInput, Keyboard  } from "react-native";
 import styles from "../styles/MainPage"
 import { VictoryPie} from "victory-native";
 import getImageComponent from "../resources/imageComponent";
 import BagDollar from "../resources/bagDollar";
-const { width, height } = Dimensions.get('window');
+import moment from 'moment';
 
 export default function Main(){
     const [transactionMoney, setTransactionMoney] = useState(0);
     const [totalMoney, setTotalMoney] = useState(0);
     const [value, setValue] = useState('');
-    const [isIncome, setIsIncome] = useState(true);
+    const [isIncome, setIsIncome] = useState(false);
     const [selectedPeriod, setSelectedPeriod] = useState('Day');
+    const [date, setDate] = useState(moment(new Date()));
     const inputRef = useRef(null);
+    const [step, setStep] = useState(0);
     const [graphicData, setGraphicData] = useState([
     { x: "food", y: 10, fill: "#64EBC2", id: 1, image: "food.js", isIncome: false },
     { x: "family", y: 90, fill: "#FE8664", id: 2, image: "family.js", isIncome: false },
@@ -38,6 +40,9 @@ export default function Main(){
           inputRef.current?.focus();
         }
       }, [modalVisible]);
+      useEffect(() => {
+        changePeriod();
+      }, [selectedPeriod, step]);
       
     const filter = () =>{
         setFilteredData(graphicData.filter((item) => item.isIncome == isIncome));
@@ -57,6 +62,25 @@ export default function Main(){
             return acc;
           }, []);
           setCombinedData(newData);
+    }
+    const changePeriod = () =>{
+        let newDate = moment(new Date());
+        if (selectedPeriod == "Day"){
+            newDate.add(step, "days");
+            setDate(`${newDate.format('MMM D')}`);
+        }
+        else if(selectedPeriod == "Week"){
+            newDate.add(step, "weeks");
+            setDate(`${newDate.startOf('week').format('MMM D')} - ${newDate.endOf('week').format('MMM D')}`);
+        }
+        else if(selectedPeriod == "Month"){
+            newDate.add(step, "months");
+            setDate(`${newDate.startOf('month').format('MMM D')} - ${newDate.endOf('month').format('MMM D')}`);
+        }
+        else if(selectedPeriod == "Year"){
+            newDate.add(step, "years");
+            setDate(`${newDate.format('YYYY')}`);
+        }
     }
     return(
         <View style={styles.app}>
@@ -108,23 +132,44 @@ export default function Main(){
             <View style={styles.content} >
 
                 <View style={styles.periodBtns}>
-                    <TouchableWithoutFeedback onPress={() => setSelectedPeriod('Day')}>
+                    <TouchableWithoutFeedback onPress={() => {
+                        setSelectedPeriod('Day'); 
+                        setStep(0)
+                        }}>
                         <Text style={[styles.periodText, selectedPeriod === 'Day' && styles.selected]}>Day</Text>
                     </TouchableWithoutFeedback>
-                     <TouchableWithoutFeedback onPress={() => setSelectedPeriod('Week')}>
+                    <TouchableWithoutFeedback onPress={() => {
+                        setSelectedPeriod('Week'); 
+                        setStep(0)
+                        }}>
                         <Text style={[styles.periodText, selectedPeriod === 'Week' && styles.selected]}>Week</Text>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => setSelectedPeriod('Month')}>
+                    <TouchableWithoutFeedback onPress={() => {
+                        setSelectedPeriod('Month'); 
+                        setStep(0)
+                        }}>
                         <Text style={[styles.periodText, selectedPeriod === 'Month' && styles.selected]}>Month</Text>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => setSelectedPeriod('Year')}>
+                    <TouchableWithoutFeedback onPress={() => {
+                        setSelectedPeriod('Year'); 
+                        setStep(0)
+                        }}>
                         <Text style={[styles.periodText, selectedPeriod === 'Year' && styles.selected]}>Year</Text>
                     </TouchableWithoutFeedback>
                 </View>
 
-                <View style={{marginTop: "7%"}}>
-                    <Text style={styles.periodText}>March 26 - Apr 1</Text>
-                </View>
+                 <View  style={styles.date}>
+                    <TouchableWithoutFeedback onPress={() => setStep(step - 1)}>
+                        <Text style={[styles.periodText, {fontSize: 23}]}>{'<'}</Text>
+                    </TouchableWithoutFeedback>
+                    <View>
+                        <Text style={styles.periodText}>{`${date.toString()}`}</Text>
+                    </View>
+                    <TouchableWithoutFeedback onPress={() => setStep(step + 1)}>
+                    <Text style={[styles.periodText, {fontSize: 23}]}>{'>'}</Text>
+                    </TouchableWithoutFeedback>
+                </View>               
+                
 
                 <View style={{alignItems: "center", justifyContent: 'center'}}>
                     <VictoryPie
