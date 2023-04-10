@@ -81,6 +81,32 @@ const styles = StyleSheet.create({
        flatList:{
         width: "100%",
         flexGrow: 1,
+       },
+       pModal:{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: "#1E1E1E80",
+       },
+       sModal:{
+        width: width * 0.7,
+        height: height * 0.2,
+        backgroundColor: "#2F2F2F",
+        borderRadius: "30%",
+        alignItems: 'center',
+        justifyContent: 'space-around',
+       },
+       inputMoney:{
+        borderBottomColor: "#FFFFFF",
+        borderBottomWidth: 1,
+        width: "70%",
+        textAlign: 'center',
+        color: '#D8D8D8',
+        fontSize: 25
+       },
+       selected:{
+        color: "#FDCD81",
+        textDecorationLine: 'underline'
        }
     }
 )
