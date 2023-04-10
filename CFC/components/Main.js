@@ -10,36 +10,47 @@ export default function Main(){
     const [transactionMoney, setTransactionMoney] = useState(0);
     const [totalMoney, setTotalMoney] = useState(0);
     const [value, setValue] = useState('');
-    const [isIncome, setIsIncome] = useState(false);
+    const [isIncome, setIsIncome] = useState(true);
+    const [selectedPeriod, setSelectedPeriod] = useState('Day');
     const inputRef = useRef(null);
     const [graphicData, setGraphicData] = useState([
-    { x: "food", y: 10, fill: "#64EBC2", id: 1, image: "food.js" },
-    { x: "family", y: 90, fill: "#FE8664", id: 2, image: "family.js" },
-    { x: "health", y: 30, fill: "#8CFF98", id: 3, image: "health.js" },
-    { x: "health", y: 30, fill: "#8CFF98", id: 4, image: "health.js" },
-    { x: "health", y: 30, fill: "#8CFF98", id: 5, image: "health.js" },
-    { x: "health", y: 30, fill: "#8CFF98", id: 6, image: "health.js" },
-    { x: "health", y: 30, fill: "#8CFF98", id: 7, image: "health.js" },
-    { x: "health", y: 30, fill: "#8CFF98", id: 8, image: "health.js" },
-    { x: "health", y: 30, fill: "#8CFF98", id: 9, image: "health.js" },])
+    { x: "food", y: 10, fill: "#64EBC2", id: 1, image: "food.js", isIncome: false },
+    { x: "family", y: 90, fill: "#FE8664", id: 2, image: "family.js", isIncome: false },
+    { x: "health", y: 30, fill: "#8CFF98", id: 3, image: "health.js", isIncome: false },
+    { x: "health", y: 30, fill: "#8CFF98", id: 4, image: "health.js", isIncome: true },
+    { x: "health", y: 30, fill: "#8CFF98", id: 5, image: "health.js", isIncome: false },
+    { x: "health", y: 30, fill: "#8CFF98", id: 6, image: "health.js", isIncome: true },
+    { x: "health", y: 30, fill: "#8CFF98", id: 7, image: "health.js", isIncome: true },
+    { x: "health", y: 30, fill: "#8CFF98", id: 8, image: "health.js", isIncome: false },
+    { x: "health", y: 30, fill: "#8CFF98", id: 9, image: "health.js", isIncome: false },])
     const [combinedData, setCombinedData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     useEffect(() =>{
-        combine();
-    }, [])
+        filter();
+    }, [isIncome])
     useEffect(() =>{
         sum();
-    }, [combinedData]);
+        combine();
+    }, [filteredData]);
     useEffect(() => {
         if (modalVisible) {
           inputRef.current?.focus();
         }
       }, [modalVisible]);
+      
+    const filter = () =>{
+        setFilteredData(graphicData.filter((item) => item.isIncome == isIncome));
+    }
+    const sum = () =>{
+         const total = filteredData.reduce((acc, cur) => acc + cur.y, 0);
+         setTransactionMoney(total);
+    }
     const combine = () =>{
-        const newData =graphicData.reduce((acc, cur) => {
+        const newData = filteredData.reduce((acc, cur) => {
             const index = acc.findIndex(item => item.x === cur.x);
             if (index === -1) {
-              acc.push({ x: cur.x, y: cur.y, fill: cur.fill, id: cur.id, image: cur.image });
+              acc.push({ x: cur.x, y: cur.y, fill: cur.fill, id: cur.id, image: cur.image, isIncome: cur.isIncome });
             } else {
               acc[index].y += cur.y;
             }
@@ -47,10 +58,6 @@ export default function Main(){
           }, []);
           setCombinedData(newData);
     }
-   const sum = () =>{
-    const total = combinedData.reduce((acc, cur) => acc + cur.y, 0);
-    setTransactionMoney(total);
-   }
     return(
         <View style={styles.app}>
             <Modal
@@ -101,17 +108,17 @@ export default function Main(){
             <View style={styles.content} >
 
                 <View style={styles.periodBtns}>
-                    <TouchableWithoutFeedback>
-                        <Text style={styles.periodText}>Day</Text>
+                    <TouchableWithoutFeedback onPress={() => setSelectedPeriod('Day')}>
+                        <Text style={[styles.periodText, selectedPeriod === 'Day' && styles.selected]}>Day</Text>
                     </TouchableWithoutFeedback>
-                     <TouchableWithoutFeedback>
-                        <Text style={styles.periodText}>Week</Text>
+                     <TouchableWithoutFeedback onPress={() => setSelectedPeriod('Week')}>
+                        <Text style={[styles.periodText, selectedPeriod === 'Week' && styles.selected]}>Week</Text>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback>
-                        <Text style={styles.periodText}>Month</Text>
+                    <TouchableWithoutFeedback onPress={() => setSelectedPeriod('Month')}>
+                        <Text style={[styles.periodText, selectedPeriod === 'Month' && styles.selected]}>Month</Text>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback>
-                        <Text style={styles.periodText}>Year</Text>
+                    <TouchableWithoutFeedback onPress={() => setSelectedPeriod('Year')}>
+                        <Text style={[styles.periodText, selectedPeriod === 'Year' && styles.selected]}>Year</Text>
                     </TouchableWithoutFeedback>
                 </View>
 

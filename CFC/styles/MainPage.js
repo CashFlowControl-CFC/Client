@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         color: '#D8D8D8',
         fontStyle: 'normal',
         fontWeight: 400,
-        fontSize: 15,
+        fontSize: 16,
        },
        categoryText:{
         color: '#FFFFFF',
