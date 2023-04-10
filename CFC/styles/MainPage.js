@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#2F2F2F',
         width: 0.9 * width,
         height: 0.8 * height,
-        borderTopStartRadius: "40%",
-        borderTopEndRadius: "40%",
+        borderTopStartRadius: 40,
+        borderTopEndRadius: 40,
         alignItems: "center"
        },
        periodText:{
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
        circle:{
         width: 40,
         height: 40,
-        borderRadius: "100%",
+        borderRadius: 100,
         margin: "5%",
         alignItems: 'center',
         justifyContent: 'center'
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
        addBtn:{
         width: 20,
         height: 20,
-        borderRadius: "100%",
+        borderRadius: 100,
         top: "60%",
         left: "60%",
         margin: "5%",
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         width: width * 0.7,
         height: height * 0.2,
         backgroundColor: "#2F2F2F",
-        borderRadius: "30%",
+        borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'space-around',
        },

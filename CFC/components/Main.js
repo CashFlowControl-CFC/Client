@@ -18,14 +18,14 @@ export default function Main(){
     const [step, setStep] = useState(0);
     const [graphicData, setGraphicData] = useState([
     { x: "food", y: 10, fill: "#64EBC2", id: 1, image: "food.js", isIncome: false, date: '2023-04-10' },
-    { x: "family", y: 90, fill: "#FE8664", id: 2, image: "family.js", isIncome: false, date: '2023-04-9' },
+    { x: "family", y: 90, fill: "#FE8664", id: 2, image: "family.js", isIncome: false, date: '2023-04-09' },
     { x: "health", y: 30, fill: "#8CFF98", id: 3, image: "health.js", isIncome: false, date: '2023-04-10' },
-    { x: "health", y: 30, fill: "#8CFF98", id: 4, image: "health.js", isIncome: true, date: '2023-04-8' },
+    { x: "health", y: 30, fill: "#8CFF98", id: 4, image: "health.js", isIncome: true, date: '2023-04-08' },
     { x: "health", y: 30, fill: "#8CFF98", id: 5, image: "health.js", isIncome: false, date: '2023-03-30' },
     { x: "health", y: 30, fill: "#8CFF98", id: 6, image: "health.js", isIncome: true, date: '2023-04-10' },
-    { x: "health", y: 30, fill: "#8CFF98", id: 7, image: "health.js", isIncome: true, date: '2023-04-7' },
-    { x: "health", y: 30, fill: "#8CFF98", id: 8, image: "health.js", isIncome: false, date: '2023-04-6' },
-    { x: "health", y: 30, fill: "#8CFF98", id: 9, image: "health.js", isIncome: false, date: '2023-04-7' },])
+    { x: "health", y: 30, fill: "#8CFF98", id: 7, image: "health.js", isIncome: true, date: '2023-04-07' },
+    { x: "health", y: 30, fill: "#8CFF98", id: 8, image: "health.js", isIncome: false, date: '2023-04-06' },
+    { x: "health", y: 30, fill: "#8CFF98", id: 9, image: "health.js", isIncome: false, date: '2023-04-07' },])
     const [combinedData, setCombinedData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -46,7 +46,23 @@ export default function Main(){
         combine();
     }, [filteredData]);
     const filter = () =>{
-        setFilteredData(graphicData.filter((item) => item.isIncome == isIncome && item.date.toString() == filterDate.toString()));
+        if(selectedPeriod == "Day"){
+            console.log(filterDate.toString());
+            setFilteredData(graphicData.filter((item) => item.isIncome == isIncome && item.date.toString() == filterDate.toString()));
+        }
+        else if(selectedPeriod == "Week"){
+            const startOfWeek = filterDate.startOf('week').format('YYYY-MM-DD');
+            const endOfWeek = filterDate.endOf('week').format('YYYY-MM-DD');
+            setFilteredData(graphicData.filter(item => item.isIncome == isIncome && moment(item.date).isBetween(startOfWeek, endOfWeek, null, '[]')));
+        }
+        else if(selectedPeriod == "Month"){
+            const startOfMonth = filterDate.startOf('month').format('YYYY-MM-DD');
+            const endOfMonth = filterDate.endOf('month').format('YYYY-MM-DD');
+            setFilteredData(graphicData.filter(item => item.isIncome == isIncome && moment(item.date).isBetween(startOfMonth, endOfMonth, null, '[]')));
+        }
+        else if(selectedPeriod == "Year"){
+            setFilteredData(graphicData.filter(item => item.isIncome === isIncome && moment(item.date).year() === moment(filterDate).year()));
+        }
     }
     const sum = () =>{
          const total = filteredData.reduce((acc, cur) => acc + cur.y, 0);
@@ -68,22 +84,22 @@ export default function Main(){
         let newDate = moment(new Date());
         if (selectedPeriod == "Day"){
             newDate.add(step, "days");
-            setFilterDate(newDate.format("YYYY-MM-D"));
+            setFilterDate(newDate.format('YYYY-MM-DD'));
             setDate(`${newDate.format('MMM D')}`);
         }
         else if(selectedPeriod == "Week"){
             newDate.add(step, "weeks");
-            setFilterDate(newDate.format("YYYY-MM-D"));
+            setFilterDate(newDate);
             setDate(`${newDate.startOf('week').format('MMM D')} - ${newDate.endOf('week').format('MMM D')}`);
         }
         else if(selectedPeriod == "Month"){
             newDate.add(step, "months");
-            setFilterDate(newDate.format("YYYY-MM-D"));
+            setFilterDate(newDate);
             setDate(`${newDate.startOf('month').format('MMM D')} - ${newDate.endOf('month').format('MMM D')}`);
         }
         else if(selectedPeriod == "Year"){
             newDate.add(step, "years");
-            setFilterDate(newDate.format("YYYY-MM-D"));
+            setFilterDate(newDate);
             setDate(`${newDate.format('YYYY')}`);
         }
     }
