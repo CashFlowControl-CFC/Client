@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, TouchableWithoutFeedback, FlatList, Image, Modal, TextInput, Keyboard  } from "react-native";
 import styles from "../styles/MainPage"
+import general from "../styles/general";
 import { VictoryPie} from "victory-native";
 import getImageComponent from "../resources/imageComponent";
 import BagDollar from "../resources/bagDollar";
 import moment from 'moment';
 
-export default function Main(){
+export default function Main({navigation}){
     const [transactionMoney, setTransactionMoney] = useState(0);
     const [totalMoney, setTotalMoney] = useState(0);
     const [value, setValue] = useState('');
@@ -18,7 +19,7 @@ export default function Main(){
     const [step, setStep] = useState(0);
     const [graphicData, setGraphicData] = useState([
     { x: "food", y: 10, fill: "#64EBC2", id: 1, image: "food.js", isIncome: false, date: '2023-04-10' },
-    { x: "family", y: 90, fill: "#FE8664", id: 2, image: "family.js", isIncome: false, date: '2023-04-09' },
+    { x: "family", y: 90, fill: "#FE8664", id: 2, image: "family.js", isIncome: false, date: '2023-04-11' },
     { x: "health", y: 30, fill: "#8CFF98", id: 3, image: "health.js", isIncome: false, date: '2023-04-10' },
     { x: "health", y: 30, fill: "#8CFF98", id: 4, image: "health.js", isIncome: true, date: '2023-04-08' },
     { x: "health", y: 30, fill: "#8CFF98", id: 5, image: "health.js", isIncome: false, date: '2023-03-30' },
@@ -47,7 +48,6 @@ export default function Main(){
     }, [filteredData]);
     const filter = () =>{
         if(selectedPeriod == "Day"){
-            console.log(filterDate.toString());
             setFilteredData(graphicData.filter((item) => item.isIncome == isIncome && item.date.toString() == filterDate.toString()));
         }
         else if(selectedPeriod == "Week"){
@@ -104,7 +104,7 @@ export default function Main(){
         }
     }
     return(
-        <View style={styles.app}>
+        <View style={general.app}>
             <Modal
             animationType='fade'
             transparent={true}
@@ -130,64 +130,64 @@ export default function Main(){
                 </View>
             </TouchableWithoutFeedback>
         </Modal>
-            <View style={styles.header}>
+            <View style={general.header}>
                 <TouchableWithoutFeedback onPressIn={() => setModalVisible(true)}>
                     <View style={{flexDirection: "row", alignItems: "center"}}>
                         <BagDollar/>
-                        <Text style={[styles.periodText, {fontSize: 20}]}>Total:</Text>
+                        <Text style={[general.generalText, {fontSize: 20}]}>Total:</Text>
                         <Text style={styles.totalMoney}>${totalMoney}</Text>
                     </View>
                 </TouchableWithoutFeedback>
 
                 <View style={{flexDirection: "row", alignItems: "center", width: "90%", justifyContent: 'space-around'}}>
                     <TouchableWithoutFeedback onPress={() => setIsIncome(false)}>
-                        <Text style={[styles.periodText, {fontSize: 19}, !isIncome ? styles.selected : '']}>EXPENSES</Text>
+                        <Text style={[general.generalText, {fontSize: 19}, !isIncome ? general.selected : '']}>EXPENSES</Text>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={() => setIsIncome(true)}>
-                        <Text style={[styles.periodText, {fontSize: 19}, isIncome ? styles.selected : '']}>INCOME</Text>
+                        <Text style={[general.generalText, {fontSize: 19}, isIncome ? general.selected : '']}>INCOME</Text>
                     </TouchableWithoutFeedback>
                 </View>
             </View>
 
 
-            <View style={styles.content} >
+            <View style={general.content} >
 
                 <View style={styles.periodBtns}>
                     <TouchableWithoutFeedback onPress={() => {
                         setSelectedPeriod('Day'); 
                         setStep(0)
                         }}>
-                        <Text style={[styles.periodText, selectedPeriod === 'Day' && styles.selected]}>Day</Text>
+                        <Text style={[general.generalText, selectedPeriod === 'Day' && general.selected]}>Day</Text>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={() => {
                         setSelectedPeriod('Week'); 
                         setStep(0)
                         }}>
-                        <Text style={[styles.periodText, selectedPeriod === 'Week' && styles.selected]}>Week</Text>
+                        <Text style={[general.generalText, selectedPeriod === 'Week' && general.selected]}>Week</Text>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={() => {
                         setSelectedPeriod('Month'); 
                         setStep(0)
                         }}>
-                        <Text style={[styles.periodText, selectedPeriod === 'Month' && styles.selected]}>Month</Text>
+                        <Text style={[general.generalText, selectedPeriod === 'Month' && general.selected]}>Month</Text>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={() => {
                         setSelectedPeriod('Year'); 
                         setStep(0)
                         }}>
-                        <Text style={[styles.periodText, selectedPeriod === 'Year' && styles.selected]}>Year</Text>
+                        <Text style={[general.generalText, selectedPeriod === 'Year' && general.selected]}>Year</Text>
                     </TouchableWithoutFeedback>
                 </View>
 
                  <View  style={styles.date}>
                     <TouchableWithoutFeedback onPress={() => setStep(step - 1)}>
-                        <Text style={[styles.periodText, {fontSize: 23}]}>{'<'}</Text>
+                        <Text style={[general.generalText, {fontSize: 23}]}>{'<'}</Text>
                     </TouchableWithoutFeedback>
                     <View>
-                        <Text style={styles.periodText}>{`${date.toString()}`}</Text>
+                        <Text style={general.generalText}>{`${date.toString()}`}</Text>
                     </View>
                     <TouchableWithoutFeedback onPress={() => setStep(step + 1)}>
-                    <Text style={[styles.periodText, {fontSize: 23}]}>{'>'}</Text>
+                    <Text style={[general.generalText, {fontSize: 23}]}>{'>'}</Text>
                     </TouchableWithoutFeedback>
                 </View>               
                 
@@ -210,7 +210,7 @@ export default function Main(){
                     }}
                     padAngle={3}
                         /> 
-                <TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('Transaction')}>
                     <View style={styles.addBtn}>
                         <Image source={require(`../resources/plus-svgrepo-com.png`)} style={{width: 25, height: 25}} />
                     </View>
