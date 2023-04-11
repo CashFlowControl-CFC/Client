@@ -6,27 +6,20 @@ import { VictoryPie} from "victory-native";
 import getImageComponent from "../resources/imageComponent";
 import BagDollar from "../resources/bagDollar";
 import moment from 'moment';
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Main({navigation}){
+    const dispatch = useDispatch();
+    const data = useSelector(state => state.data);
+    const isIncome = useSelector(state => state.isIncome);
     const [transactionMoney, setTransactionMoney] = useState(0);
     const [totalMoney, setTotalMoney] = useState(0);
     const [value, setValue] = useState('');
-    const [isIncome, setIsIncome] = useState(false);
     const [selectedPeriod, setSelectedPeriod] = useState('Day');
     const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-D"));
     const [filterDate, setFilterDate] = useState(moment(new Date()).format("YYYY-MM-D"));
     const inputRef = useRef(null);
     const [step, setStep] = useState(0);
-    const [graphicData, setGraphicData] = useState([
-    { x: "food", y: 10, fill: "#64EBC2", id: 1, image: "food.js", isIncome: false, date: '2023-04-10' },
-    { x: "family", y: 90, fill: "#FE8664", id: 2, image: "family.js", isIncome: false, date: '2023-04-11' },
-    { x: "health", y: 30, fill: "#8CFF98", id: 3, image: "health.js", isIncome: false, date: '2023-04-10' },
-    { x: "health", y: 30, fill: "#8CFF98", id: 4, image: "health.js", isIncome: true, date: '2023-04-08' },
-    { x: "health", y: 30, fill: "#8CFF98", id: 5, image: "health.js", isIncome: false, date: '2023-03-30' },
-    { x: "health", y: 30, fill: "#8CFF98", id: 6, image: "health.js", isIncome: true, date: '2023-04-10' },
-    { x: "health", y: 30, fill: "#8CFF98", id: 7, image: "health.js", isIncome: true, date: '2023-04-07' },
-    { x: "health", y: 30, fill: "#8CFF98", id: 8, image: "health.js", isIncome: false, date: '2023-04-06' },
-    { x: "health", y: 30, fill: "#8CFF98", id: 9, image: "health.js", isIncome: false, date: '2023-04-07' },])
     const [combinedData, setCombinedData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -48,20 +41,20 @@ export default function Main({navigation}){
     }, [filteredData]);
     const filter = () =>{
         if(selectedPeriod == "Day"){
-            setFilteredData(graphicData.filter((item) => item.isIncome == isIncome && item.date.toString() == filterDate.toString()));
+            setFilteredData(data.filter((item) => item.isIncome == isIncome && item.date.toString() == filterDate.toString()));
         }
         else if(selectedPeriod == "Week"){
             const startOfWeek = filterDate.startOf('week').format('YYYY-MM-DD');
             const endOfWeek = filterDate.endOf('week').format('YYYY-MM-DD');
-            setFilteredData(graphicData.filter(item => item.isIncome == isIncome && moment(item.date).isBetween(startOfWeek, endOfWeek, null, '[]')));
+            setFilteredData(data.filter(item => item.isIncome == isIncome && moment(item.date).isBetween(startOfWeek, endOfWeek, null, '[]')));
         }
         else if(selectedPeriod == "Month"){
             const startOfMonth = filterDate.startOf('month').format('YYYY-MM-DD');
             const endOfMonth = filterDate.endOf('month').format('YYYY-MM-DD');
-            setFilteredData(graphicData.filter(item => item.isIncome == isIncome && moment(item.date).isBetween(startOfMonth, endOfMonth, null, '[]')));
+            setFilteredData(data.filter(item => item.isIncome == isIncome && moment(item.date).isBetween(startOfMonth, endOfMonth, null, '[]')));
         }
         else if(selectedPeriod == "Year"){
-            setFilteredData(graphicData.filter(item => item.isIncome === isIncome && moment(item.date).year() === moment(filterDate).year()));
+            setFilteredData(data.filter(item => item.isIncome === isIncome && moment(item.date).year() === moment(filterDate).year()));
         }
     }
     const sum = () =>{
@@ -140,10 +133,10 @@ export default function Main({navigation}){
                 </TouchableWithoutFeedback>
 
                 <View style={{flexDirection: "row", alignItems: "center", width: "90%", justifyContent: 'space-around'}}>
-                    <TouchableWithoutFeedback onPress={() => setIsIncome(false)}>
+                    <TouchableWithoutFeedback onPress={() => dispatch({type:'EXPENSES'})}>
                         <Text style={[general.generalText, {fontSize: 19}, !isIncome ? general.selected : '']}>EXPENSES</Text>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => setIsIncome(true)}>
+                    <TouchableWithoutFeedback onPress={() => dispatch({type:'INCOME'})}>
                         <Text style={[general.generalText, {fontSize: 19}, isIncome ? general.selected : '']}>INCOME</Text>
                     </TouchableWithoutFeedback>
                 </View>
