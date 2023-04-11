@@ -34,18 +34,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
        },
-       addBtn:{
-        width: 20,
-        height: 20,
-        borderRadius: 100,
-        top: "60%",
-        left: "60%",
-        margin: "5%",
-        backgroundColor: "#FECC7A",
-        position: "absolute",
-        alignItems: "center",
-        justifyContent: 'center',
-       },
        totalMoney:{
            color: "#FFFFFF",
            fontSize: 23,
@@ -69,14 +57,6 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'space-around',
-       },
-       inputMoney:{
-        borderBottomColor: "#FFFFFF",
-        borderBottomWidth: 1,
-        width: "70%",
-        textAlign: 'center',
-        color: '#D8D8D8',
-        fontSize: 25
        },
        date:{
         width: "100%",

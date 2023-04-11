@@ -26,11 +26,31 @@ const general = StyleSheet.create({
         color: '#FFFFFF',
         fontStyle: 'normal',
         fontWeight: 400,
-        fontSize: 16,
+        fontSize: 17,
        },
        selected:{
         color: "#FDCD81",
         textDecorationLine: 'underline'
+       },
+       inputMoney:{
+        borderBottomColor: "#FFFFFF",
+        borderBottomWidth: 1,
+        width: "70%",
+        textAlign: 'center',
+        color: '#D8D8D8',
+        fontSize: 25
+       },
+       addBtn:{
+        width: 20,
+        height: 20,
+        borderRadius: 100,
+        top: "60%",
+        left: "60%",
+        margin: "5%",
+        backgroundColor: "#FECC7A",
+        position: "absolute",
+        alignItems: "center",
+        justifyContent: 'center',
        },
 });
 

@@ -108,16 +108,16 @@ export default function Main({navigation}){
                             <TextInput 
                             keyboardType="numeric" 
                             ref={inputRef}
-                            style={styles.inputMoney}
+                            style={general.inputMoney}
                             value={value} 
                             onChangeText={(value) => setValue(value)}/>
                             <TouchableWithoutFeedback
-                            style={{ padding: 10, backgroundColor: 'red', alignSelf: 'flex-end' }}
+                            style={{ padding: 10, alignSelf: 'flex-end' }}
                             onPress={() => {
                                 setModalVisible(false);
                                 setTotalMoney(value ? Number(value) : 0);
                                 }}>
-                                <Text style={{ color: 'white', fontSize: 20 }}>Save</Text>
+                                <Text style={{ color: '#D8D8D8', fontSize: 20 }}>Save</Text>
                             </TouchableWithoutFeedback>
                     </View>
                 </View>
@@ -204,8 +204,8 @@ export default function Main({navigation}){
                     padAngle={3}
                         /> 
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('Transaction')}>
-                    <View style={styles.addBtn}>
-                        <Image source={require(`../resources/plus-svgrepo-com.png`)} style={{width: 25, height: 25}} />
+                    <View style={general.addBtn}>
+                        {getImageComponent("plus", 30, 30)}
                     </View>
                 </TouchableWithoutFeedback>
                 <Text style={{
