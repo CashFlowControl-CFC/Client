@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
     categories:{
         width: "90%",
         marginTop: "10%",
-        flex: 1
     },
     catList:{
         flexGrow: 1,
@@ -24,11 +23,26 @@ const styles = StyleSheet.create({
     catItem:{
         width: 80,
         height: 80,
-        marginVertical: 5,
-        marginHorizontal: 5,
+        marginVertical: 3,
+        marginHorizontal: 10,
         alignItems: 'center', 
         justifyContent: 'center',
         borderRadius: 100
+    },
+    dateRow:{
+        width: "100%",
+        height: "10%",
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        flexDirection: 'row',
+    },
+    dateBtn:{
+        backgroundColor: "#252525",
+        borderRadius: 25,
+        width: "25%",
+        height: "70%",
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });
 

@@ -7,7 +7,6 @@ import getImageComponent from "../resources/imageComponent";
 import BagDollar from "../resources/bagDollar";
 import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
-import  Svg, {Path } from "react-native-svg";
 
 export default function Main({navigation}){
     const dispatch = useDispatch();

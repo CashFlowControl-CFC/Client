@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { FlatList } from "react-native-gesture-handler";
 import getImageComponent from "../resources/imageComponent";
 import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard } from "react-native";
+import moment from "moment";
+import Calendar from "../resources/calendar";
 
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
@@ -19,6 +21,8 @@ export default function Transaction({navigation}){
     ]);
     const data = [...categories.slice(0, 5), { id: 'add', color: '#FECC7A',  image: 'plus'}];
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [dateToday, setDateToday] = useState(moment(new Date()));
+    const [selectedDate, setSelectedDate] = useState(moment(new Date()));
     const SelectCategory = (id) => {
         if (selectedCategory == id){
             setSelectedCategory(null);
@@ -26,6 +30,12 @@ export default function Transaction({navigation}){
         else if(id != 'add'){
             setSelectedCategory(id);
         }
+    }
+    const SelectDate = () =>{
+        if(selectedDate.format('MM/DD') == dateToday.format('MM/DD')){
+            return selectedDate.clone().add(-2, 'days').format('MM/DD');
+        }
+        return selectedDate.clone().add(-3, 'days').format('MM/DD');
     }
     return(
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -59,10 +69,13 @@ export default function Transaction({navigation}){
                             data={data}
                             renderItem={({item}) => 
                             <TouchableWithoutFeedback onPress={() => SelectCategory(item.id)}>
-                                <View style={[selectedCategory == item.id ? {backgroundColor: item.color + "40"} : null, styles.catItem]}>
-                                    <View style={[styles.catCircle, {backgroundColor: item.color}]}> 
-                                        {getImageComponent(item.image, 40, 40)}
+                                <View style={{alignItems: 'center'}}>
+                                    <View style={[selectedCategory == item.id ? {backgroundColor: item.color + "40"} : null, styles.catItem]}>
+                                        <View style={[styles.catCircle, {backgroundColor: item.color}]}> 
+                                            {getImageComponent(item.image, 40, 40)}
+                                        </View>
                                     </View>
+                                    <Text style={[general.generalText, {fontSize: 15}]}>{item.name}</Text>
                                 </View>
                             </TouchableWithoutFeedback>}
                             keyExtractor={(item) => item.id}
@@ -70,6 +83,29 @@ export default function Transaction({navigation}){
                             contentContainerStyle={styles.catList}
                             />
                     </View>
+                </View>
+                <View style={styles.dateRow}>
+                    <TouchableWithoutFeedback>
+                            <View style={styles.dateBtn}>
+                                <Text style={[general.generalText, {fontSize: 15}]}>{`${dateToday.clone().format('MM/DD')}`}</Text>
+                                <Text style={[general.generalText, {fontSize: 15}]}>today</Text>
+                            </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback>
+                            <View style={styles.dateBtn}>
+                                <Text style={[general.generalText, {fontSize: 15}]}>{`${dateToday.clone().add(-1, 'days').format('MM/DD')}`}</Text>
+                                <Text style={[general.generalText, {fontSize: 15}]}>yesterday</Text>
+                            </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback>
+                            <View style={styles.dateBtn}>
+                                <Text style={[general.generalText, {fontSize: 15}]}>{`${SelectDate()}`}</Text>
+                                <Text style={[general.generalText, {fontSize: 15}]}>last</Text>
+                            </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback>
+                        <Calendar width={30} height={30}/>
+                    </TouchableWithoutFeedback>
                 </View>
             </View>
         </View>
