@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import general from "../styles/general";
 import styles from "../styles/TransactionPage";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,8 +24,12 @@ export default function Transaction({navigation}){
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [dateToday, setDateToday] = useState(moment(new Date()));
     const [selectedDate, setSelectedDate] = useState(moment(new Date()));
+    const [lastDate, setLastDate] = useState(moment(new Date()));
+    const [selectedBtn, setSelectedBtn] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
-
+    useEffect(() => {
+        LastDate();
+    }, [selectedDate])
     const SelectCategory = (id) => {
         if (selectedCategory == id){
             setSelectedCategory(null);
@@ -34,11 +38,22 @@ export default function Transaction({navigation}){
             setSelectedCategory(id);
         }
     }
-    const SelectDate = () =>{
+    const LastDate = () =>{
         if(selectedDate.format('MM/DD') == dateToday.format('MM/DD')){
-            return selectedDate.clone().add(-2, 'days').format('MM/DD');
+            setSelectedBtn(1);
+            selectedDate.clone().add(-2, 'days').format('MM/DD');
         }
-        return selectedDate.clone().add(-3, 'days').format('MM/DD');
+        else if(selectedDate.format('MM/DD') == dateToday.clone().add(-1, 'days').format('MM/DD')){
+            setSelectedBtn(2);
+            selectedDate.clone().add(-2, 'days').format('MM/DD');
+        }
+        else{
+            setLastDate(selectedDate);
+        }
+    }
+    const SelectDate = (id, date) =>{
+        setSelectedBtn(id);
+        setSelectedDate(date);
     }
     return(
         <TouchableWithoutFeedback onPress={() => {
@@ -91,21 +106,21 @@ export default function Transaction({navigation}){
                     </View>
                 </View>
                 <View style={styles.dateRow}>
-                    <TouchableWithoutFeedback>
-                            <View style={styles.dateBtn}>
+                    <TouchableWithoutFeedback onPress={() => SelectDate(1, dateToday)}>
+                            <View style={[styles.dateBtn, selectedBtn == 1 ? {backgroundColor: '#FDCD8120'} : null]}>
                                 <Text style={[general.generalText, {fontSize: 15}]}>{`${dateToday.clone().format('MM/DD')}`}</Text>
                                 <Text style={[general.generalText, {fontSize: 15}]}>today</Text>
                             </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback>
-                            <View style={styles.dateBtn}>
+                    <TouchableWithoutFeedback onPress={() => SelectDate(2, dateToday.clone().add(-1, 'days'))}>
+                            <View style={[styles.dateBtn, selectedBtn == 2 ? {backgroundColor: '#FDCD8120'} : null]}>
                                 <Text style={[general.generalText, {fontSize: 15}]}>{`${dateToday.clone().add(-1, 'days').format('MM/DD')}`}</Text>
                                 <Text style={[general.generalText, {fontSize: 15}]}>yesterday</Text>
                             </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback>
-                            <View style={styles.dateBtn}>
-                                <Text style={[general.generalText, {fontSize: 15}]}>{`${SelectDate()}`}</Text>
+                    <TouchableWithoutFeedback onPress={() => SelectDate(3, selectedDate)}>
+                            <View style={[styles.dateBtn, selectedBtn == 3 ? {backgroundColor: '#FDCD8120'} : null]}>
+                                <Text style={[general.generalText, {fontSize: 15}]}>{`${lastDate.format('MM/DD')}`}</Text>
                                 <Text style={[general.generalText, {fontSize: 15}]}>last</Text>
                             </View>
                     </TouchableWithoutFeedback>
@@ -118,14 +133,15 @@ export default function Transaction({navigation}){
                 
             <View style={styles.calendarPos}>
                 {showDatePicker ? <Calendar 
-                style={{
-                    borderRadius: 15,
-                    height: 450,
-                    width: 300
-                }}
+                        style={{
+                            borderRadius: 15,
+                            height: 450,
+                            width: 300
+                        }}
+                        maxDate={new Date().setHours(0, 0, 0, 0)}
                         onDayPress={day => {
-                            console.log(day.dateString);
                             setShowDatePicker(false);
+                            SelectDate(3, moment(day.dateString))
                         }}
                         markedDates={{
                             [selectedDate]: {selectedDate: true, disableTouchEvent: true, selectedDotColor: 'orange'}
@@ -133,12 +149,13 @@ export default function Transaction({navigation}){
                         theme={{
                             backgroundColor: '#252525',
                             calendarBackground: '#252525',
-                            textSectionTitleColor: '#FFFFFF',
+                            textSectionTitleColor: '#FDCD81',
                             selectedDayTextColor: '#FDCD81',
                             todayTextColor: '#FDCD81',
-                            dayTextColor: '#FDCD8140',
+                            dayTextColor: '#FFFFFF',
                             arrowColor: '#FDCD81',
                             monthTextColor: '#FDCD81',
+                            textDisabledColor: '#FDCD8140',
                             
                         }}
                         /> : null}
