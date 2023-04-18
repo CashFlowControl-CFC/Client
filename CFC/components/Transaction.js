@@ -8,8 +8,6 @@ import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard } from "react
 import moment from "moment";
 import CalendarIcon from "../resources/calendar";
 import {Calendar} from 'react-native-calendars';
-import * as Animatable from 'react-native-animatable';
-
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
     const isIncome = useSelector(state => state.isIncome);
@@ -176,6 +174,12 @@ export default function Transaction({navigation}){
                                 value={comment} 
                                 onChangeText={(comment) => setComment(comment)}/>    
                 </View>
+
+                <TouchableWithoutFeedback>
+                    <View style={styles.addBtn}>
+                        <Text style={styles.addText}>Add</Text>
+                    </View>
+                </TouchableWithoutFeedback>
             </View>
         </View>
         </TouchableWithoutFeedback>

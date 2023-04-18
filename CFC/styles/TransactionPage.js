@@ -56,6 +56,19 @@ const styles = StyleSheet.create({
         height: '100%', 
         alignItems: 'center', 
         justifyContent: 'center'
+    },
+    addBtn: {
+        marginTop: '20%',
+        width: '80%',
+        height: '7%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#FECC7A',
+        borderRadius: 50
+    },
+    addText:{
+        color: '#000000',
+        fontSize: 19
     }
 });
 
