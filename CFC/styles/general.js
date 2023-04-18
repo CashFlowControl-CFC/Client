@@ -52,6 +52,18 @@ const general = StyleSheet.create({
         alignItems: "center",
         justifyContent: 'center',
        },
+       inputComment:{
+        borderBottomColor: "#FFFFFF",
+        borderBottomWidth: 1,
+        width: "70%",
+        color: '#D8D8D8',
+        fontSize: 21,
+        marginTop: '3%'
+       },
+       isMove: {
+        position: 'absolute',
+        bottom: '20%',
+       }
 });
 
 export default general;

@@ -7,12 +7,15 @@ import getImageComponent from "../resources/imageComponent";
 import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard } from "react-native";
 import moment from "moment";
 import CalendarIcon from "../resources/calendar";
-import {Calendar, LocaleConfig} from 'react-native-calendars';
+import {Calendar} from 'react-native-calendars';
+import * as Animatable from 'react-native-animatable';
 
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
     const isIncome = useSelector(state => state.isIncome);
     const [value, setValue] = useState('0');
+    const [comment, setComment] = useState(null);
+    const [isMove, setIsMove] = useState(false);
     const [categories, setCategories] = useState([
         {id: 1, name: 'Family', image: 'family.js', color: "#FF9876", isIncome: false},
         {id: 2, name: 'Products', image: 'products.js', color: "#6BEBDC", isIncome: false},
@@ -56,11 +59,13 @@ export default function Transaction({navigation}){
         setSelectedDate(date);
     }
     return(
-        <TouchableWithoutFeedback onPress={() => {
+        <TouchableWithoutFeedback 
+        onPress={() => {
             Keyboard.dismiss();
             setShowDatePicker(false);
+            setIsMove(false);
             }}>
-        <View style={general.app} >
+        <View style={[general.app, isMove ? general.isMove : null]}>
             <View style={general.header}>
                 <View style={{ alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={[general.generalText, { fontSize: 20  }]}>Add Transactions</Text>
@@ -159,6 +164,17 @@ export default function Transaction({navigation}){
                             
                         }}
                         /> : null}
+                </View>
+                
+                <View style={{width: "90%", marginTop: "5%"}}>
+                    <Text style={[general.generalText, {direction: 'rtl'}]}>Comment</Text>
+                    <TextInput 
+                                onPressIn={() =>setIsMove(true)}
+                                placeholder="Comment"
+                                placeholderTextColor={"#D8D8D880"}
+                                style={[general.inputComment, {width: "100%"}]}
+                                value={comment} 
+                                onChangeText={(comment) => setComment(comment)}/>    
                 </View>
             </View>
         </View>
