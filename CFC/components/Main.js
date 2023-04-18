@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableWithoutFeedback, FlatList, Image, Modal, TextInput, Keyboard  } from "react-native";
+import { View, Text, TouchableWithoutFeedback, FlatList, Modal, TextInput, Keyboard  } from "react-native";
 import styles from "../styles/MainPage"
 import general from "../styles/general";
 import { VictoryPie} from "victory-native";
@@ -7,6 +7,7 @@ import getImageComponent from "../resources/imageComponent";
 import BagDollar from "../resources/bagDollar";
 import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
+import  Svg, {Path } from "react-native-svg";
 
 export default function Main({navigation}){
     const dispatch = useDispatch();
@@ -205,8 +206,8 @@ export default function Main({navigation}){
                         /> 
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('Transaction')}>
                     <View style={general.addBtn}>
-                        {getImageComponent("plus", 30, 30)}
-                    </View>
+                         {getImageComponent("plus", 30, 30)}
+                        </View>
                 </TouchableWithoutFeedback>
                 <Text style={{
                     position: 'absolute',
@@ -224,7 +225,7 @@ export default function Main({navigation}){
                                <TouchableWithoutFeedback>
                                             <View style={[styles.category, {backgroundColor: item.fill + "20"}]}>
                                                 <View style={[styles.circle, {backgroundColor: item.fill}]}>
-                                                    {getImageComponent(item.image)}
+                                                    {getImageComponent(item.image, 25, 25)}
                                                 </View>
                                                 <View style={{width:"70%", flexDirection: "row", justifyContent: "space-between"}}>
                                                     <Text style={styles.categoryText}>{item.x}</Text>

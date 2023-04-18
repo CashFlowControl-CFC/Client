@@ -18,11 +18,18 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         borderRadius: 100,
-        marginVertical: 10,
-        marginHorizontal: 10,
         alignItems: 'center', 
         justifyContent: 'center'
     },
+    catItem:{
+        width: 80,
+        height: 80,
+        marginVertical: 5,
+        marginHorizontal: 5,
+        alignItems: 'center', 
+        justifyContent: 'center',
+        borderRadius: 100
+    }
 });
 
 export default styles;

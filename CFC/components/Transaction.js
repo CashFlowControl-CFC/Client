@@ -12,13 +12,21 @@ export default function Transaction({navigation}){
     const [value, setValue] = useState('0');
     const [categories, setCategories] = useState([
         {id: 1, name: 'Family', image: 'family.js', color: "#FF9876", isIncome: false},
-        {id: 2, name: 'Food', image: 'food.js', color: "#6BEBDC", isIncome: false},
+        {id: 2, name: 'Products', image: 'products.js', color: "#6BEBDC", isIncome: false},
         {id: 3, name: 'Transport', image: 'transport.js', color: "#9FC9FF", isIncome: false},
         {id: 4, name: 'Sport', image: 'sport.js', color: "#6BEBB2", isIncome: false},
-        {id: 5, name: 'Gifts', image: 'gifts.js', color: "#FF8C8C", isIncome: false},
-        {id: 13, name: 'Transport', image: 'transport.js', color: "#9FC9FF", isIncome: false},
+        {id: 5, name: 'Gifts', image: 'gift.js', color: "#FF8C8C", isIncome: false},
     ]);
     const data = [...categories.slice(0, 5), { id: 'add', color: '#FECC7A',  image: 'plus'}];
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const SelectCategory = (id) => {
+        if (selectedCategory == id){
+            setSelectedCategory(null);
+        }
+        else if(id != 'add'){
+            setSelectedCategory(id);
+        }
+    }
     return(
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={general.app} >
@@ -50,9 +58,13 @@ export default function Transaction({navigation}){
                         <FlatList
                             data={data}
                             renderItem={({item}) => 
-                            <View style={[styles.catCircle, {backgroundColor: item.color}]}> 
-                                {getImageComponent(item.image, 40, 40)}
-                            </View>}
+                            <TouchableWithoutFeedback onPress={() => SelectCategory(item.id)}>
+                                <View style={[selectedCategory == item.id ? {backgroundColor: item.color + "40"} : null, styles.catItem]}>
+                                    <View style={[styles.catCircle, {backgroundColor: item.color}]}> 
+                                        {getImageComponent(item.image, 40, 40)}
+                                    </View>
+                                </View>
+                            </TouchableWithoutFeedback>}
                             keyExtractor={(item) => item.id}
                             numColumns={3}
                             contentContainerStyle={styles.catList}
