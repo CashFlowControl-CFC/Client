@@ -6,7 +6,8 @@ import { FlatList } from "react-native-gesture-handler";
 import getImageComponent from "../resources/imageComponent";
 import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard } from "react-native";
 import moment from "moment";
-import Calendar from "../resources/calendar";
+import CalendarIcon from "../resources/calendar";
+import {Calendar, LocaleConfig} from 'react-native-calendars';
 
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
@@ -23,6 +24,8 @@ export default function Transaction({navigation}){
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [dateToday, setDateToday] = useState(moment(new Date()));
     const [selectedDate, setSelectedDate] = useState(moment(new Date()));
+    const [showDatePicker, setShowDatePicker] = useState(false);
+
     const SelectCategory = (id) => {
         if (selectedCategory == id){
             setSelectedCategory(null);
@@ -38,7 +41,10 @@ export default function Transaction({navigation}){
         return selectedDate.clone().add(-3, 'days').format('MM/DD');
     }
     return(
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <TouchableWithoutFeedback onPress={() => {
+            Keyboard.dismiss();
+            setShowDatePicker(false);
+            }}>
         <View style={general.app} >
             <View style={general.header}>
                 <View style={{ alignItems: 'center', justifyContent: 'center'}}>
@@ -103,9 +109,39 @@ export default function Transaction({navigation}){
                                 <Text style={[general.generalText, {fontSize: 15}]}>last</Text>
                             </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback>
-                        <Calendar width={30} height={30}/>
+                    <TouchableWithoutFeedback  onPress={() => setShowDatePicker(!showDatePicker)}>
+                        <View style={styles.calendar}>
+                            <CalendarIcon width={35} height={35}/> 
+                        </View>
                     </TouchableWithoutFeedback>
+                </View>
+                
+            <View style={styles.calendarPos}>
+                {showDatePicker ? <Calendar 
+                style={{
+                    borderRadius: 15,
+                    height: 450,
+                    width: 300
+                }}
+                        onDayPress={day => {
+                            console.log(day.dateString);
+                            setShowDatePicker(false);
+                        }}
+                        markedDates={{
+                            [selectedDate]: {selectedDate: true, disableTouchEvent: true, selectedDotColor: 'orange'}
+                        }}
+                        theme={{
+                            backgroundColor: '#252525',
+                            calendarBackground: '#252525',
+                            textSectionTitleColor: '#FFFFFF',
+                            selectedDayTextColor: '#FDCD81',
+                            todayTextColor: '#FDCD81',
+                            dayTextColor: '#FDCD8140',
+                            arrowColor: '#FDCD81',
+                            monthTextColor: '#FDCD81',
+                            
+                        }}
+                        /> : null}
                 </View>
             </View>
         </View>

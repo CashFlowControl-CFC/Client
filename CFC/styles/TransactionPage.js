@@ -43,6 +43,19 @@ const styles = StyleSheet.create({
         height: "70%",
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    calendar:{
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    calendarPos:{
+        flex: 1, 
+        position:'absolute', 
+        height: '100%', 
+        alignItems: 'center', 
+        justifyContent: 'center'
     }
 });
 

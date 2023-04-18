@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
        category:{
         width: "100%",
         height: height * 0.07,
-        borderRadius: "100%",
+        borderRadius: 100,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
