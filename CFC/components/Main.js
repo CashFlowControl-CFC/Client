@@ -110,12 +110,17 @@ export default function Main({navigation}){
                             ref={inputRef}
                             style={general.inputMoney}
                             value={value} 
-                            onChangeText={(value) => setValue(value)}/>
+                            onChangeText={(text) => {
+                                if (/^[0-9]*[.,]?[0-9]*$/.test(text)) {
+                                  setValue(text);
+                                }
+                              }}
+                            />
                             <TouchableWithoutFeedback
                             style={{ padding: 10, alignSelf: 'flex-end' }}
                             onPress={() => {
                                 setModalVisible(false);
-                                setTotalMoney(value ? Number(value) : 0);
+                                setTotalMoney(value ? Number(value.replace(',', '.')) : 0);
                                 }}>
                                 <Text style={{ color: '#D8D8D8', fontSize: 20 }}>Save</Text>
                             </TouchableWithoutFeedback>

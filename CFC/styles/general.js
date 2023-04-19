@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions  } from 'react-native';
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('screen');
 
 const general = StyleSheet.create({
     app:{
@@ -7,6 +7,9 @@ const general = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-end',
         backgroundColor: '#1E1E1E',
+        position: 'absolute',
+        height: height,
+        width: width
        },
        content:{
         backgroundColor: '#2F2F2F',
@@ -61,8 +64,7 @@ const general = StyleSheet.create({
         marginTop: '3%'
        },
        isMove: {
-        position: 'absolute',
-        bottom: '20%',
+        paddingBottom: '40%',
        }
 });
 

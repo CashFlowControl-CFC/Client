@@ -4,7 +4,7 @@ import styles from "../styles/TransactionPage";
 import { useDispatch, useSelector } from "react-redux";
 import { FlatList } from "react-native-gesture-handler";
 import getImageComponent from "../resources/imageComponent";
-import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard } from "react-native";
+import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard, KeyboardAvoidingView, Platform  } from "react-native";
 import moment from "moment";
 import CalendarIcon from "../resources/calendar";
 import {Calendar} from 'react-native-calendars';
@@ -81,10 +81,15 @@ export default function Transaction({navigation}){
             <View style={general.content}>
                 <View style={{width: "100%", alignItems: 'center', justifyContent: 'center', marginTop: "5%"}}>
                         <TextInput 
-                                keyboardType="numeric" 
-                                style={[general.inputMoney, {width: "50%"}]}
-                                value={value} 
-                                onChangeText={(value) => setValue(value)}/>         
+                                    keyboardType="numeric" 
+                                    style={[general.inputMoney, {width: "50%"}]}
+                                    value={value} 
+                                    onChangeText={(text) => {
+                                        if (/^[0-9]*[.,]?[0-9]*$/.test(text)) {
+                                          setValue(text);
+                                        }
+                                      }}
+                                      /> 
                 </View>
                 <View style={styles.categories}>
                     <Text style={[general.generalText, {direction: 'rtl'}]}>Categories</Text>
@@ -164,16 +169,17 @@ export default function Transaction({navigation}){
                         /> : null}
                 </View>
                 
-                <View style={{width: "90%", marginTop: "5%"}}>
-                    <Text style={[general.generalText, {direction: 'rtl'}]}>Comment</Text>
-                    <TextInput 
-                                onPressIn={() =>setIsMove(true)}
-                                placeholder="Comment"
-                                placeholderTextColor={"#D8D8D880"}
-                                style={[general.inputComment, {width: "100%"}]}
-                                value={comment} 
-                                onChangeText={(comment) => setComment(comment)}/>    
-                </View>
+                    <View style={{width: "90%", marginTop: "5%"}}>
+                        <Text style={[general.generalText, {direction: 'rtl'}]}>Comment</Text>
+                        <TextInput 
+                                    onSubmitEditing={() =>setIsMove(false)}
+                                    onPressIn={() =>setIsMove(true)}
+                                    placeholder="Comment"
+                                    placeholderTextColor={"#D8D8D880"}
+                                    style={[general.inputComment, {width: "100%"}]}
+                                    value={comment} 
+                                    onChangeText={(comment) => setComment(comment)}/>    
+                    </View>
 
                 <TouchableWithoutFeedback>
                     <View style={styles.addBtn}>
