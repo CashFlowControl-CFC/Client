@@ -80,6 +80,7 @@ export default function Transaction({navigation}){
             image: categories[selectedCategory-1].image, 
             isIncome: isIncome,
             date: `${selectedDate.format('YYYY-MM-DD')}`,
+            comment: comment
         }})
         navigation.navigate('Main')    
     }
@@ -108,6 +109,7 @@ export default function Transaction({navigation}){
             <View style={general.content}>
                 <View style={{width: "100%", alignItems: 'center', justifyContent: 'center', marginTop: "5%"}}>
                         <TextInput 
+                                    onFocus={() => setValue('')}
                                     keyboardType="numeric" 
                                     style={[general.inputMoney, {width: "50%"}]}
                                     value={value} 
@@ -166,7 +168,19 @@ export default function Transaction({navigation}){
                     </TouchableWithoutFeedback>
                 </View>
                 
-            <View style={styles.calendarPos}>
+                    <View style={{width: "90%", marginTop: "5%"}}>
+                        <Text style={[general.generalText, {direction: 'rtl'}]}>Comment</Text>
+                        <TextInput 
+                                    onSubmitEditing={() =>setIsMove(false)}
+                                    onPressIn={() =>setIsMove(true)}
+                                    placeholder="Comment"
+                                    placeholderTextColor={"#D8D8D880"}
+                                    style={[general.inputComment, {width: "100%"}]}
+                                    value={comment} 
+                                    onChangeText={(comment) => setComment(comment)}/>    
+                    </View>
+
+                    <View style={styles.calendarPos}>
                 {showDatePicker ? <Calendar 
                         style={{
                             borderRadius: 15,
@@ -195,18 +209,6 @@ export default function Transaction({navigation}){
                         }}
                         /> : null}
                 </View>
-                
-                    <View style={{width: "90%", marginTop: "5%"}}>
-                        <Text style={[general.generalText, {direction: 'rtl'}]}>Comment</Text>
-                        <TextInput 
-                                    onSubmitEditing={() =>setIsMove(false)}
-                                    onPressIn={() =>setIsMove(true)}
-                                    placeholder="Comment"
-                                    placeholderTextColor={"#D8D8D880"}
-                                    style={[general.inputComment, {width: "100%"}]}
-                                    value={comment} 
-                                    onChangeText={(comment) => setComment(comment)}/>    
-                    </View>
 
                 <TouchableWithoutFeedback disabled={disabled} onPress={handleAddTransaction}>
                     <View style={[styles.addBtn, disabled ? {backgroundColor: '#FECC7A50'} : {backgroundColor: '#FECC7A'}]}>

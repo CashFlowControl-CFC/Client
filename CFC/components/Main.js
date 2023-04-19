@@ -25,7 +25,7 @@ export default function Main({navigation}){
     const [modalVisible, setModalVisible] = useState(false);
     
     useEffect(() => {
-        console.log(data);
+        console.log(data)
         if (modalVisible) {
           inputRef.current?.focus();
         }
@@ -66,9 +66,9 @@ export default function Main({navigation}){
         const newData = filteredData.reduce((acc, cur) => {
             const index = acc.findIndex(item => item.x === cur.x);
             if (index === -1) {
-              acc.push({ x: cur.x, y: cur.y, fill: cur.fill, id: cur.id, image: cur.image, isIncome: cur.isIncome });
+              acc.push({ x: cur.x, y: Number(cur.y), fill: cur.fill, id: cur.id, image: cur.image, isIncome: cur.isIncome });
             } else {
-              acc[index].y += cur.y;
+              acc[index].y = Number(acc[index].y) + Number(cur.y);
             }
             return acc;
           }, []);
