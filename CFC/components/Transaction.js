@@ -25,12 +25,22 @@ export default function Transaction({navigation}){
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [dateToday, setDateToday] = useState(moment(new Date()));
     const [selectedDate, setSelectedDate] = useState(moment(new Date()));
-    const [lastDate, setLastDate] = useState(moment(new Date()));
+    const [lastDate, setLastDate] = useState(moment(new Date()).add(-2, 'days'));
     const [selectedBtn, setSelectedBtn] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [disabled, setDisabled] = useState(true);
     useEffect(() => {
         LastDate();
     }, [selectedDate])
+
+    useEffect(() => {
+        if (value > 0 && selectedDate && selectedCategory) {
+          setDisabled(false);
+        } else {
+          setDisabled(true);
+        }
+      }, [value, selectedDate, selectedCategory]);
+
     const SelectCategory = (id) => {
         if (selectedCategory == id){
             setSelectedCategory(null);
@@ -55,6 +65,23 @@ export default function Transaction({navigation}){
     const SelectDate = (id, date) =>{
         setSelectedBtn(id);
         setSelectedDate(date);
+    }
+    const handleAddTransaction = () => {
+        if(isIncome){
+            dispatch({type: 'ADD_INCOME', payload: value})
+        }
+        else{
+            dispatch({type: 'ADD_EXPENSES', payload: value})
+        }
+        dispatch({type: 'ADD_TRANSACTION', payload: {
+            x: categories[selectedCategory-1].name, 
+            y: value, id: `${new Date()}`, 
+            fill: categories[selectedCategory-1].color,
+            image: categories[selectedCategory-1].image, 
+            isIncome: isIncome,
+            date: `${selectedDate.format('YYYY-MM-DD')}`,
+        }})
+        navigation.navigate('Main')    
     }
     return(
         <TouchableWithoutFeedback 
@@ -126,7 +153,7 @@ export default function Transaction({navigation}){
                                 <Text style={[general.generalText, {fontSize: 15}]}>yesterday</Text>
                             </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => SelectDate(3, selectedDate)}>
+                    <TouchableWithoutFeedback onPress={() => SelectDate(3, lastDate)}>
                             <View style={[styles.dateBtn, selectedBtn == 3 ? {backgroundColor: '#FDCD8120'} : null]}>
                                 <Text style={[general.generalText, {fontSize: 15}]}>{`${lastDate.format('MM/DD')}`}</Text>
                                 <Text style={[general.generalText, {fontSize: 15}]}>last</Text>
@@ -146,7 +173,7 @@ export default function Transaction({navigation}){
                             height: 450,
                             width: 300
                         }}
-                        maxDate={new Date().setHours(0, 0, 0, 0)}
+                        maxDate={moment().format('YYYY-MM-DD')}
                         onDayPress={day => {
                             setShowDatePicker(false);
                             SelectDate(3, moment(day.dateString))
@@ -181,8 +208,8 @@ export default function Transaction({navigation}){
                                     onChangeText={(comment) => setComment(comment)}/>    
                     </View>
 
-                <TouchableWithoutFeedback>
-                    <View style={styles.addBtn}>
+                <TouchableWithoutFeedback disabled={disabled} onPress={handleAddTransaction}>
+                    <View style={[styles.addBtn, disabled ? {backgroundColor: '#FECC7A50'} : {backgroundColor: '#FECC7A'}]}>
                         <Text style={styles.addText}>Add</Text>
                     </View>
                 </TouchableWithoutFeedback>

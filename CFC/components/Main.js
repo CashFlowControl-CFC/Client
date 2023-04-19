@@ -13,7 +13,7 @@ export default function Main({navigation}){
     const data = useSelector(state => state.data);
     const isIncome = useSelector(state => state.isIncome);
     const [transactionMoney, setTransactionMoney] = useState(0);
-    const [totalMoney, setTotalMoney] = useState(0);
+    const totalMoney = useSelector(state => state.totalMoney);
     const [value, setValue] = useState('');
     const [selectedPeriod, setSelectedPeriod] = useState('Day');
     const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-D"));
@@ -25,6 +25,7 @@ export default function Main({navigation}){
     const [modalVisible, setModalVisible] = useState(false);
     
     useEffect(() => {
+        console.log(data);
         if (modalVisible) {
           inputRef.current?.focus();
         }
@@ -34,7 +35,7 @@ export default function Main({navigation}){
       }, [selectedPeriod, step]);
       useEffect(() => {
         filter();
-      }, [filterDate, isIncome]);
+      }, [filterDate, isIncome, data]);
     useEffect(() =>{
         sum();
         combine();
@@ -58,7 +59,7 @@ export default function Main({navigation}){
         }
     }
     const sum = () =>{
-         const total = filteredData.reduce((acc, cur) => acc + cur.y, 0);
+         const total = filteredData.reduce((acc, cur) => Number(acc) + Number(cur.y), 0);
          setTransactionMoney(total);
     }
     const combine = () =>{
@@ -120,7 +121,7 @@ export default function Main({navigation}){
                             style={{ padding: 10, alignSelf: 'flex-end' }}
                             onPress={() => {
                                 setModalVisible(false);
-                                setTotalMoney(value ? Number(value.replace(',', '.')) : 0);
+                                dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : 0});
                                 }}>
                                 <Text style={{ color: '#D8D8D8', fontSize: 20 }}>Save</Text>
                             </TouchableWithoutFeedback>
