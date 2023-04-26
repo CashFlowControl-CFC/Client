@@ -12,10 +12,10 @@ import {API_URL} from '@env'
 
 export default function Main({navigation}){
     const dispatch = useDispatch();
-    const data = useSelector(state => state.data);
-    const isIncome = useSelector(state => state.isIncome);
+    const data = useSelector(state => state.transaction.data);
+    const isIncome = useSelector(state => state.transaction.isIncome);
+    const totalMoney = useSelector(state => state.transaction.totalMoney);
     const [transactionMoney, setTransactionMoney] = useState(0);
-    const totalMoney = useSelector(state => state.totalMoney);
     const [value, setValue] = useState('');
     const [selectedPeriod, setSelectedPeriod] = useState('Day');
     const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-D"));

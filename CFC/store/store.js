@@ -1,7 +1,11 @@
-import {createStore} from 'redux';
+import {combineReducers, createStore} from 'redux';
 import { transactionReducer } from './transactionReducer';
+import { categoriesReducer } from './categoriesReducer';
 
 
-const store = createStore(transactionReducer);
+const rootReducer = combineReducers({
+    transaction: transactionReducer, 
+    category: categoriesReducer
+})
 
-export default store;
+export default store = createStore(rootReducer);
