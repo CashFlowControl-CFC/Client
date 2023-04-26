@@ -7,6 +7,8 @@ import getImageComponent from "../resources/imageComponent";
 import BagDollar from "../resources/bagDollar";
 import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
+import { getTransactions } from "../modules/requests";
+import {API_URL} from '@env'
 
 export default function Main({navigation}){
     const dispatch = useDispatch();
@@ -25,7 +27,9 @@ export default function Main({navigation}){
     const [modalVisible, setModalVisible] = useState(false);
     
     useEffect(() => {
-        console.log(data)
+        getData();
+      }, []);
+    useEffect(() => {
         if (modalVisible) {
           inputRef.current?.focus();
         }
@@ -40,7 +44,10 @@ export default function Main({navigation}){
         sum();
         combine();
     }, [filteredData]);
-    const filter = () =>{
+    const getData = async () =>{
+        dispatch({type: 'SET_DATA', payload: await getTransactions(`${API_URL}/load/1`)});
+    }
+    const filter = async () =>{
         if(selectedPeriod == "Day"){
             setFilteredData(data.filter((item) => item.isIncome == isIncome && item.date.toString() == filterDate.toString()));
         }

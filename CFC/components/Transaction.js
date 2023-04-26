@@ -4,14 +4,14 @@ import styles from "../styles/TransactionPage";
 import { useDispatch, useSelector } from "react-redux";
 import { FlatList } from "react-native-gesture-handler";
 import getImageComponent from "../resources/imageComponent";
-import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard, KeyboardAvoidingView, Platform  } from "react-native";
+import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard } from "react-native";
 import moment from "moment";
 import CalendarIcon from "../resources/calendar";
 import {Calendar} from 'react-native-calendars';
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
     const isIncome = useSelector(state => state.isIncome);
-    const [value, setValue] = useState('0');
+    const [value, setValue] = useState('');
     const [comment, setComment] = useState(null);
     const [isMove, setIsMove] = useState(false);
     const [categories, setCategories] = useState([
@@ -109,7 +109,8 @@ export default function Transaction({navigation}){
             <View style={general.content}>
                 <View style={{width: "100%", alignItems: 'center', justifyContent: 'center', marginTop: "5%"}}>
                         <TextInput 
-                                    onFocus={() => setValue('')}
+                                    placeholder='0'
+                                    placeholderTextColor={'#D8D8D880'}
                                     keyboardType="numeric" 
                                     style={[general.inputMoney, {width: "50%"}]}
                                     value={value} 
@@ -124,7 +125,7 @@ export default function Transaction({navigation}){
                     <Text style={[general.generalText, {direction: 'rtl'}]}>Categories</Text>
                     <View>
                         <FlatList
-                            data={data}
+                            data={data.filter(item => item.isIncome == isIncome || item.isIncome == null)}
                             renderItem={({item}) => 
                             <TouchableWithoutFeedback onPress={() => SelectCategory(item.id)}>
                                 <View style={{alignItems: 'center'}}>
@@ -171,7 +172,7 @@ export default function Transaction({navigation}){
                     <View style={{width: "90%", marginTop: "5%"}}>
                         <Text style={[general.generalText, {direction: 'rtl'}]}>Comment</Text>
                         <TextInput 
-                                    onSubmitEditing={() =>setIsMove(false)}
+                                    onBlur={() =>setIsMove(false)}
                                     onPressIn={() =>setIsMove(true)}
                                     placeholder="Comment"
                                     placeholderTextColor={"#D8D8D880"}
@@ -179,8 +180,12 @@ export default function Transaction({navigation}){
                                     value={comment} 
                                     onChangeText={(comment) => setComment(comment)}/>    
                     </View>
-
-                    <View style={styles.calendarPos}>
+                <TouchableWithoutFeedback disabled={disabled} onPress={handleAddTransaction}>
+                    <View style={[styles.addBtn, disabled ? {backgroundColor: '#FECC7A50'} : {backgroundColor: '#FECC7A'}]}>
+                        <Text style={styles.addText}>Add</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <View style={styles.calendarPos}>
                 {showDatePicker ? <Calendar 
                         style={{
                             borderRadius: 15,
@@ -209,12 +214,6 @@ export default function Transaction({navigation}){
                         }}
                         /> : null}
                 </View>
-
-                <TouchableWithoutFeedback disabled={disabled} onPress={handleAddTransaction}>
-                    <View style={[styles.addBtn, disabled ? {backgroundColor: '#FECC7A50'} : {backgroundColor: '#FECC7A'}]}>
-                        <Text style={styles.addText}>Add</Text>
-                    </View>
-                </TouchableWithoutFeedback>
             </View>
         </View>
         </TouchableWithoutFeedback>

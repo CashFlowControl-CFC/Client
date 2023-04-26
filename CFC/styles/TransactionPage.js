@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     catItem:{
-        width: 80,
-        height: 80,
+        width: 85,
+        height: 85,
         marginVertical: 3,
         marginHorizontal: 10,
         alignItems: 'center', 
