@@ -8,20 +8,15 @@ import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard } from "react
 import moment from "moment";
 import CalendarIcon from "../resources/calendar";
 import {Calendar} from 'react-native-calendars';
+
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
-    const isIncome = useSelector(state => state.isIncome);
+    const isIncome = useSelector(state => state.transaction.isIncome);
+    const categories = useSelector(state => state.category.categories);
     const [value, setValue] = useState('');
     const [comment, setComment] = useState(null);
     const [isMove, setIsMove] = useState(false);
-    const [categories, setCategories] = useState([
-        {id: 1, name: 'Family', image: 'family.js', color: "#FF9876", isIncome: false},
-        {id: 2, name: 'Products', image: 'products.js', color: "#6BEBDC", isIncome: false},
-        {id: 3, name: 'Transport', image: 'transport.js', color: "#9FC9FF", isIncome: false},
-        {id: 4, name: 'Sport', image: 'sport.js', color: "#6BEBB2", isIncome: false},
-        {id: 5, name: 'Gifts', image: 'gift.js', color: "#FF8C8C", isIncome: false},
-    ]);
-    const data = [...categories.slice(0, 5), { id: 'add', color: '#FECC7A',  image: 'plus'}];
+    const [data, setData] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [dateToday, setDateToday] = useState(moment(new Date()));
     const [selectedDate, setSelectedDate] = useState(moment(new Date()));
@@ -29,6 +24,11 @@ export default function Transaction({navigation}){
     const [selectedBtn, setSelectedBtn] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [disabled, setDisabled] = useState(true);
+
+    useEffect(() => {
+        filterCategories();
+    }, [isIncome])
+
     useEffect(() => {
         LastDate();
     }, [selectedDate])
@@ -48,6 +48,10 @@ export default function Transaction({navigation}){
         else if(id != 'add'){
             setSelectedCategory(id);
         }
+    }
+    const filterCategories = () =>{
+        setData([...categories.filter(item => item.isIncome == isIncome || item.isIncome == null).slice(0, 5), 
+        { id: 'add', color: '#FECC7A',  image: 'plus'}]);
     }
     const LastDate = () =>{
         if(selectedDate.format('MM/DD') == dateToday.format('MM/DD')){
@@ -125,7 +129,7 @@ export default function Transaction({navigation}){
                     <Text style={[general.generalText, {direction: 'rtl'}]}>Categories</Text>
                     <View>
                         <FlatList
-                            data={data.filter(item => item.isIncome == isIncome || item.isIncome == null)}
+                            data={data}
                             renderItem={({item}) => 
                             <TouchableWithoutFeedback onPress={() => SelectCategory(item.id)}>
                                 <View style={{alignItems: 'center'}}>

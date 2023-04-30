@@ -7,12 +7,13 @@ import getImageComponent from "../resources/imageComponent";
 import BagDollar from "../resources/bagDollar";
 import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
-import { getTransactions } from "../modules/requests";
+import { getData } from "../modules/requests";
 import {API_URL} from '@env'
 
 export default function Main({navigation}){
     const dispatch = useDispatch();
     const data = useSelector(state => state.transaction.data);
+    const categories = useSelector(state => state.category.categories);
     const isIncome = useSelector(state => state.transaction.isIncome);
     const totalMoney = useSelector(state => state.transaction.totalMoney);
     const [transactionMoney, setTransactionMoney] = useState(0);
@@ -27,7 +28,7 @@ export default function Main({navigation}){
     const [modalVisible, setModalVisible] = useState(false);
     
     useEffect(() => {
-        getData();
+        loadData();
       }, []);
     useEffect(() => {
         if (modalVisible) {
@@ -44,8 +45,9 @@ export default function Main({navigation}){
         sum();
         combine();
     }, [filteredData]);
-    const getData = async () =>{
-        dispatch({type: 'SET_DATA', payload: await getTransactions(`${API_URL}/load/1`)});
+    const loadData = async () =>{
+        dispatch({type: 'SET_DATA', payload: await getData(`${API_URL}/load/1`)});
+        dispatch({type: 'SET_CATEGORIES', payload: await getData(`${API_URL}/category`)});
     }
     const filter = async () =>{
         if(selectedPeriod == "Day"){

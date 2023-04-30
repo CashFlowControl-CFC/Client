@@ -21,7 +21,7 @@ const getImageComponent = (imageName, width, height) => {
         return <Sport width={width} height={height}/>;
       case 'transport.js':
         return <Transport width={width} height={height}/>;
-      case 'gift.js':
+      case 'gifts.js':
         return <Gift width={width} height={height}/>;
         
       // Добавьте другие кейсы для других SVG файлов

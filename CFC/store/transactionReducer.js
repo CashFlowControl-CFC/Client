@@ -1,7 +1,7 @@
 const initialState = {
     data: [],
     isIncome: false,
-    totalMoney: 0
+    totalMoney: 0,
 }
 
 export const transactionReducer = (state = initialState, action) =>{
