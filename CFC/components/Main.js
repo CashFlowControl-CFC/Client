@@ -50,9 +50,9 @@ export default function Main({navigation}){
         combine();
     }, [filteredData]);
     const loadData = async () =>{
-        dispatch({type: 'SET_DATA', payload: await getData(`${API_URL}/load/1`)});
-        dispatch({type: 'SET_CATEGORIES', payload: await getData(`${API_URL}/category`)});
-
+        await dispatch({type: 'SET_DATA', payload: await getData(`${API_URL}/load/1`)});
+        await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${API_URL}/category`)});
+        console.log('111')
     }
     const filter = async () =>{
         if(selectedPeriod == "Day"){
@@ -80,7 +80,7 @@ export default function Main({navigation}){
         const newData = filteredData?.reduce((acc, cur) => {
             const index = acc.findIndex(item => item.x === cur.x);
             if (index === -1) {
-              acc.push({ x: cur.x, y: Number(cur.y), fill: cur.fill, id: cur.id, image: cur.image, isIncome: cur.isIncome });
+              acc.push({ x: cur.x, y: Number(cur.y), fill: cur.fill, id: cur.id, image_link: cur.image_link, image_color: cur.image_color, isIncome: cur.isIncome });
             } else {
               acc[index].y = Number(acc[index].y) + Number(cur.y);
             }
@@ -211,7 +211,7 @@ export default function Main({navigation}){
 
                 <View style={{alignItems: "center", justifyContent: 'center'}}>
                     <VictoryPie
-                        data={combinedData.length > 0 ? combinedData : [{ y: 1, fill: "#1E1E1E70"}]}
+                        data={combinedData?.length > 0 ? combinedData : [{ y: 1, fill: "#1E1E1E70"}]}
                         width={250}
                         height={250}
                         innerRadius={70}

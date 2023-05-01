@@ -7,7 +7,8 @@ import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard } from "react
 import moment from "moment";
 import {Calendar} from 'react-native-calendars';
 import getImage from "../resources/imageComponent";
-import {API_CALENDAR_URL} from '@env'
+import {API_CALENDAR_URL, API_PLUS_URL, API_URL} from '@env';
+import { addData } from "../modules/requests";
 
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
@@ -27,7 +28,6 @@ export default function Transaction({navigation}){
 
     useEffect(() => {
         filterCategories();
-        console.log(categories)
     }, [isIncome])
 
     useEffect(() => {
@@ -52,7 +52,7 @@ export default function Transaction({navigation}){
     }
     const filterCategories = () =>{
         setData([...categories?.filter(item => item.isIncome == isIncome || item.isIncome == null).slice(0, 5), 
-        { id: 'add', color: '#FECC7A',  image_link: 'plus'}]);
+        { id: 'add', color: '#FECC7A',  image_link: API_PLUS_URL}]);
     }
     const LastDate = () =>{
         if(selectedDate.format('MM/DD') == dateToday.format('MM/DD')){
@@ -71,22 +71,23 @@ export default function Transaction({navigation}){
         setSelectedBtn(id);
         setSelectedDate(date);
     }
-    const handleAddTransaction = () => {
+    const handleAddTransaction = async () => {
         if(isIncome){
             dispatch({type: 'ADD_INCOME', payload: value})
         }
         else{
             dispatch({type: 'ADD_EXPENSES', payload: value})
         }
-        dispatch({type: 'ADD_TRANSACTION', payload: {
-            x: categories[selectedCategory-1].name, 
-            y: value, id: `${new Date()}`, 
-            fill: categories[selectedCategory-1].color,
-            image_link: categories[selectedCategory-1].image, 
-            isIncome: isIncome,
-            date: `${selectedDate.format('YYYY-MM-DD')}`,
-            comment: comment
-        }})
+        let result = await addData(`${API_URL}/transaction`, {
+            category_id: categories[selectedCategory-1].id, 
+            user_id: 1, 
+            date: `${selectedDate.format('YYYY-MM-DD')}`, 
+            comment: comment, 
+            cash: value, 
+            isIncome: isIncome
+        })
+        console.log(result)
+        dispatch({type: 'ADD_TRANSACTION', payload: result})
         navigation.navigate('Main')    
     }
     return(
@@ -136,7 +137,7 @@ export default function Transaction({navigation}){
                                 <View style={{alignItems: 'center'}}>
                                     <View style={[selectedCategory == item.id ? {backgroundColor: item.color + "40"} : null, styles.catItem]}>
                                         <View style={[styles.catCircle, {backgroundColor: item.color}]}> 
-                                        {getImage(item.image_link, 25, 25, item.image_color)}
+                                        {getImage(item.image_link, 35, 35, item.image_color)}
                                         </View>
                                     </View>
                                     <Text style={[general.generalText, {fontSize: 15}]}>{item.name}</Text>
