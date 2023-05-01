@@ -4,16 +4,20 @@ import styles from "../styles/MainPage"
 import general from "../styles/general";
 import { VictoryPie} from "victory-native";
 import getImageComponent from "../resources/imageComponent";
-import BagDollar from "../resources/bagDollar";
 import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../modules/requests";
-import {API_URL} from '@env'
+import {API_URL,
+     API_BAG_URL, 
+     API_PLUS_URL,
+     API_LEFT_ARROW_URL,
+     API_RIGHT_ARROW_URL
+    } from '@env'
+import getImage from "../resources/imageComponent";
 
 export default function Main({navigation}){
     const dispatch = useDispatch();
     const data = useSelector(state => state.transaction.data);
-    const categories = useSelector(state => state.category.categories);
     const isIncome = useSelector(state => state.transaction.isIncome);
     const totalMoney = useSelector(state => state.transaction.totalMoney);
     const [transactionMoney, setTransactionMoney] = useState(0);
@@ -48,31 +52,32 @@ export default function Main({navigation}){
     const loadData = async () =>{
         dispatch({type: 'SET_DATA', payload: await getData(`${API_URL}/load/1`)});
         dispatch({type: 'SET_CATEGORIES', payload: await getData(`${API_URL}/category`)});
+
     }
     const filter = async () =>{
         if(selectedPeriod == "Day"){
-            setFilteredData(data.filter((item) => item.isIncome == isIncome && item.date.toString() == filterDate.toString()));
+            setFilteredData(data?.filter((item) => item.isIncome == isIncome && item.date.toString() == filterDate.toString()));
         }
         else if(selectedPeriod == "Week"){
             const startOfWeek = filterDate.startOf('week').format('YYYY-MM-DD');
             const endOfWeek = filterDate.endOf('week').format('YYYY-MM-DD');
-            setFilteredData(data.filter(item => item.isIncome == isIncome && moment(item.date).isBetween(startOfWeek, endOfWeek, null, '[]')));
+            setFilteredData(data?.filter(item => item.isIncome == isIncome && moment(item.date).isBetween(startOfWeek, endOfWeek, null, '[]')));
         }
         else if(selectedPeriod == "Month"){
             const startOfMonth = filterDate.startOf('month').format('YYYY-MM-DD');
             const endOfMonth = filterDate.endOf('month').format('YYYY-MM-DD');
-            setFilteredData(data.filter(item => item.isIncome == isIncome && moment(item.date).isBetween(startOfMonth, endOfMonth, null, '[]')));
+            setFilteredData(data?.filter(item => item.isIncome == isIncome && moment(item.date).isBetween(startOfMonth, endOfMonth, null, '[]')));
         }
         else if(selectedPeriod == "Year"){
-            setFilteredData(data.filter(item => item.isIncome === isIncome && moment(item.date).year() === moment(filterDate).year()));
+            setFilteredData(data?.filter(item => item.isIncome === isIncome && moment(item.date).year() === moment(filterDate).year()));
         }
     }
     const sum = () =>{
-         const total = filteredData.reduce((acc, cur) => Number(acc) + Number(cur.y), 0);
+         const total = filteredData?.reduce((acc, cur) => Number(acc) + Number(cur.y), 0);
          setTransactionMoney(total);
     }
     const combine = () =>{
-        const newData = filteredData.reduce((acc, cur) => {
+        const newData = filteredData?.reduce((acc, cur) => {
             const index = acc.findIndex(item => item.x === cur.x);
             if (index === -1) {
               acc.push({ x: cur.x, y: Number(cur.y), fill: cur.fill, id: cur.id, image: cur.image, isIncome: cur.isIncome });
@@ -141,7 +146,7 @@ export default function Main({navigation}){
             <View style={general.header}>
                 <TouchableWithoutFeedback onPressIn={() => setModalVisible(true)}>
                     <View style={{flexDirection: "row", alignItems: "center"}}>
-                        <BagDollar/>
+                        {getImage(API_BAG_URL, 20, 20, '#FFFFFF')}
                         <Text style={[general.generalText, {fontSize: 20}]}>Total:</Text>
                         <Text style={styles.totalMoney}>${totalMoney}</Text>
                     </View>
@@ -189,13 +194,17 @@ export default function Main({navigation}){
 
                  <View  style={styles.date}>
                     <TouchableWithoutFeedback onPress={() => setStep(step - 1)}>
-                        <Text style={[general.generalText, {fontSize: 23}]}>{'<'}</Text>
+                        <View>
+                            {getImage(API_LEFT_ARROW_URL, 20, 20, '#FFFFFF')}
+                        </View>
                     </TouchableWithoutFeedback>
                     <View>
                         <Text style={general.generalText}>{`${date.toString()}`}</Text>
                     </View>
                     <TouchableWithoutFeedback onPress={() => setStep(step + 1)}>
-                    <Text style={[general.generalText, {fontSize: 23}]}>{'>'}</Text>
+                        <View>
+                            {getImage(API_RIGHT_ARROW_URL, 20, 20, '#FFFFFF')}
+                        </View>
                     </TouchableWithoutFeedback>
                 </View>               
                 
@@ -220,7 +229,7 @@ export default function Main({navigation}){
                         /> 
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('Transaction')}>
                     <View style={general.addBtn}>
-                         {getImageComponent("plus", 30, 30)}
+                         {getImage(API_PLUS_URL, 30, 30)}
                         </View>
                 </TouchableWithoutFeedback>
                 <Text style={{
@@ -239,7 +248,7 @@ export default function Main({navigation}){
                                <TouchableWithoutFeedback>
                                             <View style={[styles.category, {backgroundColor: item.fill + "20"}]}>
                                                 <View style={[styles.circle, {backgroundColor: item.fill}]}>
-                                                    {getImageComponent(item.image, 25, 25)}
+                                                    {getImage(item.image_link, 25, 25, item.image_color)}
                                                 </View>
                                                 <View style={{width:"70%", flexDirection: "row", justifyContent: "space-between"}}>
                                                     <Text style={styles.categoryText}>{item.x}</Text>

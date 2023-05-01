@@ -1,33 +1,14 @@
 import React from "react";
-import Products from "./products";
-import Health from "./health";
-import Family from "./family";
-import Sport from "./sport";
-import Transport from "./transport";
-import Gift from "./gift";
-import Plus from "./plus";
-
-const getImageComponent = (imageName, width, height) => {
-    switch (imageName) {
-      case "plus":
-        return <Plus width={width} height={height}/>;
-      case "products.js":
-        return <Products width={width} height={height}/>;
-      case "family.js":
-        return <Family width={width} height={height}/>;
-      case "health.js":
-        return <Health width={width} height={height}/>;
-      case "sport.js":
-        return <Sport width={width} height={height}/>;
-      case 'transport.js':
-        return <Transport width={width} height={height}/>;
-      case 'gifts.js':
-        return <Gift width={width} height={height}/>;
-        
-      // Добавьте другие кейсы для других SVG файлов
-      default:
-        return null;
+import Svg, { SvgFromUri } from "react-native-svg";
+const getImage = (uri, width, height, color) => {
+        return  <Svg height={height} width={width}>
+                    <SvgFromUri
+                    uri={uri}
+                    width="100%"
+                    height="100%"
+                    fill={color}
+                    />
+                </Svg>
     }
-  };
 
-export default getImageComponent;
+export default getImage;

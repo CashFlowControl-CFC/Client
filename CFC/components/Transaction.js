@@ -3,11 +3,11 @@ import general from "../styles/general";
 import styles from "../styles/TransactionPage";
 import { useDispatch, useSelector } from "react-redux";
 import { FlatList } from "react-native-gesture-handler";
-import getImageComponent from "../resources/imageComponent";
 import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard } from "react-native";
 import moment from "moment";
-import CalendarIcon from "../resources/calendar";
 import {Calendar} from 'react-native-calendars';
+import getImage from "../resources/imageComponent";
+import {API_CALENDAR_URL} from '@env'
 
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
@@ -27,6 +27,7 @@ export default function Transaction({navigation}){
 
     useEffect(() => {
         filterCategories();
+        console.log(categories)
     }, [isIncome])
 
     useEffect(() => {
@@ -50,8 +51,8 @@ export default function Transaction({navigation}){
         }
     }
     const filterCategories = () =>{
-        setData([...categories.filter(item => item.isIncome == isIncome || item.isIncome == null).slice(0, 5), 
-        { id: 'add', color: '#FECC7A',  image: 'plus'}]);
+        setData([...categories?.filter(item => item.isIncome == isIncome || item.isIncome == null).slice(0, 5), 
+        { id: 'add', color: '#FECC7A',  image_link: 'plus'}]);
     }
     const LastDate = () =>{
         if(selectedDate.format('MM/DD') == dateToday.format('MM/DD')){
@@ -81,7 +82,7 @@ export default function Transaction({navigation}){
             x: categories[selectedCategory-1].name, 
             y: value, id: `${new Date()}`, 
             fill: categories[selectedCategory-1].color,
-            image: categories[selectedCategory-1].image, 
+            image_link: categories[selectedCategory-1].image, 
             isIncome: isIncome,
             date: `${selectedDate.format('YYYY-MM-DD')}`,
             comment: comment
@@ -135,7 +136,7 @@ export default function Transaction({navigation}){
                                 <View style={{alignItems: 'center'}}>
                                     <View style={[selectedCategory == item.id ? {backgroundColor: item.color + "40"} : null, styles.catItem]}>
                                         <View style={[styles.catCircle, {backgroundColor: item.color}]}> 
-                                            {getImageComponent(item.image, 40, 40)}
+                                        {getImage(item.image_link, 25, 25, item.image_color)}
                                         </View>
                                     </View>
                                     <Text style={[general.generalText, {fontSize: 15}]}>{item.name}</Text>
@@ -168,7 +169,7 @@ export default function Transaction({navigation}){
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback  onPress={() => setShowDatePicker(!showDatePicker)}>
                         <View style={styles.calendar}>
-                            <CalendarIcon width={35} height={35}/> 
+                            {getImage(API_CALENDAR_URL, 35, 35, '#FFFFFF')}
                         </View>
                     </TouchableWithoutFeedback>
                 </View>

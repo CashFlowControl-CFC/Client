@@ -10,7 +10,7 @@ module.exports = (async () => {
     },
     resolver: {
       assetExts: assetExts.filter(ext => ext !== "svg"),
-      sourceExts: [...sourceExts, 'jsx', 'js', 'json', 'ts', 'tsx', 'module.scss'],
+      sourceExts: [...sourceExts, 'jsx', 'js', 'json', 'ts', 'tsx', 'module.scss', 'svg'],
       extraNodeModules: {
         '@env': `${__dirname}/.env`,
       },
