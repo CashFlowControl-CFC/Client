@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import general from "../styles/general";
-import styles from "../styles/TransactionPage";
+import general from "../../styles/general";
+import styles from "../../styles/TransactionPage";
 import { useDispatch, useSelector } from "react-redux";
 import { FlatList } from "react-native-gesture-handler";
 import { View, TouchableWithoutFeedback, Text, TextInput, Keyboard } from "react-native";
 import moment from "moment";
 import {Calendar} from 'react-native-calendars';
-import getImage from "../resources/imageComponent";
+import getImage from "../../resources/imageComponent";
 import {API_CALENDAR_URL, API_PLUS_URL, API_URL} from '@env';
-import { addData } from "../modules/requests";
+import { addData } from "../../modules/requests";
 
 export default function Transaction({navigation}){
     const dispatch = useDispatch();

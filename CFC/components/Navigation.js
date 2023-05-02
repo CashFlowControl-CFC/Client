@@ -2,8 +2,8 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer} from "@react-navigation/native";
 
-import Main from "./Main";
-import Transaction from "./Transaction";
+import Main from "./pages/Main";
+import Transaction from "./pages/Transaction";
 
 const Stack = createStackNavigator();
 
