@@ -5,14 +5,12 @@ import styles from "../../styles/MainPage";
 import { MainContext } from "../../modules/context";
 import {API_BAG_URL} from '@env';
 import getImage from "../../resources/imageComponent";
-import { useDispatch, useSelector } from "react-redux";
-
+import { useSelector } from "react-redux";
+import TransactionType from "../General/TransactionType";
 
 function TotalMoney(){
     const {setModalVisible} = useContext(MainContext);
-    const dispatch = useDispatch();
     const totalMoney = useSelector(state => state.transaction.totalMoney);
-    const isIncome = useSelector(state => state.transaction.isIncome);
     return(
         <View style={general.header}>
                 <TouchableWithoutFeedback onPressIn={() => setModalVisible(true)}>
@@ -23,14 +21,7 @@ function TotalMoney(){
                     </View>
                 </TouchableWithoutFeedback>
 
-                <View style={{flexDirection: "row", alignItems: "center", width: "90%", justifyContent: 'space-around'}}>
-                    <TouchableWithoutFeedback onPress={() => dispatch({type:'EXPENSES'})}>
-                        <Text style={[general.generalText, {fontSize: 19}, !isIncome ? general.selected : '']}>EXPENSES</Text>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => dispatch({type:'INCOME'})}>
-                        <Text style={[general.generalText, {fontSize: 19}, isIncome ? general.selected : '']}>INCOME</Text>
-                    </TouchableWithoutFeedback>
-                </View>
+                <TransactionType/>
             </View>
     );
 }
