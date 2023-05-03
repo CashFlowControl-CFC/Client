@@ -30,7 +30,25 @@ const addData = async (url, object) =>{
     }
 }
 
+const updateData = async (url, object) =>{
+    try{
+        const result = await fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+            body: JSON.stringify(object),
+        })
+        return result;
+    }
+    catch(err){
+        console.error(err);
+        return null;
+    }
+}
+
 export {
     getData,
-    addData
+    addData,
+    updateData
 }

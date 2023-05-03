@@ -3,18 +3,35 @@ import { Modal, TouchableWithoutFeedback, View, TextInput, Text, Keyboard } from
 import styles from "../../styles/MainPage";
 import general from "../../styles/general";
 import { MainContext } from "../../modules/context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateData } from "../../modules/requests";
+import {API_URL} from '@env';
 
 function ModalCash(){
     const {modalVisible, setModalVisible} = useContext(MainContext);
     const [value, setValue] = useState('');
     const inputRef = useRef(null);
     const dispatch = useDispatch();
+    const activeAccount = useSelector(state => state.account.activeAccount);
+    const accounts = useSelector(state => state.account.accounts);
     useEffect(() => {
         if (modalVisible) {
           inputRef.current?.focus();
         }
       }, [modalVisible]);
+
+      const handleSaveCash = async () =>{
+        let res = await updateData(`${API_URL}/account/${Number(activeAccount)}`, {
+            cash: value ? Number(value.replace(',', '.')) : 0
+        });
+            if(res.status == 200){
+                setModalVisible(false);
+                let index = await accounts.findIndex(item => item.id == activeAccount);
+                    if(index != -1){
+                        dispatch({type:'UPDATE_ACCOUNT', payload: {newItem: {...accounts[index], cash: value ? Number(value.replace(',', '.')) : 0}, index: index}});
+                    }
+                 }
+        }
     return(
         <Modal
                 animationType='fade'
@@ -36,10 +53,7 @@ function ModalCash(){
                                 />
                                 <TouchableWithoutFeedback
                                 style={{ padding: 10, alignSelf: 'flex-end' }}
-                                onPress={() => {
-                                    setModalVisible(false);
-                                    dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : 0});
-                                    }}>
+                                onPress={handleSaveCash}>
                                     <Text style={{ color: '#D8D8D8', fontSize: 20 }}>Save</Text>
                                 </TouchableWithoutFeedback>
                         </View>
