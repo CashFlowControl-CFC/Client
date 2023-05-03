@@ -18,10 +18,10 @@ export default function Transaction({navigation}){
     const dispatch = useDispatch();
     const isIncome = useSelector(state => state.transaction.isIncome);
     const categories = useSelector(state => state.category.categories);
+    const selectedCategory = useSelector(state => state.category.selectedCategory);
 
     const [value, setValue] = useState('');
     const [comment, setComment] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedDate, setSelectedDate] = useState(moment(new Date()));
 
     const [data, setData] = useState([]);
@@ -32,7 +32,6 @@ export default function Transaction({navigation}){
     const contextValue = {
         value,
         data,
-        selectedCategory,
         showDatePicker,
         selectedBtn, 
         comment, 
@@ -41,7 +40,6 @@ export default function Transaction({navigation}){
         setComment,
         setSelectedBtn,
         setValue,
-        setSelectedCategory,
         setSelectedDate,
         setShowDatePicker
     };
@@ -64,7 +62,7 @@ export default function Transaction({navigation}){
             dispatch({type: 'ADD_EXPENSES', payload: value})
         }
         let result = await addData(`${API_URL}/transaction`, {
-            category_id: categories[selectedCategory-1].id, 
+            category_id: selectedCategory, 
             user_id: 1, 
             date: `${selectedDate.format('YYYY-MM-DD')}`, 
             comment: comment, 
@@ -94,7 +92,7 @@ export default function Transaction({navigation}){
 
                 <View style={general.content}>
                     <MoneyInput/>
-                    <CategoryList data={data}/>
+                    <CategoryList data={data} navigation={navigation}/>
                     <DateButtons/>
                     <CommentInput/>
                     <AddBtn action={handleAddTransaction}/>

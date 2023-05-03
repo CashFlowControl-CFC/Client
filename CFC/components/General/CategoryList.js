@@ -1,19 +1,31 @@
-import React, { useContext } from "react";
+import React  from "react";
 import { View, Text, FlatList, TouchableWithoutFeedback} from "react-native";
-import { TransactionContext } from "../../modules/context";
 import general from "../../styles/general";
 import styles from "../../styles/TransactionPage";
 import getImage from "../../resources/imageComponent";
+import { useDispatch, useSelector } from "react-redux";
+import {useRoute} from "@react-navigation/native";
 
 function CategoryList(props){
-    const {selectedCategory, setSelectedCategory} = useContext(TransactionContext);
-
-    const SelectCategory = (id) => {
+    const dispatch = useDispatch();
+    const selectedCategory = useSelector(state => state.category.selectedCategory);
+    const route = useRoute();
+    const handleSelectCategory = (id) => {
+        console.log(id)
         if (selectedCategory == id){
-            setSelectedCategory(null);
+            dispatch({type: 'SET_SELECTED', payload: null});
+        }
+        else if(id == 'add'){
+            props.navigation.navigate('Categories');
+        }
+        else if(id == 'create'){
+            console.log('create');
         }
         else if(id != 'add'){
-            setSelectedCategory(id);
+            dispatch({type: 'SET_SELECTED', payload: id});
+            if(route.name == 'Categories'){
+                props.navigation.navigate('Transaction');
+            }
         }
     }
     return (
@@ -23,7 +35,7 @@ function CategoryList(props){
             <FlatList
                 data={props.data}
                 renderItem={({item}) => 
-                <TouchableWithoutFeedback onPress={() => SelectCategory(item.id)}>
+                <TouchableWithoutFeedback onPress={() => handleSelectCategory(item.id)}>
                     <View style={{alignItems: 'center'}}>
                         <View style={[selectedCategory == item.id ? {backgroundColor: item.color + "40"} : null, styles.catItem]}>
                             <View style={[styles.catCircle, {backgroundColor: item.color}]}> 
