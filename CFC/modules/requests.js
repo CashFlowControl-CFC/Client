@@ -30,7 +30,24 @@ const addData = async (url, object) =>{
     }
 }
 
+const removeData = async (url) =>{
+    try{
+        const result = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+        })
+        return result;
+    }
+    catch(err){
+        console.error(err);
+        return null;
+    }
+}
+
 export {
     getData,
-    addData
+    addData,
+    removeData
 }

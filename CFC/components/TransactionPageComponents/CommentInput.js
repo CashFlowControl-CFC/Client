@@ -15,7 +15,12 @@ function CommentInput(){
                     placeholderTextColor={"#D8D8D880"}
                     style={[general.inputComment, {width: "100%"}]}
                     value={comment} 
-                    onChangeText={(comment) => setComment(comment)}/>    
+                    onChangeText={(comment) => {
+                        if(comment.length < 30){
+                            setComment(comment)
+                        }
+                    }
+                    }/>    
     </View>     
     );
 }

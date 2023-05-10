@@ -5,16 +5,22 @@ import { VictoryPie } from "victory-native";
 import { MainContext } from "../../modules/context";
 import getImage from "../../resources/imageComponent";
 import {API_PLUS_URL} from '@env'
+import { useDispatch } from "react-redux";
 
 function PieChart(){
     const {combinedData, filteredData, navigation} = useContext(MainContext);
     const [transactionMoney, setTransactionMoney] = useState(0);
+    const dispatch = useDispatch();
     useEffect(() =>{
         sum();
     }, [filteredData]);
     const sum = () =>{
          const total = filteredData?.reduce((acc, cur) => Number(acc) + Number(cur.y), 0);
          setTransactionMoney(total);
+    }
+    const handleAddTransaction = () =>{
+        dispatch({type: 'SET_SELECTED', payload: null});
+        navigation.navigate('Transaction');
     }
     return (
             <View style={{alignItems: "center", justifyContent: 'center'}}>
@@ -35,7 +41,7 @@ function PieChart(){
             }}
             padAngle={3}
                 /> 
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Transaction')}>
+        <TouchableWithoutFeedback onPress={handleAddTransaction}>
             <View style={general.addBtn}>
                 {getImage(API_PLUS_URL, 30, 30)}
                 </View>

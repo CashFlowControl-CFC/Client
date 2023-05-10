@@ -65,6 +65,12 @@ const general = StyleSheet.create({
        },
        isMove: {
         paddingBottom: '40%',
+       },
+       removeText: {
+        color: '#fa5252',
+        fontStyle: 'normal',
+        fontWeight: 500,
+        fontSize: 23,
        }
 });
 
