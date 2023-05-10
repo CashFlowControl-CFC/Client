@@ -2,6 +2,7 @@ const initialState = {
     data: [],
     isIncome: false,
     totalMoney: 0,
+    selectedTransaction: {},
 }
 
 export const transactionReducer = (state = initialState, action) =>{
@@ -20,6 +21,8 @@ export const transactionReducer = (state = initialState, action) =>{
             return {...state, totalMoney: Number(state.totalMoney) - Number(action.payload)}
         case 'SET_TOTALMONEY':
             return {...state, totalMoney: Number(action.payload)}
+        case 'SET_SELECTED_TRANSACTION':
+            return {...state, selectedTransaction: action.payload}
         default:
             return state;
     }
