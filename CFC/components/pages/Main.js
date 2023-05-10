@@ -48,9 +48,7 @@ export default function Main({navigation}){
       }, [filteredData]);
 
     const loadData = async () =>{
-        let resD = await getData(`${API_URL}/load/1`)
-        console.log(resD)
-        await dispatch({type: 'SET_DATA', payload: resD});
+        await dispatch({type: 'SET_DATA', payload: await getData(`${API_URL}/load/1`)});
         await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${API_URL}/category`)});
         let res = await getData(`${API_URL}/tmp`);
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(res.cash)});

@@ -13,16 +13,16 @@ import { API_PLUS_URL, API_URL} from '@env';
 export default function TransactionInfo({navigation}){
     const selectedTransaction = useSelector(state => state.transaction.selectedTransaction);
     const data = useSelector(state => state.transaction.data);
+    const selected = useSelector(state => state.transData.selectedTransaction);
     const [filteredData, setFilteredData] = useState([]);
     const [moneySum, setMoneySum] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
-    const [selected, setSelected] = useState(0);
     const dispatch = useDispatch();
 
     useEffect(() => {
         filter();
     }, [data])
-
+    
     const filter = () =>{
         let res = data.filter(item => item.x == selectedTransaction.x && item.isIncome == selectedTransaction.isIncome);
         setFilteredData(res.sort((a, b) => (a.date != b.date) ? new Date(b.date).getTime() - new Date(a.date).getTime() : b.id - a.id));
@@ -37,7 +37,7 @@ export default function TransactionInfo({navigation}){
         if(res.status == 200){
             let newData = data.filter(item => item.id != selected);
             let filtered = filteredData.filter(item => item.id != selected);
-            dispatch({type: 'REMOVE_TRANSACTION', payload: newData});
+            dispatch({type: 'SET_DATA', payload: newData});
         
             if(filtered.length <= 0){
                 navigation.goBack();
@@ -47,11 +47,29 @@ export default function TransactionInfo({navigation}){
     }
     const showModal = (id) =>{
         setModalVisible(true);
-        setSelected(id);
+        dispatch({type: 'SET_SELECTED_TRANS', payload: id});
+    }
+    const handleEdit = (id) =>{
+        try{
+            let filtered = filteredData.filter(item => item.id == id);
+
+            dispatch({type: 'SET_SELECTED', payload: filtered[0].category_id});
+            dispatch({type: 'SET_TRANS_CASH', payload: filtered[0].y.toString()});
+            dispatch({type: 'SET_COMMENT', payload: filtered[0].comment ? filtered[0].comment.toString() : undefined});
+            dispatch({type: 'SET_DATE', payload: filtered[0].date ? filtered[0].date : undefined});
+            dispatch({type: 'SET_ISADD', payload: false});
+            dispatch({type: 'SET_SELECTED_TRANS', payload: Number(filtered[0].id)});
+    
+            navigation.navigate('Transaction');
+        }
+        catch(err){
+            console.log(err);
+        }
     }
     return(
         <View style={general.app}>
             <ModalRemove modalVisible={modalVisible} close={() => setModalVisible(false)} action={handleRemove}/>
+
             <View style={general.header}>
                     <View style={{ alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', width: '40%'}}>
                              {getImage(selectedTransaction.image_link, 25, 25, '#FFFFFF')}
@@ -64,7 +82,7 @@ export default function TransactionInfo({navigation}){
                 <FlatList keyExtractor={item => item.id} style={{marginTop: 25}}
                     data={filteredData} 
                     renderItem={({item}) =>
-                        <TouchableWithoutFeedback onLongPress={() => showModal(item.id)}>
+                        <TouchableWithoutFeedback onLongPress={() => showModal(item.id)} onPress={() => handleEdit(item.id)}>
                                     <View>
                                         <Text style={[general.generalText, {color: '#D8D8D8', marginBottom: 10, marginLeft: 15}]}>{moment(item.date).format('MMM DD, YYYY')}</Text>
                                         <View style={[styles.category, {backgroundColor: item.fill + "20"}]}>

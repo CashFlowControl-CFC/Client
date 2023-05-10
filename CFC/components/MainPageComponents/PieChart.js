@@ -19,7 +19,13 @@ function PieChart(){
          setTransactionMoney(total);
     }
     const handleAddTransaction = () =>{
+        
         dispatch({type: 'SET_SELECTED', payload: null});
+        dispatch({type: 'SET_TRANS_CASH', payload: undefined});
+        dispatch({type: 'SET_COMMENT', payload: undefined});
+        dispatch({type: 'SET_DATE', payload: undefined});
+        dispatch({type: 'SET_ISADD', payload: true});
+
         navigation.navigate('Transaction');
     }
     return (

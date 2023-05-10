@@ -6,11 +6,13 @@ import styles from "../../styles/TransactionPage";
 import { TransactionContext } from "../../modules/context";
 import { API_CALENDAR_URL } from '@env';
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 function DateButtons(){
     const {showDatePicker, selectedDate, setSelectedDate, setShowDatePicker, selectedBtn, setSelectedBtn} = useContext(TransactionContext);
-    const [lastDate, setLastDate] = useState(moment(new Date()).add(-2, 'days'));
-    const [dateToday, setDateToday] = useState(moment(new Date()));
+    const transDate = useSelector(state => state.transData.date);
+    const [lastDate, setLastDate] = useState(transDate ? moment(transDate) : moment(new Date()).add(-2, 'days'));
+    const dateToday = moment(new Date());
 
     useEffect(() => {
         changeLastDate();

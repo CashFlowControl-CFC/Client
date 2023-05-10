@@ -3,18 +3,29 @@ import { Modal, TouchableWithoutFeedback, View, TextInput, Text, Keyboard } from
 import styles from "../../styles/MainPage";
 import general from "../../styles/general";
 import { MainContext } from "../../modules/context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateData } from "../../modules/requests";
+import { API_URL} from '@env';
 
 function ModalCash(){
     const {modalVisible, setModalVisible} = useContext(MainContext);
+    const totalMoney = useSelector(state => state.transaction.totalMoney);
     const [value, setValue] = useState('');
     const inputRef = useRef(null);
     const dispatch = useDispatch();
+
     useEffect(() => {
         if (modalVisible) {
           inputRef.current?.focus();
         }
       }, [modalVisible]);
+    const handleSetMoney = async () =>{
+            setModalVisible(false);
+            let res = await updateData(`${API_URL}/tmp/1`, {cash: value})
+            if(res.status == 200){
+                dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : 0});
+            }
+        }
     return(
         <Modal
                 animationType='fade'
@@ -36,10 +47,7 @@ function ModalCash(){
                                 />
                                 <TouchableWithoutFeedback
                                 style={{ padding: 10, alignSelf: 'flex-end' }}
-                                onPress={() => {
-                                    setModalVisible(false);
-                                    dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : 0});
-                                    }}>
+                                onPress={handleSetMoney}>
                                     <Text style={{ color: '#D8D8D8', fontSize: 20 }}>Save</Text>
                                 </TouchableWithoutFeedback>
                         </View>

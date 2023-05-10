@@ -11,7 +11,6 @@ function CategoryList(props){
     const selectedCategory = useSelector(state => state.category.selectedCategory);
     const route = useRoute();
     const handleSelectCategory = (id) => {
-        console.log(id)
         if (selectedCategory == id){
             dispatch({type: 'SET_SELECTED', payload: null});
         }
