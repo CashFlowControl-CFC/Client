@@ -58,7 +58,16 @@ export default function Main({navigation}){
         const newData = filteredData?.reduce((acc, cur) => {
             const index = acc.findIndex(item => item.x === cur.x);
             if (index === -1) {
-              acc.push({ x: cur.x, y: Number(cur.y), fill: cur.fill, id: cur.id, image_link: cur.image_link, image_color: cur.image_color, isIncome: cur.isIncome });
+              acc.push({ x: cur.x, 
+                y: Number(cur.y), 
+                fill: cur.fill, 
+                id: cur.id, 
+                image_link: 
+                cur.image_link, 
+                image_color: 
+                cur.image_color, 
+                isIncome: cur.isIncome,
+                category_id: cur.category_id });
             } else {
               acc[index].y = Number(acc[index].y) + Number(cur.y);
             }

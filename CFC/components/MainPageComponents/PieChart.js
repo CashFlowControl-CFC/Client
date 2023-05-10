@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View,  TouchableWithoutFeedback, Text} from "react-native";
-import general from "../../styles/general";
+import { View,  Text} from "react-native";
 import { VictoryPie } from "victory-native";
 import { MainContext } from "../../modules/context";
-import getImage from "../../resources/imageComponent";
-import {API_PLUS_URL} from '@env'
 import { useDispatch } from "react-redux";
+import CreateBtn from "../General/CreateBtn";
+import general from "../../styles/general";
 
 function PieChart(){
     const {combinedData, filteredData, navigation} = useContext(MainContext);
@@ -17,16 +16,6 @@ function PieChart(){
     const sum = () =>{
          const total = filteredData?.reduce((acc, cur) => Number(acc) + Number(cur.y), 0);
          setTransactionMoney(total);
-    }
-    const handleAddTransaction = () =>{
-        
-        dispatch({type: 'SET_SELECTED', payload: null});
-        dispatch({type: 'SET_TRANS_CASH', payload: undefined});
-        dispatch({type: 'SET_COMMENT', payload: undefined});
-        dispatch({type: 'SET_DATE', payload: undefined});
-        dispatch({type: 'SET_ISADD', payload: true});
-
-        navigation.navigate('Transaction');
     }
     return (
             <View style={{alignItems: "center", justifyContent: 'center'}}>
@@ -47,11 +36,9 @@ function PieChart(){
             }}
             padAngle={3}
                 /> 
-        <TouchableWithoutFeedback onPress={handleAddTransaction}>
-            <View style={general.addBtn}>
-                {getImage(API_PLUS_URL, 30, 30)}
+                <View style={[general.pieAddBtn, general.addBtn]}>
+                    <CreateBtn navigation={navigation} selected_category={null}/>
                 </View>
-        </TouchableWithoutFeedback>
         <Text style={{
             position: 'absolute',
             color: '#FFFFFF',

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, TouchableWithoutFeedback, Text } from "react-native";
 import general from "../../styles/general";
 import styles from "../../styles/MainPage";

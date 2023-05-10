@@ -47,13 +47,18 @@ const general = StyleSheet.create({
         width: 20,
         height: 20,
         borderRadius: 100,
-        top: "60%",
-        left: "60%",
-        margin: "5%",
         backgroundColor: "#FECC7A",
         position: "absolute",
         alignItems: "center",
         justifyContent: 'center',
+        margin: "5%",
+       },
+       pieAddBtn:{
+        top: "60%",
+        left: "60%",
+       },
+       transAddBtn:{
+        bottom: 35
        },
        inputComment:{
         borderBottomColor: "#FFFFFF",

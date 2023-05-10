@@ -7,16 +7,21 @@ import getImage from "../../resources/imageComponent";
 import moment from "moment";
 import ModalRemove from "../General/ModalRemove";
 import { removeData } from "../../modules/requests";
-import { API_PLUS_URL, API_URL} from '@env';
+import { API_URL} from '@env';
+import { updateData } from "../../modules/requests";
+import CreateBtn from "../General/CreateBtn";
 
 
 export default function TransactionInfo({navigation}){
     const selectedTransaction = useSelector(state => state.transaction.selectedTransaction);
+    const totalMoney = useSelector(state => state.transaction.totalMoney);
     const data = useSelector(state => state.transaction.data);
     const selected = useSelector(state => state.transData.selectedTransaction);
-    const [filteredData, setFilteredData] = useState([]);
+
     const [moneySum, setMoneySum] = useState(0);
+    const [filteredData, setFilteredData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -35,9 +40,14 @@ export default function TransactionInfo({navigation}){
     const handleRemove = async () =>{
         let res = await removeData(`${API_URL}/transaction/${selected}`);
         if(res.status == 200){
+            let money = data.filter(item => item.id == selected)
             let newData = data.filter(item => item.id != selected);
             let filtered = filteredData.filter(item => item.id != selected);
+
+            dispatch({type:'ADD_INCOME', payload: money[0].y});
             dispatch({type: 'SET_DATA', payload: newData});
+            
+            updateData(`${API_URL}/tmp/1`, {cash: totalMoney + money[0].y});
         
             if(filtered.length <= 0){
                 navigation.goBack();
@@ -102,6 +112,9 @@ export default function TransactionInfo({navigation}){
                                     </View>
                                     </TouchableWithoutFeedback>   
                         }/>    
+            </View>
+            <View style={[ general.transAddBtn, general.addBtn]}>
+                <CreateBtn navigation={navigation} selected_category={selectedTransaction.category_id}/>
             </View>
         </View>
     );

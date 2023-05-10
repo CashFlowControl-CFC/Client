@@ -110,7 +110,8 @@ export default function Transaction({navigation}){
                 image_link: catName[0].image_link, 
                 fill: catName[0].color, 
                 date: `${selectedDate.format('YYYY-MM-DD')}`, 
-                category_id: selectedCategory
+                category_id: selectedCategory,
+                isIncome: isIncome
             }, 
                 index: index
             }});
