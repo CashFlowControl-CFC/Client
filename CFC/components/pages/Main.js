@@ -24,8 +24,6 @@ export default function Main({navigation}){
     const [combinedData, setCombinedData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [isLoading, setIsLoading] = useState(true);
-
     const contextValue = {
         modalVisible, 
         step, 
@@ -52,8 +50,6 @@ export default function Main({navigation}){
     const loadData = async () =>{
         await dispatch({type: 'SET_DATA', payload: await getData(`${API_URL}/load/1`)});
         await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${API_URL}/category`)});
-        await dispatch({type: 'SET_ACCOUNTS', payload: await getData(`${API_URL}/account/user/1`)});
-        setIsLoading(false);
     }
 
     const combine = () =>{
@@ -72,19 +68,15 @@ export default function Main({navigation}){
     return(
     <MainContext.Provider value={contextValue}>
         <View style={general.app}>
-            {isLoading ? <></> : 
-            <>
-                <ModalCash/>
-                <TotalMoney/>
+            <ModalCash/>
+            <TotalMoney/>
 
-                <View style={general.content} >
-                    <PeriodButtons/>
-                    <Period/>
-                    <PieChart/>
-                    <TransactionList/>
-                </View>
-            </>
-            }
+            <View style={general.content} >
+                <PeriodButtons/>
+                <Period/>
+                <PieChart/>
+                <TransactionList/>
+            </View>
         </View>
     </MainContext.Provider>
     );
