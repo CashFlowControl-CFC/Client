@@ -17,7 +17,7 @@ function Categories({navigation}){
 
 
     const filterCategories = () =>{
-        setData([...categories?.filter(item => item.isIncome == isIncome || item.isIncome == null), 
+        setData([...categories?.filter(item => item.isIncome == isIncome || item.isIncome == null).sort((a, b) => new Date(b.lastUsed).getTime() - new Date(a.lastUsed).getTime()), 
         { id: 'create', name:'Create', color: '#FECC7A',  image_link: API_PLUS_URL}]);
     }
 

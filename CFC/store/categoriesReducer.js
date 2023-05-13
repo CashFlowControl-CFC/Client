@@ -9,6 +9,11 @@ export const categoriesReducer = (state = initialState, action) =>{
             return {...state, selectedCategory: action.payload};
         case 'SET_CATEGORIES':
             return {...state, categories: action.payload};
+        case 'UPDATE_CATEGORY':
+            const { newItem, index } = action.payload;
+            const items = [...state.categories];
+            items[index] = newItem;
+            return { ...state, categories: items };
         default:
             return state;
     }

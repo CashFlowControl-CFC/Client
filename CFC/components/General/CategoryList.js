@@ -1,4 +1,4 @@
-import React  from "react";
+import React, { useEffect, useState }  from "react";
 import { View, Text, FlatList, TouchableWithoutFeedback} from "react-native";
 import general from "../../styles/general";
 import styles from "../../styles/TransactionPage";
@@ -10,6 +10,8 @@ function CategoryList(props){
     const dispatch = useDispatch();
     const selectedCategory = useSelector(state => state.category.selectedCategory);
     const route = useRoute();
+    const [data, setData] = useState([]);
+
     const handleSelectCategory = (id) => {
         if (selectedCategory == id){
             dispatch({type: 'SET_SELECTED', payload: null});

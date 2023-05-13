@@ -10,20 +10,21 @@ import { API_URL} from '@env';
 function ModalCash(){
     const {modalVisible, setModalVisible} = useContext(MainContext);
     const totalMoney = useSelector(state => state.transaction.totalMoney);
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState('0');
     const inputRef = useRef(null);
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (modalVisible) {
           inputRef.current?.focus();
+          setValue(totalMoney ? `${totalMoney}` : '0');
         }
       }, [modalVisible]);
     const handleSetMoney = async () =>{
             setModalVisible(false);
             let res = await updateData(`${API_URL}/tmp/1`, {cash: value})
             if(res.status == 200){
-                dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : 0});
+                dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : Number(totalMoney)});
             }
         }
     return(
@@ -31,10 +32,12 @@ function ModalCash(){
                 animationType='fade'
                 transparent={true}
                 visible={modalVisible}>
-                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <TouchableWithoutFeedback onPress={() => Keyboard.isVisible() ? Keyboard.dismiss() : setModalVisible(false)}>
                         <View style={styles.pModal} >
                             <View style={styles.sModal}>
                                 <TextInput 
+                                placeholder='0'
+                                placeholderTextColor={'#D8D8D880'}
                                 keyboardType="numeric" 
                                 ref={inputRef}
                                 style={general.inputMoney}

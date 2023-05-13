@@ -60,16 +60,18 @@ export default function Transaction({navigation}){
     }, [totalMoney])
 
     const filterCategories = () =>{
-        setData([...categories?.filter(item => item.isIncome == isIncome || item.isIncome == null).slice(0, 5), 
+        setData([...categories?.filter(item => item.isIncome == isIncome || item.isIncome == null)
+            .sort((a, b) => new Date(b.lastUsed).getTime() - new Date(a.lastUsed).getTime())
+            .slice(0, 5), 
         { id: 'add', color: '#FECC7A',  image_link: API_PLUS_URL}]);
     }
     
     const handleAddTransaction = async () => {
         if(isIncome){
-            await dispatch({type: 'ADD_INCOME', payload: value})
+            dispatch({type: 'ADD_INCOME', payload: value});
         }
         else{
-            await dispatch({type: 'ADD_EXPENSES', payload: value})
+            dispatch({type: 'ADD_EXPENSES', payload: value});
         }
         let result = await addData(`${API_URL}/transaction`, {
             category_id: selectedCategory, 
@@ -79,16 +81,22 @@ export default function Transaction({navigation}){
             cash: value, 
             isIncome: isIncome
         })
-        dispatch({type: 'ADD_TRANSACTION', payload: result})
+        let newDate = new Date();
+        updateData(`${API_URL}/category/${selectedCategory}`, {lastUsed: newDate});
+        let index = categories.findIndex(item => item.id == selectedCategory);
+        if(index != -1){
+            await dispatch({type: 'UPDATE_CATEGORY', payload: {newItem: {...categories[index], lastUsed: newDate}, index: index}})
+        }
+        dispatch({type: 'ADD_TRANSACTION', payload: result});
         navigation.navigate('Main')    
     }
 
     const handleUpdateTransaction = async () => {
         if(isIncome){
-            await dispatch({type: 'ADD_INCOME', payload: value - transCash})
+            dispatch({type: 'ADD_INCOME', payload: value - transCash})
         }
         else{
-            await dispatch({type: 'ADD_EXPENSES', payload: value - transCash})
+            dispatch({type: 'ADD_EXPENSES', payload: value - transCash})
         }
         let object = {
             category_id: selectedCategory, 
@@ -98,7 +106,7 @@ export default function Transaction({navigation}){
             cash: value, 
             isIncome: isIncome
         };
-        let result = await updateData(`${API_URL}/transaction/${selectedTransaction}`, object);
+        updateData(`${API_URL}/transaction/${selectedTransaction}`, object);
         let index = await transactions.findIndex(item => Number(item.id) == Number(selectedTransaction));
         if(index != -1){
             let catName = categories.filter(item => item.id == selectedCategory);
