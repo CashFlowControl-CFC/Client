@@ -13,6 +13,7 @@ import MyCalendar from "../TransactionPageComponents/Calendar";
 import MoneyInput from "../TransactionPageComponents/MoneyInput";
 import DateButtons from "../TransactionPageComponents/DateButtons";
 import CommentInput from "../TransactionPageComponents/CommentInput";
+import Header from "../General/Header";
 
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
@@ -63,7 +64,7 @@ export default function Transaction({navigation}){
         setData([...categories?.filter(item => item.isIncome == isIncome || item.isIncome == null)
             .sort((a, b) => new Date(b.lastUsed).getTime() - new Date(a.lastUsed).getTime())
             .slice(0, 5), 
-        { id: 'add', color: '#FECC7A',  image_link: API_PLUS_URL}]);
+        { id: 'add', color: '#FECC7A', image_link: API_PLUS_URL}]);
     }
     
     const handleAddTransaction = async () => {
@@ -136,12 +137,7 @@ export default function Transaction({navigation}){
                 }}>
             <View style={[general.app, isMove ? general.isMove : null]}>
 
-                <View style={general.header}>
-                    <View style={{ alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style={[general.generalText, { fontSize: 20  }]}>Add Transactions</Text>
-                    </View>
-                    <TransactionType/>
-                </View>
+                <Header text={'Add Transactions'}/>
 
                 <View style={general.content}>
                     <MoneyInput/>

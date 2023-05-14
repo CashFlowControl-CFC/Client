@@ -10,7 +10,7 @@ function CategoryList(props){
     const dispatch = useDispatch();
     const selectedCategory = useSelector(state => state.category.selectedCategory);
     const route = useRoute();
-    const [data, setData] = useState([]);
+    const icons = useSelector(state => state.category.icons);
 
     const handleSelectCategory = (id) => {
         if (selectedCategory == id){
@@ -20,7 +20,7 @@ function CategoryList(props){
             props.navigation.navigate('Categories');
         }
         else if(id == 'create'){
-            console.log('create');
+            props.navigation.navigate('CategoryForm');
         }
         else if(id != 'add'){
             dispatch({type: 'SET_SELECTED', payload: id});
@@ -30,8 +30,8 @@ function CategoryList(props){
         }
     }
     return (
-        <View style={styles.categories}>
-        <Text style={[general.generalText, {direction: 'rtl'}]}>Categories</Text>
+        <View style={[styles.categories, route.name == 'Categories'? {flex: 1} : '']}>
+        <Text style={[general.generalText, {direction: 'rtl'}]}>{route.name == 'Categories' ? 'Categories' : 'Icons'}</Text>
         <View>
             <FlatList
                 data={props.data}

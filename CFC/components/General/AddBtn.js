@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, TouchableWithoutFeedback, Text} from "react-native";
+import { View, TouchableWithoutFeedback, Text, Dimensions} from "react-native";
 import { TransactionContext } from "../../modules/context";
 import styles from "../../styles/TransactionPage";
 import { useSelector } from "react-redux";
+const { width, height } = Dimensions.get('window');
 
 function AddBtn(props){
     const {value, selectedDate} = useContext(TransactionContext);
@@ -17,7 +18,7 @@ function AddBtn(props){
       }, [value, selectedDate, selectedCategory]);
     return (
         <TouchableWithoutFeedback disabled={disabled} onPress={() => props.action()}>
-                    <View style={[styles.addBtn, disabled ? {backgroundColor: '#FECC7A50'} : {backgroundColor: '#FECC7A'}]}>
+                    <View style={[styles.addBtn, disabled ? {backgroundColor: '#FECC7A50'} : {backgroundColor: '#FECC7A'}, {width: width * 0.7, height: height * 0.05}]}>
                         <Text style={styles.addText}>Add</Text>
                     </View>
                 </TouchableWithoutFeedback>  
