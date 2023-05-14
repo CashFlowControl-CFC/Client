@@ -19,6 +19,7 @@ function CategoryList(props){
             props.navigation.navigate('Categories');
         }
         else if(id == 'create'){
+            dispatch({type: 'SET_SELECTED', payload: null});
             props.navigation.navigate('CategoryForm');
         }
         else if(id != 'add'){

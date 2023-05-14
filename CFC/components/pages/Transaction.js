@@ -52,7 +52,7 @@ export default function Transaction({navigation}){
 
     useEffect(() => {
         filterCategories();
-    }, [isIncome]);
+    }, [isIncome, categories]);
 
     useEffect(() => {
         updateData(`${process.env.API_URL}/account/1`, {cash: totalMoney});

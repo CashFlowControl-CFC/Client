@@ -12,7 +12,7 @@ function Categories({navigation}){
 
     useEffect(() => {
         filterCategories();
-    }, [isIncome])
+    }, [isIncome, categories])
 
 
     const filterCategories = () =>{

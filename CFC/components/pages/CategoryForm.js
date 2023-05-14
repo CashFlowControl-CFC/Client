@@ -15,7 +15,7 @@ function CategoryForm({navigation}){
     const [disabled, setDisabled] = useState(true);
     const icons = useSelector(state => state.icon.icons);
     const selectedCategory = useSelector(state => state.category.selectedCategory);
-    const iconType = useSelector(state => state.icon.iconType);
+    const selectedIcon = useSelector(state => state.icon.selectedIcon);
     const isIncome = useSelector(state => state.transaction.isIncome);
     const [data, setData] = useState([]);
     const dispatch = useDispatch();
@@ -39,17 +39,19 @@ function CategoryForm({navigation}){
         setData([...res.filter(item => item.image_link != 'tmp'), {id: 'all', name:'All', color: '#FECC7A', image_color: '#483A23', image_link: process.env.API_DOTS_URL}]);
     }
     const handleCreateCategory = async () =>{
-        let index = icons.findIndex(item  => item.id == iconType);
+        let index = icons.findIndex(item  => item.id == selectedIcon);
         if(index != -1){
-            // let result = await addData(`${process.env.API_URL}/category`, {
-            //     user_id: 1,
-            //     name: catName,
-            //     image_link: icons[index].image_link,
-            //     color: icons[index].color,
-            //     isIncome: isIncome
-            // });
-            // console.log(result);
-            //dispatch({type: 'ADD_CATEGORY', payload: result});
+            let result = await addData(`${process.env.API_URL}/category`, {
+                user_id: 1,
+                name: catName,
+                image_link: icons[index].image_link,
+                color: icons[index].color,
+                image_color: icons[index].image_color,
+                isIncome: isIncome
+            });
+            dispatch({type: 'ADD_CATEGORY', payload: result});
+            dispatch({type: 'SET_SELECTED', payload: null});
+            navigation.navigate('Categories');
         }
     }
     return(
