@@ -29,6 +29,12 @@ function CategoryList(props){
             }
         }
     }
+    const showModal = (id) =>{
+        if(route.name == 'Categories'){
+            dispatch({type: 'SET_SELECTED', payload: id});
+            props.modalVisible();
+        }
+    }
     return (
         <View style={[styles.categories, route.name == 'Categories'? {flex: 1} : '']}>
         <Text style={[general.generalText, {direction: 'rtl'}]}>Categories</Text>
@@ -36,7 +42,7 @@ function CategoryList(props){
             <FlatList
                 data={props.data}
                 renderItem={({item}) => 
-                <TouchableWithoutFeedback onPress={() => handleSelectCategory(item.id)}>
+                <TouchableWithoutFeedback onPress={() => handleSelectCategory(item.id)} onLongPress={() => showModal(item.id)}>
                     <View style={{alignItems: 'center'}}>
                         <View style={[selectedCategory == item.id ? {backgroundColor: item.color + "40"} : null, styles.catItem]}>
                             <View style={[styles.catCircle, {backgroundColor: item.color}]}> 

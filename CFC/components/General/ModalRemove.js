@@ -16,7 +16,7 @@ function ModalRemove(props){
                                 <TouchableWithoutFeedback onPress={() => props.action()}>
                                     <View style={{flexDirection: 'row'}}>
                                         <Text style={general.removeText}>Remove</Text>
-                                        {getImage('https://raw.githubusercontent.com/Witcher-MTM/Witcher-MTM.github.io/main/trash.svg', 25, 25, '#fa5252')}
+                                        {getImage(process.env.API_TRASH_URL, 25, 25, '#fa5050')}
                                     </View>
                                     </TouchableWithoutFeedback>
                             </View>

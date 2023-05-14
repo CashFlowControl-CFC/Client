@@ -72,7 +72,7 @@ const general = StyleSheet.create({
         paddingBottom: '40%',
        },
        removeText: {
-        color: '#fa5252',
+        color: '#fa5050',
         fontStyle: 'normal',
         fontWeight: 500,
         fontSize: 23,

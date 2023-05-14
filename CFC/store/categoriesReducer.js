@@ -1,5 +1,6 @@
 const initialState = {
     categories: [],
+    defaultCategories: [],
     selectedCategory: 0,
 }
 
@@ -9,6 +10,8 @@ export const categoriesReducer = (state = initialState, action) =>{
             return {...state, categories: [...state.categories, action.payload]};
         case 'SET_SELECTED':
             return {...state, selectedCategory: action.payload};
+        case 'SET_DEFAULT_CATEGORIES':
+            return {...state, defaultCategories: action.payload};
         case 'SET_CATEGORIES':
             return {...state, categories: action.payload};
         case 'UPDATE_CATEGORY':

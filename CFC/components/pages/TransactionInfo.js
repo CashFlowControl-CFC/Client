@@ -46,7 +46,7 @@ export default function TransactionInfo({navigation}){
             dispatch({type:'ADD_INCOME', payload: money[0].y});
             dispatch({type: 'SET_DATA', payload: newData});
             
-            updateData(`${process.env.API_URL}/tmp/1`, {cash: totalMoney + money[0].y});
+            updateData(`${process.env.API_URL}/account/1`, {cash: totalMoney + money[0].y});
         
             if(filtered.length <= 0){
                 navigation.goBack();

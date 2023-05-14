@@ -2,13 +2,20 @@ import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import general from "../../styles/general";
 import CategoryList from "../General/CategoryList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../General/Header";
+import ModalRemove from "../General/ModalRemove";
+import { removeData } from "../../modules/requests";
 
 function Categories({navigation}){
     const categories = useSelector(state => state.category.categories);
+    const selectedCategory = useSelector(state => state.category.selectedCategory);
+    const defaultCategories = useSelector(state => state.category.defaultCategories);
     const isIncome = useSelector(state => state.transaction.isIncome);
+    dispatch = useDispatch();
+    
     const [data, setData] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         filterCategories();
@@ -21,12 +28,28 @@ function Categories({navigation}){
         { id: 'create', name:'Create', color: '#FECC7A',  image_link: process.env.API_PLUS_URL}]);
     }
 
+    const handleRemove = async () =>{
+        let res = await removeData(`${process.env.API_URL}/category/${selectedCategory}`);
+        console.log('1 ' + selectedCategory)
+        if(res.status == 200){
+            console.log('1 ' + selectedCategory)
+            if(defaultCategories.findIndex(item => item.id == selectedCategory) == -1){
+                console.log('2')
+                let newData = categories.filter(item => item.id != selectedCategory);
+                dispatch({type: 'SET_CATEGORIES', payload: newData});
+            }
+        }
+        setModalVisible(false);
+    }
+
     return(
             <View style={general.app}>
+                <ModalRemove modalVisible={modalVisible} close={() => setModalVisible(false)} action={handleRemove}/>
+
                 <Header text={'All Categories'}/>
 
                 <View style={general.content} >
-                        <CategoryList data={data} navigation={navigation}/>
+                        <CategoryList data={data} navigation={navigation} modalVisible={() => setModalVisible(true)}/>
                 </View>
             </View>
     );

@@ -15,6 +15,7 @@ function CategoryForm({navigation}){
     const [disabled, setDisabled] = useState(true);
     const icons = useSelector(state => state.icon.icons);
     const selectedCategory = useSelector(state => state.category.selectedCategory);
+    const defaultCategories = useSelector(state => state.category.defaultCategories);
     const selectedIcon = useSelector(state => state.icon.selectedIcon);
     const isIncome = useSelector(state => state.transaction.isIncome);
     const [data, setData] = useState([]);
@@ -35,8 +36,7 @@ function CategoryForm({navigation}){
         filterCategories();
     }, []);
     const filterCategories = async () => {
-        const res = await getData(`${process.env.API_URL}/defaultcategory`);
-        setData([...res.filter(item => item.image_link != 'tmp'), {id: 'all', name:'All', color: '#FECC7A', image_color: '#483A23', image_link: process.env.API_DOTS_URL}]);
+        setData([...defaultCategories.filter(item => item.image_link != 'tmp'), {id: 'all', name:'All', color: '#FECC7A', image_color: '#483A23', image_link: process.env.API_DOTS_URL}]);
     }
     const handleCreateCategory = async () =>{
         let index = icons.findIndex(item  => item.id == selectedIcon);
