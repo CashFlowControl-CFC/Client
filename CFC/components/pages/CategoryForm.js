@@ -5,11 +5,8 @@ import Header from "../General/Header";
 import CategoryInput from "../CategoryFormComponents/CategoryInput";
 import { CategoryFormContext } from "../../modules/context";
 import { useSelector } from "react-redux";
-import CategoryList from "../General/CategoryList";
 import styles from "../../styles/TransactionPage";
 const { width, height } = Dimensions.get('window');
-import { addData, getData } from "../../modules/requests";
-import { API_URL, API_DOTS_URL } from "@env";
 import DefaultCategoryList from "../CategoryFormComponents/DefaultCategoryList";
 
 function CategoryForm({navigation}){
@@ -36,13 +33,13 @@ function CategoryForm({navigation}){
         filterCategories();
     });
     const filterCategories = async () => {
-        //const res = await getData(`${API_URL}/defaultcategory`);
-        //setData([...res, {id: 'all', name:'All', color: '#FECC7A',  image_link: API_DOTS_URL}]);
+        //const res = await getData(`${process.env.API_URL}/defaultcategory`);
+        //setData([...res, {id: 'all', name:'All', color: '#FECC7A',  image_link: process.env.API_DOTS_URL}]);
     }
     const handleCreateCategory = async () =>{
         let index = icons.findIndex(item  => item.id == selectedCategory);
         if(index != -1){
-            // let result = await addData(`${API_URL}/category`, {
+            // let result = await addData(`${process.env.API_URL}/category`, {
             //     user_id: 1,
             //     name: catName,
             //     image_link: icons[index].image_link,

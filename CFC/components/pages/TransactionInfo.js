@@ -7,7 +7,6 @@ import getImage from "../../resources/imageComponent";
 import moment from "moment";
 import ModalRemove from "../General/ModalRemove";
 import { removeData } from "../../modules/requests";
-import { API_URL} from '@env';
 import { updateData } from "../../modules/requests";
 import CreateBtn from "../General/CreateBtn";
 
@@ -38,7 +37,7 @@ export default function TransactionInfo({navigation}){
         setMoneySum(sum.y);
     }
     const handleRemove = async () =>{
-        let res = await removeData(`${API_URL}/transaction/${selected}`);
+        let res = await removeData(`${process.env.API_URL}/transaction/${selected}`);
         if(res.status == 200){
             let money = data.filter(item => item.id == selected)
             let newData = data.filter(item => item.id != selected);
@@ -47,7 +46,7 @@ export default function TransactionInfo({navigation}){
             dispatch({type:'ADD_INCOME', payload: money[0].y});
             dispatch({type: 'SET_DATA', payload: newData});
             
-            updateData(`${API_URL}/tmp/1`, {cash: totalMoney + money[0].y});
+            updateData(`${process.env.API_URL}/tmp/1`, {cash: totalMoney + money[0].y});
         
             if(filtered.length <= 0){
                 navigation.goBack();

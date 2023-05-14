@@ -1,8 +1,6 @@
 import React from "react";
 import { View,  TouchableWithoutFeedback} from "react-native";
-import general from "../../styles/general";
 import getImage from "../../resources/imageComponent";
-import {API_PLUS_URL} from '@env'
 import { useDispatch } from "react-redux";
 
 function CreateBtn(props){
@@ -22,7 +20,7 @@ function CreateBtn(props){
     return (
         <TouchableWithoutFeedback onPress={handleAddTransaction}>
             <View>
-                {getImage(API_PLUS_URL, 30, 30)}
+                {getImage(process.env.API_PLUS_URL, 30, 30)}
                 </View>
         </TouchableWithoutFeedback>    
     );

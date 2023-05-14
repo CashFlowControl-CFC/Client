@@ -4,7 +4,6 @@ import getImage from "../../resources/imageComponent";
 import general from "../../styles/general";
 import styles from "../../styles/TransactionPage";
 import { TransactionContext } from "../../modules/context";
-import { API_CALENDAR_URL } from '@env';
 import moment from "moment";
 import { useSelector } from "react-redux";
 
@@ -57,7 +56,7 @@ function DateButtons(){
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback  onPress={() => setShowDatePicker(!showDatePicker)}>
                         <View style={styles.calendar}>
-                            {getImage(API_CALENDAR_URL, 35, 35, '#FFFFFF')}
+                            {getImage(process.env.API_CALENDAR_URL, 35, 35, '#FFFFFF')}
                         </View>
                     </TouchableWithoutFeedback>
                 </View>     

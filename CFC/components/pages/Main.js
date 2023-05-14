@@ -11,7 +11,6 @@ import ModalCash from "../MainPageComponents/ModalCash";
 import TotalMoney from "../MainPageComponents/TotalMoney";
 import PeriodButtons from "../MainPageComponents/PeriodButtons";
 import TransactionList from "../MainPageComponents/TransactionList";
-import {API_URL} from '@env'
 
 export default function Main({navigation}){
     const dispatch = useDispatch();
@@ -48,10 +47,10 @@ export default function Main({navigation}){
       }, [filteredData]);
 
     const loadData = async () =>{
-        await dispatch({type: 'SET_DATA', payload: await getData(`${API_URL}/load/1`)});
-        await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${API_URL}/category/user/1`)});
-        await dispatch({type: 'SET_ICONS', payload: await getData(`${API_URL}/icon`)});
-        let res = await getData(`${API_URL}/tmp`);
+        await dispatch({type: 'SET_DATA', payload: await getData(`${process.env.API_URL}/load/1`)});
+        await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${process.env.API_URL}/category/user/1`)});
+        await dispatch({type: 'SET_ICONS', payload: await getData(`${process.env.API_URL}/icon`)});
+        let res = await getData(`${process.env.API_URL}/account/1`);
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(res.cash)});
     }
 

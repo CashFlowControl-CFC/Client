@@ -3,7 +3,6 @@ import { View } from "react-native";
 import general from "../../styles/general";
 import CategoryList from "../General/CategoryList";
 import { useSelector } from "react-redux";
-import { API_PLUS_URL } from "@env";
 import Header from "../General/Header";
 
 function Categories({navigation}){
@@ -19,7 +18,7 @@ function Categories({navigation}){
     const filterCategories = () =>{
         setData([...categories?.filter(item => item.isIncome == isIncome || item.isIncome == null)
             .sort((a, b) => new Date(b.lastUsed).getTime() - new Date(a.lastUsed).getTime()), 
-        { id: 'create', name:'Create', color: '#FECC7A',  image_link: API_PLUS_URL}]);
+        { id: 'create', name:'Create', color: '#FECC7A',  image_link: process.env.API_PLUS_URL}]);
     }
 
     return(

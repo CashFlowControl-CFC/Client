@@ -4,7 +4,6 @@ import styles from "../../styles/MainPage";
 import general from "../../styles/general";
 import { MainContext } from "../../modules/context";
 import getImage from "../../resources/imageComponent";
-import {API_LEFT_ARROW_URL, API_RIGHT_ARROW_URL} from '@env';
 import moment from "moment";
 
 function Period(){
@@ -42,7 +41,7 @@ function Period(){
             <View  style={styles.date}>
             <TouchableWithoutFeedback onPress={() => setStep(step - 1)}>
                 <View>
-                    {getImage(API_LEFT_ARROW_URL, 20, 20, '#FFFFFF')}
+                    {getImage(process.env.API_LEFT_ARROW_URL, 20, 20, '#FFFFFF')}
                 </View>
             </TouchableWithoutFeedback>
             <View>
@@ -50,7 +49,7 @@ function Period(){
             </View>
             <TouchableWithoutFeedback onPress={() => setStep(step + 1)}>
                 <View>
-                    {getImage(API_RIGHT_ARROW_URL, 20, 20, '#FFFFFF')}
+                    {getImage(process.env.API_RIGHT_ARROW_URL, 20, 20, '#FFFFFF')}
                 </View>
             </TouchableWithoutFeedback>
         </View>      

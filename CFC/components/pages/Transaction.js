@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { View, TouchableWithoutFeedback, Text, Keyboard } from "react-native";
 import moment from "moment";
 import general from "../../styles/general";
-import { API_PLUS_URL, API_URL} from '@env';
 import { addData, updateData } from "../../modules/requests";
 import { TransactionContext } from "../../modules/context";
 import AddBtn from "../General/AddBtn";
@@ -57,14 +56,14 @@ export default function Transaction({navigation}){
     }, [isIncome]);
 
     useEffect(() => {
-        updateData(`${API_URL}/tmp/1`, {cash: totalMoney});
+        updateData(`${process.env.API_URL}/tmp/1`, {cash: totalMoney});
     }, [totalMoney])
 
     const filterCategories = () =>{
         setData([...categories?.filter(item => item.isIncome == isIncome || item.isIncome == null)
             .sort((a, b) => new Date(b.lastUsed).getTime() - new Date(a.lastUsed).getTime())
             .slice(0, 5), 
-        { id: 'add', color: '#FECC7A', image_link: API_PLUS_URL}]);
+        { id: 'add', color: '#FECC7A', image_link: process.env.API_PLUS_URL}]);
     }
     
     const handleAddTransaction = async () => {
@@ -74,7 +73,7 @@ export default function Transaction({navigation}){
         else{
             dispatch({type: 'ADD_EXPENSES', payload: value});
         }
-        let result = await addData(`${API_URL}/transaction`, {
+        let result = await addData(`${process.env.API_URL}/transaction`, {
             category_id: selectedCategory, 
             user_id: 1, 
             date: `${selectedDate.format('YYYY-MM-DD')}`, 
@@ -83,7 +82,7 @@ export default function Transaction({navigation}){
             isIncome: isIncome
         })
         let newDate = new Date();
-        updateData(`${API_URL}/category/${selectedCategory}`, {lastUsed: newDate});
+        updateData(`${process.env.API_URL}/category/${selectedCategory}`, {lastUsed: newDate});
         let index = categories.findIndex(item => item.id == selectedCategory);
         if(index != -1){
             await dispatch({type: 'UPDATE_CATEGORY', payload: {newItem: {...categories[index], lastUsed: newDate}, index: index}})
@@ -107,7 +106,7 @@ export default function Transaction({navigation}){
             cash: value, 
             isIncome: isIncome
         };
-        updateData(`${API_URL}/transaction/${selectedTransaction}`, object);
+        updateData(`${process.env.API_URL}/transaction/${selectedTransaction}`, object);
         let index = await transactions.findIndex(item => Number(item.id) == Number(selectedTransaction));
         if(index != -1){
             let catName = categories.filter(item => item.id == selectedCategory);

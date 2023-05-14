@@ -5,7 +5,6 @@ import general from "../../styles/general";
 import { MainContext } from "../../modules/context";
 import { useDispatch, useSelector } from "react-redux";
 import { updateData } from "../../modules/requests";
-import { API_URL} from '@env';
 
 function ModalCash(){
     const {modalVisible, setModalVisible} = useContext(MainContext);
@@ -22,7 +21,7 @@ function ModalCash(){
       }, [modalVisible]);
     const handleSetMoney = async () =>{
             setModalVisible(false);
-            let res = await updateData(`${API_URL}/tmp/1`, {cash: value})
+            let res = await updateData(`${process.env.API_URL}/account/1`, {cash: parseFloat(value)})
             if(res.status == 200){
                 dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : Number(totalMoney)});
             }
