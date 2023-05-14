@@ -1,5 +1,5 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets  } from "@react-navigation/stack";
 import { NavigationContainer} from "@react-navigation/native";
 
 import Main from "./pages/Main";
@@ -15,12 +15,12 @@ export default function Navigation(){
     return(
         <NavigationContainer>
           <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name='Main' component={Main}/>
-            <Stack.Screen name='Transaction' component={Transaction}/>
-            <Stack.Screen name='Categories' component={Categories}/>
-            <Stack.Screen name='TransactionInfo' component={TransactionInfo}/>
-            <Stack.Screen name='CategoryForm' component={CategoryForm}/>
-            <Stack.Screen name='Icons' component={Icons}/>
+            <Stack.Screen options={{ ...TransitionPresets.ModalSlideFromBottomIOS   }} name='Main' component={Main}/>
+            <Stack.Screen options={{ ...TransitionPresets.ModalSlideFromBottomIOS   }} name='Transaction' component={Transaction}/>
+            <Stack.Screen options={{ ...TransitionPresets.ModalSlideFromBottomIOS   }}  name='Categories' component={Categories}/>
+            <Stack.Screen options={{ ...TransitionPresets.ModalSlideFromBottomIOS   }} name='TransactionInfo' component={TransactionInfo}/>
+            <Stack.Screen options={{ ...TransitionPresets.ModalSlideFromBottomIOS   }} name='CategoryForm' component={CategoryForm}/>
+            <Stack.Screen options={{ ...TransitionPresets.ModalSlideFromBottomIOS   }} name='Icons' component={Icons}/>
           </Stack.Navigator>
         </NavigationContainer>
     );
