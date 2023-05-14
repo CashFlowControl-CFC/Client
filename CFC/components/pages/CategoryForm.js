@@ -7,15 +7,20 @@ import { CategoryFormContext } from "../../modules/context";
 import { useSelector } from "react-redux";
 import CategoryList from "../General/CategoryList";
 import styles from "../../styles/TransactionPage";
-import getImage from "../../resources/imageComponent";
-import AddBtn from "../General/AddBtn";
 const { width, height } = Dimensions.get('window');
+import { addData, getData } from "../../modules/requests";
+import { API_URL, API_DOTS_URL } from "@env";
+import DefaultCategoryList from "../CategoryFormComponents/DefaultCategoryList";
 
 function CategoryForm({navigation}){
     const [catName, setCatName] = useState('');
     const [disabled, setDisabled] = useState(true);
     const icons = useSelector(state => state.category.icons);
     const selectedCategory = useSelector(state => state.category.selectedCategory);
+    const categories = useSelector(state => state.category.categories);
+    const isIncome = useSelector(state => state.transaction.isIncome);
+    const [data, setData] = useState([]);
+
     const contextValue = {
         catName,
         setCatName
@@ -26,9 +31,25 @@ function CategoryForm({navigation}){
           } else {
             setDisabled(true);
           }
-    })
-    const handleCreateCategory = () =>{
-        
+    }, [catName, selectedCategory]);
+    useEffect(()=>{
+        filterCategories();
+    });
+    const filterCategories = async () => {
+        //const res = await getData(`${API_URL}/defaultcategory`);
+        //setData([...res, {id: 'all', name:'All', color: '#FECC7A',  image_link: API_DOTS_URL}]);
+    }
+    const handleCreateCategory = async () =>{
+        let index = icons.findIndex(item  => item.id == selectedCategory);
+        if(index != -1){
+            // let result = await addData(`${API_URL}/category`, {
+            //     user_id: 1,
+            //     name: catName,
+            //     image_link: icons[index].image_link,
+            //     color: icons[index].color,
+            //     isIncome: isIncome
+            // });
+        }
     }
     return(
         <CategoryFormContext.Provider value={contextValue}>
@@ -40,7 +61,7 @@ function CategoryForm({navigation}){
                             <CategoryInput/>
 
                             <View style={{flex: 3, height: 40}}>
-                                <CategoryList data={icons} navigation={navigation}/>
+                                <DefaultCategoryList data={data} navigation={navigation}/>
                                 </View>
 
                             <View style={{flex: 1}}>

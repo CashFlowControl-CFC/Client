@@ -49,7 +49,7 @@ export default function Main({navigation}){
 
     const loadData = async () =>{
         await dispatch({type: 'SET_DATA', payload: await getData(`${API_URL}/load/1`)});
-        await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${API_URL}/category`)});
+        await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${API_URL}/category/user/1`)});
         await dispatch({type: 'SET_ICONS', payload: await getData(`${API_URL}/icon`)});
         let res = await getData(`${API_URL}/tmp`);
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(res.cash)});

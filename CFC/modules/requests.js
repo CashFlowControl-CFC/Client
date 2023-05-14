@@ -1,7 +1,9 @@
+
+
 const getData = async (url) =>{
     try{
         const result = await fetch(url, {
-            method: 'GET'
+            method: 'GET',
         })
         const data = await result.json();
         return data;

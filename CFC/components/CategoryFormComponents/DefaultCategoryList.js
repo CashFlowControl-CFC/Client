@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from "react";
+import React from "react";
 import { View, Text, FlatList, TouchableWithoutFeedback} from "react-native";
 import general from "../../styles/general";
 import styles from "../../styles/TransactionPage";
@@ -6,7 +6,7 @@ import getImage from "../../resources/imageComponent";
 import { useDispatch, useSelector } from "react-redux";
 import {useRoute} from "@react-navigation/native";
 
-function CategoryList(props){
+function DefaultCategoryList(props){
     const dispatch = useDispatch();
     const selectedCategory = useSelector(state => state.category.selectedCategory);
     const route = useRoute();
@@ -29,8 +29,8 @@ function CategoryList(props){
         }
     }
     return (
-        <View style={[styles.categories, route.name == 'Categories'? {flex: 1} : '']}>
-        <Text style={[general.generalText, {direction: 'rtl'}]}>Categories</Text>
+        <View style={[styles.categories, {flex: 1}]}>
+        <Text style={[general.generalText, {direction: 'rtl'}]}>Quick access to icons</Text>
         <View>
             <FlatList
                 data={props.data}
@@ -54,4 +54,4 @@ function CategoryList(props){
     );
 }
 
-export default CategoryList;
+export default DefaultCategoryList;

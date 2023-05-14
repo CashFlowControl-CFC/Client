@@ -10,7 +10,6 @@ function Categories({navigation}){
     const categories = useSelector(state => state.category.categories);
     const isIncome = useSelector(state => state.transaction.isIncome);
     const [data, setData] = useState([]);
-    const icons = useSelector(state => state.category.icons);
 
     useEffect(() => {
         filterCategories();

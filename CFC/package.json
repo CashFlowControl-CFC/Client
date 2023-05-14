@@ -14,9 +14,11 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
+    "btoa": "^1.2.1",
     "deprecated-react-native-prop-types": "^4.0.0",
     "dotenv": "^16.0.3",
     "expo": "~48.0.9",
+    "expo-dev-client": "~2.2.1",
     "expo-status-bar": "~1.4.4",
     "moment": "^2.29.4",
     "react": "18.2.0",
@@ -32,9 +34,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.0",
     "redux": "^4.2.1",
-    "victory-native": "^36.6.8",
-    "@shopify/flash-list": "1.4.0",
-    "expo-dev-client": "~2.2.1"
+    "victory-native": "^36.6.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
