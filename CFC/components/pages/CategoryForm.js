@@ -4,19 +4,21 @@ import general from "../../styles/general";
 import Header from "../General/Header";
 import CategoryInput from "../CategoryFormComponents/CategoryInput";
 import { CategoryFormContext } from "../../modules/context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "../../styles/TransactionPage";
 const { width, height } = Dimensions.get('window');
 import DefaultCategoryList from "../CategoryFormComponents/DefaultCategoryList";
+import { addData, getData } from "../../modules/requests";
 
 function CategoryForm({navigation}){
     const [catName, setCatName] = useState('');
     const [disabled, setDisabled] = useState(true);
-    const icons = useSelector(state => state.category.icons);
+    const icons = useSelector(state => state.icon.icons);
     const selectedCategory = useSelector(state => state.category.selectedCategory);
-    const categories = useSelector(state => state.category.categories);
+    const iconType = useSelector(state => state.icon.iconType);
     const isIncome = useSelector(state => state.transaction.isIncome);
     const [data, setData] = useState([]);
+    const dispatch = useDispatch();
 
     const contextValue = {
         catName,
@@ -31,13 +33,13 @@ function CategoryForm({navigation}){
     }, [catName, selectedCategory]);
     useEffect(()=>{
         filterCategories();
-    });
+    }, []);
     const filterCategories = async () => {
-        //const res = await getData(`${process.env.API_URL}/defaultcategory`);
-        //setData([...res, {id: 'all', name:'All', color: '#FECC7A',  image_link: process.env.API_DOTS_URL}]);
+        const res = await getData(`${process.env.API_URL}/defaultcategory`);
+        setData([...res.filter(item => item.image_link != 'tmp'), {id: 'all', name:'All', color: '#FECC7A', image_color: '#483A23', image_link: process.env.API_DOTS_URL}]);
     }
     const handleCreateCategory = async () =>{
-        let index = icons.findIndex(item  => item.id == selectedCategory);
+        let index = icons.findIndex(item  => item.id == iconType);
         if(index != -1){
             // let result = await addData(`${process.env.API_URL}/category`, {
             //     user_id: 1,
@@ -46,6 +48,8 @@ function CategoryForm({navigation}){
             //     color: icons[index].color,
             //     isIncome: isIncome
             // });
+            // console.log(result);
+            //dispatch({type: 'ADD_CATEGORY', payload: result});
         }
     }
     return(

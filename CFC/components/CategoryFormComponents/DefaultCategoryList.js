@@ -9,23 +9,18 @@ import {useRoute} from "@react-navigation/native";
 function DefaultCategoryList(props){
     const dispatch = useDispatch();
     const selectedCategory = useSelector(state => state.category.selectedCategory);
-    const route = useRoute();
 
     const handleSelectCategory = (id) => {
         if (selectedCategory == id){
             dispatch({type: 'SET_SELECTED', payload: null});
         }
-        else if(id == 'add'){
-            props.navigation.navigate('Categories');
+        else if(id == 'all'){
+            dispatch({type: 'SET_ICON_TYPE', payload: null});
+            props.navigation.navigate('Icons');
         }
-        else if(id == 'create'){
-            props.navigation.navigate('CategoryForm');
-        }
-        else if(id != 'add'){
-            dispatch({type: 'SET_SELECTED', payload: id});
-            if(route.name == 'Categories'){
-                props.navigation.navigate('Transaction');
-            }
+        else if(id != 'all'){
+            dispatch({type: 'SET_ICON_TYPE', payload: id});
+            props.navigation.navigate('Icons');
         }
     }
     return (

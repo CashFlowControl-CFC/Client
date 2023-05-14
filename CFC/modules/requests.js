@@ -1,6 +1,7 @@
 
 
 const getData = async (url) =>{
+    console.log('getData')
     try{
         const result = await fetch(url, {
             method: 'GET',
@@ -15,6 +16,7 @@ const getData = async (url) =>{
 }
 
 const addData = async (url, object) =>{
+    console.log('addData')
     try{
         const result = await fetch(url, {
             method: 'POST',
@@ -33,6 +35,7 @@ const addData = async (url, object) =>{
 }
 
 const removeData = async (url) =>{
+    console.log('removeData')
     try{
         const result = await fetch(url, {
             method: 'DELETE',
@@ -49,7 +52,7 @@ const removeData = async (url) =>{
 }
 
 const updateData = async (url, object) =>{
-    console.log(JSON.stringify(object))
+    console.log('updateData')
     try{
         const result = await fetch(url, {
             method: 'PATCH',

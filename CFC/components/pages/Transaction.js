@@ -7,7 +7,6 @@ import { addData, updateData } from "../../modules/requests";
 import { TransactionContext } from "../../modules/context";
 import AddBtn from "../General/AddBtn";
 import CategoryList from "../General/CategoryList";
-import TransactionType from "../General/TransactionType";
 import MyCalendar from "../TransactionPageComponents/Calendar";
 import MoneyInput from "../TransactionPageComponents/MoneyInput";
 import DateButtons from "../TransactionPageComponents/DateButtons";

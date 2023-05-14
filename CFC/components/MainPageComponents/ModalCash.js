@@ -16,14 +16,14 @@ function ModalCash(){
     useEffect(() => {
         if (modalVisible) {
           inputRef.current?.focus();
-          setValue(totalMoney ? `${totalMoney}` : '0');
+          setValue(totalMoney && totalMoney > 0 ? `${totalMoney}` : '');
         }
       }, [modalVisible]);
     const handleSetMoney = async () =>{
-            setModalVisible(false);
             let res = await updateData(`${process.env.API_URL}/account/1`, {cash: parseFloat(value)})
             if(res.status == 200){
                 dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : Number(totalMoney)});
+                setModalVisible(false);
             }
         }
     return(

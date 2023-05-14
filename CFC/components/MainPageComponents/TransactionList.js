@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { View,  TouchableWithoutFeedback, Text, FlatList} from "react-native";
 import styles from "../../styles/MainPage";
 import { MainContext } from "../../modules/context";
 import getImage from "../../resources/imageComponent";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function TransactionList(props){
     const {combinedData, navigation} = useContext(MainContext);

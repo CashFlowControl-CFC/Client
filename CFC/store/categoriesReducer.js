@@ -1,13 +1,12 @@
 const initialState = {
     categories: [],
-    icons: [],
     selectedCategory: 0,
 }
 
 export const categoriesReducer = (state = initialState, action) =>{
     switch (action.type) {
-        case 'SET_ICONS':
-            return {...state, icons: action.payload};
+        case 'ADD_CATEGORY':
+            return {...state, categories: [...state.categories, action.payload]};
         case 'SET_SELECTED':
             return {...state, selectedCategory: action.payload};
         case 'SET_CATEGORIES':

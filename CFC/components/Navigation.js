@@ -7,6 +7,7 @@ import Transaction from "./pages/Transaction";
 import Categories from "./pages/Categories";
 import TransactionInfo from "./pages/TransactionInfo";
 import CategoryForm from "./pages/CategoryForm";
+import Icons from "./pages/Icons";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ export default function Navigation(){
             <Stack.Screen name='Categories' component={Categories}/>
             <Stack.Screen name='TransactionInfo' component={TransactionInfo}/>
             <Stack.Screen name='CategoryForm' component={CategoryForm}/>
+            <Stack.Screen name='Icons' component={Icons}/>
           </Stack.Navigator>
         </NavigationContainer>
     );
