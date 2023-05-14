@@ -47,10 +47,10 @@ export default function Main({navigation}){
       }, [filteredData]);
 
     const loadData = async () =>{
+        let res = await getData(`${process.env.API_URL}/account/1`);
         await dispatch({type: 'SET_DATA', payload: await getData(`${process.env.API_URL}/load/1`)});
         await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${process.env.API_URL}/category/user/1`)});
         await dispatch({type: 'SET_ICONS', payload: await getData(`${process.env.API_URL}/icon`)});
-        let res = await getData(`${process.env.API_URL}/account/1`);
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(res.cash)});
     }
 
