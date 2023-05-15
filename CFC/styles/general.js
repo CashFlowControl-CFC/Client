@@ -76,7 +76,26 @@ const general = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: 500,
         fontSize: 23,
-       }
+       },
+       authContent:{
+        width: 0.9 * width,
+        height: height,
+        alignItems: "center",
+        justifyContent: 'center'
+       },
+        addAuthBtn: {
+        width: width * 0.7, 
+        height: height * 0.06,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 50,
+        marginTop: '10%',
+        marginBottom: '5%'
+        },
+        addText:{
+            color: '#000000',
+            fontSize: 19
+        }
 });
 
 export default general;
