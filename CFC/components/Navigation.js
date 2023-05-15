@@ -19,7 +19,7 @@ export default function Navigation(){
           <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Auth' component={AuthPage}/>
             <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='LogIn' component={LogIn}/>
-            <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Main' component={Main}/>
+            <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS, headerLeft: null, gestureEnabled: false }} name='Main' component={Main}/>
             <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Transaction' component={Transaction}/>
             <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }}  name='Categories' component={Categories}/>
             <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='TransactionInfo' component={TransactionInfo}/>

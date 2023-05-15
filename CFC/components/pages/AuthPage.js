@@ -17,7 +17,7 @@ export default function AuthPage({navigation}){
                     </View>
                 </TouchableWithoutFeedback>  
 
-                <TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('LogIn')}>
                     <View>
                         <Text style={[general.addText, {color: '#FDCD81'}]}>Sign in</Text>
                     </View>
