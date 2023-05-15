@@ -142,10 +142,11 @@ export default function Transaction({navigation}){
                     <CategoryList data={data} navigation={navigation}/>
                     <DateButtons/>
                     <CommentInput/>
-                    <AddBtn action={isAdd ? handleAddTransaction : handleUpdateTransaction}/>
                     <MyCalendar/>
                 </View>
-
+                <View style={{position: 'absolute', bottom: 25}}>
+                    <AddBtn action={isAdd ? handleAddTransaction : handleUpdateTransaction}/>
+                </View>
             </View>
             </TouchableWithoutFeedback>
         </TransactionContext.Provider>
