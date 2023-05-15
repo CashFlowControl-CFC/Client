@@ -65,6 +65,18 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center'
        },
+       sModalMenu:{
+        width: width * 0.6,
+        height: height,
+        backgroundColor: "#393939",
+        alignItems: 'flex-start',
+        paddingTop: '15%',
+        paddingLeft: '5%'
+       },
+       menuContent:{
+        height: '45%',
+        justifyContent: 'space-around',
+       }
     }
 )
 

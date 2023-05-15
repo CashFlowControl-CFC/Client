@@ -10,7 +10,6 @@ import { removeData } from "../../modules/requests";
 function Categories({navigation}){
     const categories = useSelector(state => state.category.categories);
     const selectedCategory = useSelector(state => state.category.selectedCategory);
-    const defaultCategories = useSelector(state => state.category.defaultCategories);
     const isIncome = useSelector(state => state.transaction.isIncome);
     dispatch = useDispatch();
     
@@ -30,14 +29,10 @@ function Categories({navigation}){
 
     const handleRemove = async () =>{
         let res = await removeData(`${process.env.API_URL}/category/${selectedCategory}`);
-        console.log('1 ' + selectedCategory)
         if(res.status == 200){
-            console.log('1 ' + selectedCategory)
-            if(defaultCategories.findIndex(item => item.id == selectedCategory) == -1){
-                console.log('2')
-                let newData = categories.filter(item => item.id != selectedCategory);
-                dispatch({type: 'SET_CATEGORIES', payload: newData});
-            }
+            let newData = categories.filter(item => item.id != selectedCategory);
+            dispatch({type: 'SET_CATEGORIES', payload: newData});
+            dispatch({type: 'SET_SELECTED', payload: null});
         }
         setModalVisible(false);
     }

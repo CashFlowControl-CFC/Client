@@ -11,6 +11,7 @@ import ModalCash from "../MainPageComponents/ModalCash";
 import TotalMoney from "../MainPageComponents/TotalMoney";
 import PeriodButtons from "../MainPageComponents/PeriodButtons";
 import TransactionList from "../MainPageComponents/TransactionList";
+import ModalMenu from "../MainPageComponents/ModalMenu";
 
 export default function Main({navigation}){
     const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export default function Main({navigation}){
     const [filteredData, setFilteredData] = useState([]);
     const [combinedData, setCombinedData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalMenuVisible, setModalMenuVisible] = useState(false);
 
     const contextValue = {
         modalVisible, 
@@ -31,11 +33,13 @@ export default function Main({navigation}){
         navigation,
         combinedData,
         filterDate,
+        modalMenuVisible,
         setModalVisible, 
         setStep, 
         setSelectedPeriod,
         setFilteredData,
-        setFilterDate
+        setFilterDate,
+        setModalMenuVisible
     };
 
     useEffect(() => {
@@ -81,6 +85,7 @@ export default function Main({navigation}){
     <MainContext.Provider value={contextValue}>
         <View style={general.app}>
             <ModalCash/>
+            <ModalMenu/>
             <TotalMoney/>
 
             <View style={general.content} >
