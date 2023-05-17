@@ -95,6 +95,10 @@ const general = StyleSheet.create({
         addText:{
             color: '#000000',
             fontSize: 19
+        },
+        errorText:{
+            width:"100%", 
+            fontSize: 15, 
         }
 });
 

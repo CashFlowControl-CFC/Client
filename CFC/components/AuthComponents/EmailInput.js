@@ -9,15 +9,23 @@ export default function EmailInput(props){
             <View style={{width: "90%", direction: 'rtl', marginTop: "5%"}}>
                 <Text style={[general.generalText]}>E-mail</Text> 
                 <TextInput          placeholder="E-mail"
-                                    placeholderTextColor={"#D8D8D880"}
+                                    placeholderTextColor={props.isValidEmail ? "#D8D8D880" : '#973F3F'}
                                     textContentType='emailAddress'
-                                    style={[general.inputComment, {width: "100%"}]}
+                                    style={[general.inputComment, {width: "100%", color: props.isValidEmail ?'#D8D8D8' : '#973F3F'}]}
+                                    onPressIn={() => props.setIsValidEmail(true)}
                                     value={props.email} 
                                     onChangeText={(text) => {
-                                        if(/^[a-zA-Z0-9._%+-]*$/.test(text)){
+                                        if(/^[a-zA-Z0-9._%+-@]*$/.test(text)){
                                             props.setEmail(text)
                                         }
                                     }}/>
+                <View>
+                    {!props.isValidEmail && (<Text 
+                                    style={[general.inputComment, general.errorText,
+                                        {color: props.isValidEmail ?'#D8D8D8' : '#973F3F'}]
+                                        }>
+                                        error: you entered the data incorrectly</Text>)}
+                </View>
             </View>
         </View>
     );

@@ -69,9 +69,27 @@ const updateData = async (url, object) =>{
     }
 }
 
+const login = async (url, object) =>{
+    try{
+        const result = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+            body: JSON.stringify(object),
+        })
+        return result;
+    }
+    catch(err){
+        console.log(err);
+        return null;
+    }
+}
+
 export {
     getData,
     addData,
     removeData,
-    updateData
+    updateData,
+    login
 }
