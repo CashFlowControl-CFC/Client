@@ -14,7 +14,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "../modules/FirebaseConfig";
 const Stack = createStackNavigator();
 const InsideStack = createStackNavigator();
-const RegisterStack = createStackNavigator();
 function InsideLayout() {
   return (
     <InsideStack.Navigator screenOptions={{ headerShown: false }}>
@@ -50,7 +49,7 @@ export default function Navigation() {
             :
             (<>
             <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Auth' component={AuthPage}/>
-            <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Login' component={LogIn}/>
+            <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='LogIn' component={LogIn}/>
             </>)}
   
           </Stack.Navigator>
