@@ -4,12 +4,16 @@ import styles from "../../styles/MainPage";
 import { MainContext } from "../../modules/context";
 import general from "../../styles/general";
 import getImage from "../../resources/imageComponent";
+import { FIREBASE_AUTH } from "../../modules/FirebaseConfig";
 
 function ModalMenu(){
     const {navigation, modalMenuVisible, setModalMenuVisible} = useContext(MainContext);
     const onClick = (name) =>{
         setModalMenuVisible(false);
         navigation.navigate(name);
+    }
+    const logOut = () =>{
+        FIREBASE_AUTH.signOut()
     }
     return(
         <Modal
@@ -45,7 +49,7 @@ function ModalMenu(){
                                             <Text style={[general.generalText, {marginLeft: '5%'}]}>Scheduled payments</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback>
+                                    <TouchableWithoutFeedback onPress={logOut}>
                                         <View style={{flexDirection: 'row'}}>
                                             {getImage(process.env.API_EXIT_URL, 20, 20, '#FFFFFF')}
                                             <Text style={[general.generalText, {marginLeft: '5%'}]}>Go out</Text>
