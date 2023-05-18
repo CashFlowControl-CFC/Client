@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { View,  TouchableWithoutFeedback, Text} from "react-native";
 import styles from "../../styles/MainPage";
 import general from "../../styles/general";
-import { MainContext, TargetContext } from "../../modules/context";
+import { TargetContext } from "../../modules/context";
 import { useSelector } from "react-redux";
 import moment from "moment";
 
-function PeriodButtons(){
-    const {selectedPeriod, filterDate, setSelectedPeriod, setStep, setFilteredData} = useContext(MainContext);
+function TargetPeriodButtons(){
+    const {selectedPeriod, filterDate, setSelectedPeriod, setStep, setFilteredData} = useContext(TargetContext);
     const isIncome = useSelector(state => state.transaction.isIncome);
     const data = useSelector(state => state.transaction.data);
 
@@ -55,4 +55,4 @@ function PeriodButtons(){
     );
 }
 
-export default PeriodButtons;
+export default TargetPeriodButtons;

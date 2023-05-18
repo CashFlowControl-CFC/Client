@@ -28,11 +28,6 @@ function InsideLayout() {
     </InsideStack.Navigator>
   )
 }
-function RegisterLayout() {
-  <RegisterStack.Navigator initialRouteName="Auth" screenOptions={{ headerShown: false }}>
-    
-  </RegisterStack.Navigator>
-}
 export default function Navigation() {
 
   const [user, setUser] = useState(null);
@@ -48,18 +43,17 @@ export default function Navigation() {
     });
   }, []);
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Auth" screenOptions={{ headerShown: false }}>
-        {user ?
-            <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS, headerLeft: null, gestureEnabled: false }} name='Inside' component={InsideLayout} />
-          :
-          <>
-          <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Auth' component={AuthPage} />
-          <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='LogIn' component={LogIn} />
-          </>
-        }
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    return(
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{headerShown: false}}>
+            {user?(<Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS, headerLeft: null, gestureEnabled: false }} name='Inside' component={InsideLayout}/>)
+            :
+            (<>
+            <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Auth' component={AuthPage}/>
+            <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Login' component={LogIn}/>
+            </>)}
+  
+          </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
