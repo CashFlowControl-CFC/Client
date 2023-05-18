@@ -6,7 +6,11 @@ import general from "../../styles/general";
 import getImage from "../../resources/imageComponent";
 
 function ModalMenu(){
-    const {modalMenuVisible, setModalMenuVisible} = useContext(MainContext);
+    const {navigation, modalMenuVisible, setModalMenuVisible} = useContext(MainContext);
+    const onClick = (name) =>{
+        setModalMenuVisible(false);
+        navigation.navigate(name);
+    }
     return(
         <Modal
                 transparent={true}
@@ -23,7 +27,7 @@ function ModalMenu(){
                                             <Text style={[general.generalText, {marginLeft: '5%'}]}>Profile</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback>
+                                    <TouchableWithoutFeedback onPress={() => onClick('Target')}>
                                         <View style={{flexDirection: 'row'}}>
                                             {getImage(process.env.API_PURPOSE_URL, 20, 20, '#FFFFFF')}
                                             <Text style={[general.generalText, {marginLeft: '5%'}]}>Purpose</Text>
