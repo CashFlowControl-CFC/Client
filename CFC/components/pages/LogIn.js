@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, TouchableWithoutFeedback, Keyboard, ActivityIndicator, KeyboardAvoidingView } from "react-native";
 import general from "../../styles/general";
 import EmailInput from "../AuthComponents/EmailInput";
 import PasswordInput from "../AuthComponents/PasswordInput";
 import AuthHeader from "../AuthComponents/AuthHeader";
-import { login } from "../../modules/requests";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FIREBASE_AUTH, auth } from "../../modules/FirebaseConfig";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+
 
 export default function LogIn({navigation}){
     const [email, setEmail] = useState('');
@@ -16,14 +17,14 @@ export default function LogIn({navigation}){
     const passwordPattern = /^[a-zA-Z0-9]{8,30}$/;
     const [isPressed, setIsPressed] = useState(false);
 
+    const [loading,setLoading] = useState(false)
+    const auth = FIREBASE_AUTH
+
     const authorization = async () =>{
-        if(emailPattern.test(email) && passwordPattern.test(password)){
-            let res = await login(`${process.env.API_URL}/auth/login`, {
-                email: email,
-                password: password
-            })
-            if(res.status == 200){
-                
+        setLoading(true);
+        try {
+            if(emailPattern.test(email) && passwordPattern.test(password)){
+                await signInWithEmailAndPassword(auth,email,password)
                 setIsValidEmail(true);
                 setIsValidPassword(true);
             }
@@ -31,17 +32,29 @@ export default function LogIn({navigation}){
                 setIsValidEmail(false);
                 setIsValidPassword(false);
             }
-        }
-        else{
+        } catch (error) {
+            console.log("error", error.message)
             setIsValidEmail(false);
             setIsValidPassword(false);
+        }finally{
+            setLoading(false)
+        }
+    }
+    const registration = async () =>{
+        setLoading(true);
+        try {
+            await createUserWithEmailAndPassword(auth,email,password)
+        } catch (error) {
+            console.log(error.message)
+        }finally{
+            setLoading(false)
         }
     }
     return(
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={general.app}>
+                
                        <AuthHeader navigation={navigation} title={'Log In'}/> 
-
                         <View style={[general.content, {flexDirection: 'column'}]}>
                             <EmailInput email={email} 
                             setEmail={setEmail} 
@@ -55,14 +68,17 @@ export default function LogIn({navigation}){
                             />
                         </View>
                         <View style={{position: 'absolute', bottom: 25}}>
-                                <TouchableWithoutFeedback 
+                        {loading ? <ActivityIndicator style={general.addAuthBtn} size="large" color="#fcbe53"/>
+                            : 
+                            <TouchableWithoutFeedback 
                                             onPress={authorization} 
                                             onPressIn={() => setIsPressed(true)} 
                                             onPressOut={() => setIsPressed(false)}>
                                     <View style={[general.addAuthBtn, {backgroundColor: !isPressed ? '#FECC7A' : '#fcbe53'}]}>
                                         <Text style={general.addText}>Next</Text>
                                     </View>
-                                </TouchableWithoutFeedback>   
+                                </TouchableWithoutFeedback>
+                            }   
                             </View>
                     </View>
         </TouchableWithoutFeedback>
