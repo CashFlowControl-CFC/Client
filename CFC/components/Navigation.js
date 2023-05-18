@@ -36,7 +36,8 @@ export default function Navigation(){
     return(
         <NavigationContainer>
           <Stack.Navigator screenOptions={{headerShown: false}}>
-            {user?(<Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS, headerLeft: null, gestureEnabled: false }} name='Main' component={Main}/>):(<Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Auth' component={AuthPage}/>)}
+            {/* {user?(<Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS, headerLeft: null, gestureEnabled: false }} name='Main' component={Main}/>):(<Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Auth' component={AuthPage}/>)} */}
+            <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS, headerLeft: null, gestureEnabled: false }} name='Main' component={Main}/>
             <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='LogIn' component={LogIn}/>
             <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Transaction' component={Transaction}/>
             <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }}  name='Categories' component={Categories}/>
