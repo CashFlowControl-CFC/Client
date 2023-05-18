@@ -14,9 +14,11 @@ import { onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "../modules/FirebaseConfig";
 const Stack = createStackNavigator();
 const InsideStack = createStackNavigator();
-function InsideLayout() {
-  return (
-    <InsideStack.Navigator screenOptions={{ headerShown: false }}>
+const RegisterStack = createStackNavigator();
+const InsideLayout = ()=> {
+
+    return (
+      <InsideStack.Navigator screenOptions={{ headerShown: false }}>
       <InsideStack.Screen name="Main" component={Main} />
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Transaction' component={Transaction} />
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Categories' component={Categories} />
@@ -25,7 +27,16 @@ function InsideLayout() {
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Icons' component={Icons} />
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Target' component={Target} />
     </InsideStack.Navigator>
-  )
+    )
+  
+}
+const RegisterLayout = ()=>{
+return(
+<RegisterStack.Navigator initialRouteName="Auth" screenOptions={{ headerShown: false }}>
+      <RegisterStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Auth' component={AuthPage}/>
+      <RegisterStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='LogIn' component={LogIn}/>
+    </RegisterStack.Navigator>
+)
 }
 export default function Navigation() {
 
@@ -38,21 +49,14 @@ export default function Navigation() {
       }
       else {
         console.log("auth")
+        setUser(null)
       }
     });
   }, []);
 
-    return(
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{headerShown: false}}>
-            {user?(<Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS, headerLeft: null, gestureEnabled: false }} name='Inside' component={InsideLayout}/>)
-            :
-            (<>
-            <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Auth' component={AuthPage}/>
-            <Stack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='LogIn' component={LogIn}/>
-            </>)}
-  
-          </Stack.Navigator>
-        </NavigationContainer>
-    );
+  return (
+    <NavigationContainer>
+      {user ? <InsideLayout /> : <RegisterLayout />}
+    </NavigationContainer>
+  );
 }
