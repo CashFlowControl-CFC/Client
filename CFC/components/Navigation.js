@@ -58,7 +58,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      {user ? <InsideLayout /> : <RegisterLayout />}
+      {!user ? <InsideLayout /> : <RegisterLayout />}
     </NavigationContainer>
   );
 }

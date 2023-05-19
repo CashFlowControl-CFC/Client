@@ -3,8 +3,7 @@ import general from "../../styles/general";
 import { View } from "react-native";
 import CommonHeader from "../General/CommonHeader";
 import { TargetContext } from "../../modules/context";
-import TargetPeriodButtons from "../TargetComponents/TargetPeriodBtns";
-import LineChart from "../TargetComponents/LineChart";
+import TargetList from "../TargetComponents/TargetList";
 
 export default function Target({navigation}){
     const [selectedPeriod, setSelectedPeriod] = useState();
@@ -18,8 +17,7 @@ export default function Target({navigation}){
                 <CommonHeader navigation={navigation} title='Purpose' image_link={process.env.API_PURPOSE_URL}/>
 
                 <View style={general.content}>
-                    <TargetPeriodButtons/>
-                    <LineChart/>
+                    <TargetList navigation={navigation}/>
                 </View>
             </View>
         </TargetContext.Provider>

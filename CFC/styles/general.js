@@ -99,6 +99,12 @@ const general = StyleSheet.create({
         errorText:{
             width:"100%", 
             fontSize: 15, 
+        },
+        deadlineText:{
+            color: '#F9B233',
+            fontSize: 17,
+            fontWeight: 400,
+            marginLeft: '5%'
         }
 });
 
