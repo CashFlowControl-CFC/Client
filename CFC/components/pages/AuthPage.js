@@ -11,7 +11,7 @@ export default function AuthPage({navigation}){
                     please, login or registration
                 </Text>
 
-                <TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('Registration')}> 
                     <View style={[general.addAuthBtn, {backgroundColor: '#FECC7A'}]}>
                         <Text style={general.addText}>Registration</Text>
                     </View>

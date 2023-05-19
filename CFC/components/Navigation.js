@@ -12,6 +12,7 @@ import LogIn from "./pages/LogIn";
 import Target from "./pages/Target"
 import { onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "../modules/FirebaseConfig";
+import Registration from "./pages/Registration";
 const Stack = createStackNavigator();
 const InsideStack = createStackNavigator();
 const RegisterStack = createStackNavigator();
@@ -35,6 +36,7 @@ return(
 <RegisterStack.Navigator initialRouteName="Auth" screenOptions={{ headerShown: false }}>
       <RegisterStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Auth' component={AuthPage}/>
       <RegisterStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='LogIn' component={LogIn}/>
+      <RegisterStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS   }} name='Registration' component={Registration}/>
     </RegisterStack.Navigator>
 )
 }

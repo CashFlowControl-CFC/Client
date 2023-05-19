@@ -7,7 +7,7 @@ export default function PasswordInput(props){
     const [isClose, setIsClose] = useState(true);
     return(
         <View style={{width: "100%", marginTop: "7%", alignItems: 'center'}}>
-            <Text style={general.generalText}>Enter your password</Text>
+            <Text style={general.generalText}>{props.text}</Text>
             <View style={{width: "90%", direction: 'rtl', marginTop: "5%"}}>
                 <Text style={[general.generalText]}>Password</Text> 
                 <TextInput
