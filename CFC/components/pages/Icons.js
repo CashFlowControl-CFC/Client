@@ -3,6 +3,7 @@ import { View, Text} from "react-native";
 import general from "../../styles/general";
 import { useSelector } from "react-redux";
 import IconsList from "../IconListComponents/IconsList";
+import CommonHeader from "../General/CommonHeader";
 
 function Icons({navigation}){
     const icons = useSelector(state => state.icon.icons);
@@ -21,11 +22,7 @@ function Icons({navigation}){
     }
     return (
             <View style={general.app}>
-                <View style={general.header}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center'}}>
-                                <Text style={[general.generalText, { fontSize: 20  }]}>Icons</Text>
-                        </View>
-                </View>     
+                <CommonHeader title={'Icons'} navigation={navigation}/>    
 
                     <View style={general.content} >
                         <IconsList data={data} navigation={navigation}/>

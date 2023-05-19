@@ -1,19 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View } from "react-native";
-import { TransactionContext } from "../../modules/context";
 import styles from "../../styles/TransactionPage";
 import moment from "moment";
 import {Calendar} from 'react-native-calendars';
 
-function MyCalendar(){
-    const {selectedDate, showDatePicker, setShowDatePicker, setSelectedBtn, setSelectedDate} = useContext(TransactionContext);
+function MyCalendar(props){
     const handleSelectDate = (id, date) =>{
-        setSelectedBtn(id);
-        setSelectedDate(date);
+        props.object.setSelectedBtn(id);
+        props.object.setSelectedDate(date);
     }
     return (
         <View style={styles.calendarPos}>
-                {showDatePicker ? <Calendar 
+                {props.object.showDatePicker ? <Calendar 
                         style={{
                             borderRadius: 15,
                             height: 450,
@@ -21,11 +19,11 @@ function MyCalendar(){
                         }}
                         maxDate={moment().format('YYYY-MM-DD')}
                         onDayPress={day => {
-                            setShowDatePicker(false);
+                            props.object.setShowDatePicker(false);
                             handleSelectDate(3, moment(day.dateString))
                         }}
                         markedDates={{
-                            [selectedDate]: {selectedDate: true, disableTouchEvent: true, selectedDotColor: 'orange'}
+                            [props.object.selectedDate]: {selectedDate: true, disableTouchEvent: true, selectedDotColor: 'orange'}
                         }}
                         theme={{
                             backgroundColor: '#252525',

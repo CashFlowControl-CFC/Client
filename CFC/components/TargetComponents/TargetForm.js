@@ -13,7 +13,7 @@ import DateButtons from "../TransactionPageComponents/DateButtons";
 import CommentInput from "../TransactionPageComponents/CommentInput";
 import Header from "../General/Header";
 
-export default function Transaction({navigation}){
+export default function TargetForm({navigation}){
     const dispatch = useDispatch();
     const isIncome = useSelector(state => state.transaction.isIncome);
     const totalMoney = useSelector(state => state.transaction.totalMoney);
@@ -35,7 +35,7 @@ export default function Transaction({navigation}){
     const [selectedBtn, setSelectedBtn] = useState(transDate ? 3 : null);
     const [showDatePicker, setShowDatePicker] = useState(false);
 
-    const object = {
+    const contextValue = {
         value,
         data,
         showDatePicker,
@@ -126,6 +126,7 @@ export default function Transaction({navigation}){
         navigation.goBack();   
     }
     return(
+        <TransactionContext.Provider value={contextValue}>
             <TouchableWithoutFeedback 
             onPress={() => {
                 Keyboard.dismiss();
@@ -134,19 +135,20 @@ export default function Transaction({navigation}){
                 }}>
             <View style={[general.app, isMove ? general.isMove : null]}>
 
-                <Header text={'Add Transactions'} navigation={navigation}/>
+                <Header text={'Add Transactions'}/>
 
                 <View style={general.content}>
-                    <MoneyInput object={object}/>
+                    <MoneyInput/>
                     <CategoryList data={data} navigation={navigation}/>
-                    <DateButtons object={object}/>
-                    <CommentInput object={object}/>
-                    <MyCalendar object={object}/>
+                    <DateButtons/>
+                    <CommentInput/>
+                    <MyCalendar/>
                 </View>
                 <View style={{position: 'absolute', bottom: 25}}>
-                    <AddBtn action={isAdd ? handleAddTransaction : handleUpdateTransaction} object={object}/>
+                    <AddBtn action={isAdd ? handleAddTransaction : handleUpdateTransaction}/>
                 </View>
             </View>
             </TouchableWithoutFeedback>
+        </TransactionContext.Provider>
     );
 }

@@ -58,7 +58,7 @@ function CategoryForm({navigation}){
         <CategoryFormContext.Provider value={contextValue}>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <View style={general.app}>
-                    <Header text={'Create Category'}/>
+                    <Header text={'Create Category'} navigation={navigation}/>
 
                         <View style={general.content} >
                             <CategoryInput/>

@@ -13,6 +13,7 @@ import Target from "./pages/Target"
 import { onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "../modules/FirebaseConfig";
 import Registration from "./pages/Registration";
+import TargetForm from "./TargetComponents/TargetForm";
 const Stack = createStackNavigator();
 const InsideStack = createStackNavigator();
 const RegisterStack = createStackNavigator();
@@ -27,6 +28,7 @@ const InsideLayout = ()=> {
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='CategoryForm' component={CategoryForm} />
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Icons' component={Icons} />
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Target' component={Target} />
+      <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='TargetForm' component={TargetForm} />
     </InsideStack.Navigator>
     )
   

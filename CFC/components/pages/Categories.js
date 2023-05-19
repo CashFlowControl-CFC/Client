@@ -41,7 +41,7 @@ function Categories({navigation}){
             <View style={general.app}>
                 <ModalRemove modalVisible={modalVisible} close={() => setModalVisible(false)} action={handleRemove}/>
 
-                <Header text={'All Categories'}/>
+                <Header text={'All Categories'} navigation={navigation}/>
 
                 <View style={general.content} >
                         <CategoryList data={data} navigation={navigation} modalVisible={() => setModalVisible(true)}/>
