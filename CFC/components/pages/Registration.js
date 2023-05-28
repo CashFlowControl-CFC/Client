@@ -6,6 +6,8 @@ import PasswordInput from "../AuthComponents/PasswordInput";
 import AuthHeader from "../AuthComponents/AuthHeader";
 import { FIREBASE_AUTH, auth } from "../../modules/FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { getAccessToken, saveAccessToken } from "../../modules/storage";
+import { addData } from "../../modules/requests";
 
 
 export default function Registration({ navigation }) {
@@ -29,7 +31,24 @@ export default function Registration({ navigation }) {
                 setIsValidEmail(true);
                 setIsValidPassword(true);
                 setIsValidRepeatedPass(true);
-                await createUserWithEmailAndPassword(auth, email, password)
+                const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
+                const user={
+                    email:userCredentials.user.email,
+                    isConfirmed:userCredentials.user.emailVerified,
+                    apikey:userCredentials.user.apiKey
+                }
+                saveAccessToken(userCredentials.user.accessToken)
+                await fetch(`${process.env.API_URL}/user`,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'accesstoken':userCredentials.user.accessToken,
+                        'refreshtoken':userCredentials.user.refreshToken
+                    },
+                    body:JSON.stringify(user)
+                })
+                
+
             }
             else {
                 setIsValidEmail(false);

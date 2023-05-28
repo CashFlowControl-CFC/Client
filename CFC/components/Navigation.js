@@ -49,6 +49,7 @@ export default function Navigation() {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
       if (user) {
         console.log("main")
+        console.log(user.accessToken)
         setUser(user)
       }
       else {
@@ -60,7 +61,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      {!user ? <InsideLayout /> : <RegisterLayout />}
+      {user ? <InsideLayout /> : <RegisterLayout />}
     </NavigationContainer>
   );
 }
