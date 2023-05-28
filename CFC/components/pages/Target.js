@@ -14,7 +14,7 @@ export default function Target({navigation}){
     return(
         <TargetContext.Provider value={contextValue}>
             <View style={general.app}>
-                <CommonHeader navigation={navigation} title='Purpose' image_link={process.env.API_PURPOSE_URL}/>
+                <CommonHeader navigation={navigation} title='Target' image_link={process.env.API_PURPOSE_URL}/>
 
                 <View style={general.content}>
                     <TargetList navigation={navigation}/>

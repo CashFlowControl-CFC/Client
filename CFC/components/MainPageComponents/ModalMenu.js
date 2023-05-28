@@ -34,7 +34,7 @@ function ModalMenu(){
                                     <TouchableWithoutFeedback onPress={() => onClick('Target')}>
                                         <View style={{flexDirection: 'row'}}>
                                             {getImage(process.env.API_PURPOSE_URL, 20, 20, '#FFFFFF')}
-                                            <Text style={[general.generalText, {marginLeft: '5%'}]}>Purpose</Text>
+                                            <Text style={[general.generalText, {marginLeft: '5%'}]}>Target</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
                                     <TouchableWithoutFeedback>
