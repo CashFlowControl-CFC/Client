@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { useDispatch } from "react-redux";
 import moment from "moment";
 import general from "../../styles/general";
-import { getData } from "../../modules/requests";
+import { getData, updateData } from "../../modules/requests";
 import { MainContext } from "../../modules/context";
 import Period from "../MainPageComponents/Period";
 import PieChart from "../MainPageComponents/PieChart";
@@ -41,7 +41,6 @@ export default function Main({navigation}){
         setFilterDate,
         setModalMenuVisible
     };
-
     useEffect(() => {
         loadData();
       }, []);
@@ -80,11 +79,23 @@ export default function Main({navigation}){
           }, []);
           setCombinedData(newData);
     }
-
+    const handleSetMoney = async (value) =>{
+        let res = await updateData(`${process.env.API_URL}/account/1`, {cash: parseFloat(value)})
+        if(res.status == 200){
+            dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : Number(totalMoney)});
+            setModalVisible(false);
+        }
+    }
+    const object = {
+        modalVisible: modalVisible, 
+        setModalVisible: setModalVisible, 
+        action: handleSetMoney,
+        isTotalCash: true
+    }
     return(
     <MainContext.Provider value={contextValue}>
         <View style={general.app}>
-            <ModalCash/>
+            <ModalCash object={object}/>
             <ModalMenu/>
             <TotalMoney/>
 

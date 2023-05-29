@@ -1,37 +1,31 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Modal, TouchableWithoutFeedback, View, TextInput, Text, Keyboard } from "react-native";
 import styles from "../../styles/MainPage";
 import general from "../../styles/general";
-import { MainContext } from "../../modules/context";
 import { useDispatch, useSelector } from "react-redux";
-import { updateData } from "../../modules/requests";
 
-function ModalCash(){
-    const {modalVisible, setModalVisible} = useContext(MainContext);
+function ModalCash(props){
     const totalMoney = useSelector(state => state.transaction.totalMoney);
-    const [value, setValue] = useState('0');
+    const [value, setValue] = useState('');
     const inputRef = useRef(null);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (modalVisible) {
+        if (props.object.modalVisible && props.object.isTotalCash) {
           inputRef.current?.focus();
           setValue(totalMoney && totalMoney > 0 ? `${totalMoney}` : '');
         }
-      }, [modalVisible]);
-    const handleSetMoney = async () =>{
-            let res = await updateData(`${process.env.API_URL}/account/1`, {cash: parseFloat(value)})
-            if(res.status == 200){
-                dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : Number(totalMoney)});
-                setModalVisible(false);
-            }
+        else{
+            setValue('');
         }
+      }, [props.object.modalVisible]);
+    
     return(
         <Modal
                 animationType='fade'
                 transparent={true}
-                visible={modalVisible}>
-                <TouchableWithoutFeedback onPress={() => Keyboard.isVisible() ? Keyboard.dismiss() : setModalVisible(false)}>
+                visible={props.object.modalVisible}>
+                <TouchableWithoutFeedback onPress={() => Keyboard.isVisible() ? Keyboard.dismiss() : props.object.setModalVisible(false)}>
                         <View style={styles.pModal} >
                             <View style={styles.sModal}>
                                 <TextInput 
@@ -49,7 +43,7 @@ function ModalCash(){
                                 />
                                 <TouchableWithoutFeedback
                                 style={{ padding: 10, alignSelf: 'flex-end' }}
-                                onPress={handleSetMoney}>
+                                onPress={() => props.object.action(value)}>
                                     <Text style={{ color: '#D8D8D8', fontSize: 20 }}>Save</Text>
                                 </TouchableWithoutFeedback>
                         </View>
