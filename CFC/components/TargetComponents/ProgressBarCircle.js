@@ -1,5 +1,5 @@
 import React from "react";
-import { Text} from "react-native";
+import { Text, View} from "react-native";
 import ProgressCircle from 'react-native-progress-circle'
 
 function ProgressBarCircle(props){
@@ -13,7 +13,10 @@ function ProgressBarCircle(props){
         bgColor="#2F2F2F"
     >
         <Text style={{ fontSize: 30, color: '#FFFFFF', fontWeight: 700 }}>{props.target.percent}%</Text>
-        <Text style={{ fontSize: 21, color: '#D8D8D8', position: 'absolute', bottom: 25 }}>{props.target.cash}$/{props.target.total_cash}$</Text>
+        <View style={{position: 'absolute', bottom: 15, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 17, color: '#D8D8D8'}}>{props.target.cash}$/</Text>
+            <Text style={{ fontSize: 17, color: '#D8D8D8' }}>{props.target.total_cash}$</Text>
+        </View>
     </ProgressCircle>     
     );
 }

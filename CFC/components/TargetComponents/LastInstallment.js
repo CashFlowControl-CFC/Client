@@ -9,7 +9,7 @@ function LastInstallment(props){
     return (
         <View style={{width: "95%", marginTop: '5%', gap: 10}}>
                          <><Text style={[general.generalText, {marginLeft: '5%', color: '#D8D8D8'}]}>Last installment</Text>
-                        <Text style={[general.generalText, {marginLeft: '5%', color: '#D8D8D8'}]}>{props.target.last_installment_date}</Text></>
+                        <Text style={[general.generalText, {marginLeft: '5%', color: '#D8D8D8'}]}>{moment(props.target.last_installment_date).format('DD.MM.YYYY')}</Text></>
                         <View style={[styles.category, {backgroundColor: props.target.color + "20"}]}>
                                     <View style={[styles.circle, {backgroundColor: props.target.color}]}>
                                         {getImage(props.target.image_link, 25, 25, props.target.image_color)}
