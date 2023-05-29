@@ -5,6 +5,7 @@ import general from "../../styles/general";
 import { useRoute } from "@react-navigation/native";
 import ProgressBarCircle from "../TargetComponents/ProgressBarCircle";
 import SelectedTarget from "../TargetComponents/SelectedTarget";
+import LastInstallment from "../TargetComponents/LastInstallment";
 
 export default function TargetInfo({navigation}){
     const route = useRoute();
@@ -16,6 +17,7 @@ export default function TargetInfo({navigation}){
                         <ProgressBarCircle target={route.params?.target}/>
                     </View>
                     <SelectedTarget target={route.params?.target}/>
+                    {route.params?.target.last_installment_date && <LastInstallment target={route.params?.target}/>}
                 </View>
             </View>
     );

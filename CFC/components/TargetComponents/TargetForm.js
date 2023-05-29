@@ -87,6 +87,7 @@ export default function TargetForm({navigation}){
             total_cash: value,
             cash: 0,
             last_cash: 0,
+            last_installment_date: null
 
         }})
         navigation.navigate('Target');    
