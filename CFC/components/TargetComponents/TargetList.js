@@ -4,11 +4,13 @@ import styles from "../../styles/MainPage";
 import getImage from "../../resources/imageComponent";
 import moment from 'moment';
 import general from "../../styles/general";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function TargetList(props){
     const targets = useSelector(state => state.target.targets);
     const [updatedData, setUpdatedData] = useState([]);
+    const dispatch = useDispatch();
+
     useEffect(() => {
         countPercent();
     }, [targets])
@@ -20,12 +22,13 @@ function TargetList(props){
         }, []));
     }
     const onClick = () => {
+        dispatch({type: 'SET_SELECTED', payload: null});
         props.navigation.navigate('TargetForm', {isTarget: true});
     }
     const handleSelectTarget = (id) => {
-        const index = targets.findIndex(item => item.id === id);
+        const index = updatedData.findIndex(item => item.id === id);
         if(index != -1){
-            props.navigation.navigate('TargetInfo', {target: targets[index]});
+            props.navigation.navigate('TargetInfo', {target: updatedData[index]});
         }
     }
     return (

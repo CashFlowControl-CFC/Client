@@ -83,8 +83,8 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      {loading ? <ActivityIndicator style={general.addAuthBtn} size="large" color="#fcbe53" /> 
-      :user ? <InsideLayout /> : <RegisterLayout />}
+      {!loading ? <ActivityIndicator style={general.addAuthBtn} size="large" color="#fcbe53" /> 
+      :!user ? <InsideLayout /> : <RegisterLayout />}
     </NavigationContainer>
   );
 }
