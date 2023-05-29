@@ -67,12 +67,28 @@ export default function TargetForm({navigation}){
     
     const handleAddTarget = async () => {
         // let result = await addData(`${process.env.API_URL}/goal`, {
-        //     user_id: 3, 
-        //     category_id: selectedCategory, 
-        //     name: name,
-        //     deadline: `${selectedDate.format('YYYY-MM-DD')}`, 
-        //     cash: value
+        //     user_id: 3,
+            // category_id: selectedCategory, 
+            // name: name,
+            // deadline: `${selectedDate.format('YYYY-MM-DD')}`, 
+            // total_cash: value,
+            // cash: 0,
+            // last_cash: 0
         // });
+        let index = categories.findIndex(item => item.id == selectedCategory);
+        dispatch({type: "ADD_TARGET", payload: {
+            id: `${new Date()}`,
+            user_id: 3,
+            color: categories[index].color, 
+            image_link: categories[index].image_link, 
+            image_color: categories[index].image_color, 
+            name: name,
+            deadline: `${selectedDate.format('YYYY-MM-DD')}`, 
+            total_cash: value,
+            cash: 0,
+            last_cash: 0,
+
+        }})
         navigation.navigate('Target');    
     }
     const handleAddPayment = async () => {
