@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CommonHeader from "../General/CommonHeader";
 import { TouchableWithoutFeedback, View } from "react-native";
 import general from "../../styles/general";
@@ -18,25 +18,22 @@ export default function TargetInfo({navigation}){
     const targets = useSelector(state => state.target.targets);
     const [target, setTarget] = useState(route.params?.target);
 
-    useEffect(()=>{
-    },[target]);
-
+   
     const handleAddMoney = (value) => {
         console.log(value);
         let index = targets.findIndex(item => item.id === target.id);
         if(index != -1){
             dispatch({type: 'UPDATE_TARGET', payload: {newItem: {...targets[index], 
-                cash: Number(route.params?.target.cash) + Number(value),
+                cash: Number(target.cash) + Number(value),
                 last_cash: value,
                 last_installment_date: moment(new Date()).format('YYYY-MM-DD')
             }, 
                 index: index}});
-
             setTarget({...targets[index], 
-                cash: Number(route.params?.target.cash) + Number(value),
+                cash: Number(target.cash) + Number(value),
                 last_cash: value,
                 last_installment_date: moment(new Date()).format('YYYY-MM-DD'),
-                percent: Math.round(((Number(route.params?.target.cash)+ Number(value)) * 100) / Number(route.params?.target.total_cash))
+                percent: Math.round(((Number(target.cash)+ Number(value)) * 100) / Number(route.params?.target.total_cash))
             });
         }
         setModalVisible(false);
