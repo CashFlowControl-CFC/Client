@@ -5,10 +5,13 @@ import getImage from "../../resources/imageComponent";
 import moment from 'moment';
 import general from "../../styles/general";
 import { useDispatch, useSelector } from "react-redux";
+import ModalRemove from "../General/ModalRemove";
 
 function TargetList(props){
     const targets = useSelector(state => state.target.targets);
     const [updatedData, setUpdatedData] = useState([]);
+    const [selected, setSelected] = useState([]);
+    const [modalRemoveVisible, setModalRemoveVisible] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -31,14 +34,23 @@ function TargetList(props){
             props.navigation.navigate('TargetInfo', {target: updatedData[index]});
         }
     }
+    const handleRemove = async () =>{
+        let newData = targets.filter(item => item.id != selected);
+        dispatch({type: 'SET_TARGETS', payload: newData});
+        setModalRemoveVisible(false);
+    }
     return (
         <View style={{width: "95%", flex: 1}}>
+        <ModalRemove modalVisible={modalRemoveVisible} close={() => setModalRemoveVisible(false)} action={handleRemove}/>
         <FlatList keyExtractor={item => item.id} 
             data={updatedData} 
             renderItem={({item}) =>
             <View style={{gap: 10, marginTop: '5%'}}>
                 <Text style={[general.deadlineText]}>Deadline: {moment(item.deadline).format('DD.MM.YYYY')}</Text>
-                            <TouchableWithoutFeedback onPress={() => handleSelectTarget(item.id)}>
+                            <TouchableWithoutFeedback onPress={() => handleSelectTarget(item.id)} onLongPress={() => {
+                                setModalRemoveVisible(true);
+                                setSelected(item.id);
+                                }}>
                                 <View style={[styles.category, {backgroundColor: "#252525"}]}>
                                     <View style={[styles.category, {marginBottom: 0, 
                                         backgroundColor: item.percent >= 10 ? item.color + "20" : "#252525", 

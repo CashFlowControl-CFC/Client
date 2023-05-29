@@ -10,6 +10,7 @@ import getImage from "../../resources/imageComponent";
 import ModalCash from "../MainPageComponents/ModalCash";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+import ModalRemove from "../General/ModalRemove";
 
 export default function TargetInfo({navigation}){
     const route = useRoute();
@@ -31,7 +32,7 @@ export default function TargetInfo({navigation}){
                 index: index}});
             setTarget({...targets[index], 
                 cash: Number(target.cash) + Number(value),
-                last_cash: value,
+                last_cash: value > 0 ? value : target.last_cash,
                 last_installment_date: moment(new Date()).format('YYYY-MM-DD'),
                 percent: Math.round(((Number(target.cash)+ Number(value)) * 100) / Number(route.params?.target.total_cash))
             });
