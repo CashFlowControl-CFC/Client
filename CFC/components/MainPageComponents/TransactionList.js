@@ -5,7 +5,7 @@ import { MainContext } from "../../modules/context";
 import getImage from "../../resources/imageComponent";
 import { useDispatch } from "react-redux";
 
-function TransactionList(props){
+function TransactionList(){
     const {combinedData, navigation} = useContext(MainContext);
     const dispatch = useDispatch();
 

@@ -1,9 +1,10 @@
 import React from "react";
 import CommonHeader from "../General/CommonHeader";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import general from "../../styles/general";
 import { useRoute } from "@react-navigation/native";
 import ProgressBarCircle from "../TargetComponents/ProgressBarCircle";
+import SelectedTarget from "../TargetComponents/SelectedTarget";
 
 export default function TargetInfo({navigation}){
     const route = useRoute();
@@ -14,6 +15,7 @@ export default function TargetInfo({navigation}){
                     <View style={{marginTop: '10%'}}>
                         <ProgressBarCircle target={route.params?.target}/>
                     </View>
+                    <SelectedTarget target={route.params?.target}/>
                 </View>
             </View>
     );
