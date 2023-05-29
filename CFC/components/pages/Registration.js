@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TouchableWithoutFeedback, Keyboard, ActivityIndicator, KeyboardAvoidingView } from "react-native";
+import { View, Text, TouchableWithoutFeedback, Keyboard, ActivityIndicator } from "react-native";
 import general from "../../styles/general";
 import EmailInput from "../AuthComponents/EmailInput";
 import PasswordInput from "../AuthComponents/PasswordInput";
 import AuthHeader from "../AuthComponents/AuthHeader";
 import { FIREBASE_AUTH, auth } from "../../modules/FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { getAccessToken, saveAccessToken } from "../../modules/storage";
-import { addData } from "../../modules/requests";
+import { saveAccessToken } from "../../modules/storage";
+
 
 
 export default function Registration({ navigation }) {
@@ -32,23 +32,16 @@ export default function Registration({ navigation }) {
                 setIsValidPassword(true);
                 setIsValidRepeatedPass(true);
                 const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
-                const user={
-                    email:userCredentials.user.email,
-                    isConfirmed:userCredentials.user.emailVerified,
-                    apikey:userCredentials.user.apiKey
-                }
-                saveAccessToken(userCredentials.user.accessToken)
                 await fetch(`${process.env.API_URL}/user`,{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'accesstoken':userCredentials.user.accessToken,
-                        'refreshtoken':userCredentials.user.refreshToken
                     },
-                    body:JSON.stringify(user)
+                    body:JSON.stringify(userCredentials.user)
+                }).then(async(res)=>{
+                    const data = await res.json()
+                    saveAccessToken(data.stsTokenManager.accessToken)
                 })
-                
-
             }
             else {
                 setIsValidEmail(false);

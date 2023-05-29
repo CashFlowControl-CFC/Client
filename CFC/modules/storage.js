@@ -14,7 +14,7 @@ const saveAccessToken = async (accessToken) => {
 const getAccessToken = async () => {
   try {
     const accessToken = await SecureStore.getItemAsync('accessToken');
-    return accessToken;
+    return {accessToken:accessToken};
   } catch (error) {
     console.log('Помилка при отриманні accesstoken:', error);
     return null;

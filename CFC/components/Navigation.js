@@ -15,6 +15,9 @@ import { FIREBASE_AUTH } from "../modules/FirebaseConfig";
 import Registration from "./pages/Registration";
 import TargetForm from "./TargetComponents/TargetForm";
 import TargetInfo from "./pages/TargetInfo";
+import { getAccessToken } from "../modules/storage";
+import { ActivityIndicator } from "react-native";
+import general from "../styles/general";
 const Stack = createStackNavigator();
 const InsideStack = createStackNavigator();
 const RegisterStack = createStackNavigator();
@@ -44,26 +47,44 @@ return(
     </RegisterStack.Navigator>
 )
 }
+const send = async(token)=>{
+  console.log("send token:", token)
+  const result = await fetch(`http://192.168.31.159:3000/user/check`,{
+    method:"POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  body: JSON.stringify(token),
+  })
+    if(result.status === 200){
+      console.log(result.status)
+      return await (result.json());
+    }
+    else{
+      return null;
+    }
+}
 export default function Navigation() {
-
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
-    onAuthStateChanged(FIREBASE_AUTH, (user) => {
+    setLoading(true)
+    onAuthStateChanged(FIREBASE_AUTH, async (user) => {
       if (user) {
-        console.log("main")
-        console.log(user.accessToken)
         setUser(user)
       }
       else {
-        console.log("auth")
-        setUser(null)
+        console.log("jwt check")
+        setUser(await send(await getAccessToken()))
       }
+      setLoading(false)
     });
   }, []);
 
   return (
     <NavigationContainer>
-      {!user ? <InsideLayout /> : <RegisterLayout />}
+      {loading ? <ActivityIndicator style={general.addAuthBtn} size="large" color="#fcbe53" /> 
+      :user ? <InsideLayout /> : <RegisterLayout />}
     </NavigationContainer>
   );
 }

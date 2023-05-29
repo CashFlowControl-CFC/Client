@@ -13,6 +13,7 @@ function ModalMenu(){
         navigation.navigate(name);
     }
     const logOut = () =>{
+        console.log("log out")
         FIREBASE_AUTH.signOut()
     }
     return(
