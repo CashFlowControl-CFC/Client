@@ -40,9 +40,10 @@ function CategoryForm({navigation}){
     }
     const handleCreateCategory = async () =>{
         let index = icons.findIndex(item  => item.id == selectedIcon);
+        console.log(isIncome)
         if(index != -1){
             let result = await addData(`${process.env.API_URL}/category`, {
-                user_id: 1,
+                user_id: 3,
                 name: catName,
                 image_link: icons[index].image_link,
                 color: icons[index].color,

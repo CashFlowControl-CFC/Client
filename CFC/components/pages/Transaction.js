@@ -74,12 +74,13 @@ export default function Transaction({navigation}){
         }
         let result = await addData(`${process.env.API_URL}/transaction`, {
             category_id: selectedCategory, 
-            user_id: 1, 
+            user_id: 3, 
             date: `${selectedDate.format('YYYY-MM-DD')}`, 
             comment: comment, 
             cash: value, 
             isIncome: isIncome
         })
+        console.log(result)
         let newDate = new Date();
         updateData(`${process.env.API_URL}/category/${selectedCategory}`, {lastUsed: newDate});
         let index = categories.findIndex(item => item.id == selectedCategory);
@@ -99,7 +100,7 @@ export default function Transaction({navigation}){
         }
         let object = {
             category_id: selectedCategory, 
-            user_id: 1, 
+            user_id: 3, 
             date: `${selectedDate.format('YYYY-MM-DD')}`, 
             comment: comment, 
             cash: value, 

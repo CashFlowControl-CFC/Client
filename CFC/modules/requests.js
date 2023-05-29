@@ -6,6 +6,9 @@ const getData = async (url) =>{
         const result = await fetch(url, {
             method: 'GET',
         })
+        if(result.status == 400){
+            return null;
+        }
         const data = await result.json();
         return data;
     }

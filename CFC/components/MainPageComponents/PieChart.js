@@ -44,7 +44,7 @@ function PieChart(){
             color: '#FFFFFF',
             fontWeight: 700,
             fontSize: 25,
-            }}> ${transactionMoney} </Text>
+            }}> ${transactionMoney?transactionMoney:0} </Text>
         </View>     
     );
 }

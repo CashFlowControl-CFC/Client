@@ -22,7 +22,7 @@ function TotalMoney(){
                         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", width: '100%', zIndex: 0}}>
                             {getImage(process.env.API_BAG_URL, 20, 20, '#FFFFFF')}
                             <Text style={[general.generalText, {fontSize: 20}]}>Total:</Text>
-                            <Text style={styles.totalMoney}>${totalMoney}</Text>
+                            <Text style={styles.totalMoney}>${totalMoney?totalMoney:0}</Text>
                         </View>
                         </TouchableWithoutFeedback>
                     </View>

@@ -41,7 +41,7 @@ function TargetList(props){
         }, []));
     }
     const onClick = () => {
-        props.navigation.navigate('TargetForm');
+        props.navigation.navigate('TargetForm', {isTarget: true});
     }
     return (
         <View style={{width: "95%", flex: 1}}>
