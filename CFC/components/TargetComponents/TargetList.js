@@ -22,6 +22,12 @@ function TargetList(props){
     const onClick = () => {
         props.navigation.navigate('TargetForm', {isTarget: true});
     }
+    const handleSelectTarget = (id) => {
+        const index = targets.findIndex(item => item.id === id);
+        if(index != -1){
+            props.navigation.navigate('TargetInfo', {target: targets[index]});
+        }
+    }
     return (
         <View style={{width: "95%", flex: 1}}>
         <FlatList keyExtractor={item => item.id} 
@@ -29,7 +35,7 @@ function TargetList(props){
             renderItem={({item}) =>
             <View style={{gap: 10, marginTop: '5%'}}>
                 <Text style={[general.deadlineText]}>Deadline: {moment(item.deadline).format('DD.MM.YYYY')}</Text>
-                            <TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback onPress={() => handleSelectTarget(item.id)}>
                                 <View style={[styles.category, {backgroundColor: "#252525"}]}>
                                     <View style={[styles.category, {marginBottom: 0, 
                                         backgroundColor: item.percent >= 10 ? item.color + "20" : "#252525", 

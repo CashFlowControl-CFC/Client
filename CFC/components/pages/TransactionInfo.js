@@ -9,6 +9,7 @@ import ModalRemove from "../General/ModalRemove";
 import { removeData } from "../../modules/requests";
 import { updateData } from "../../modules/requests";
 import CreateBtn from "../General/CreateBtn";
+import CommonHeader from "../General/CommonHeader";
 
 
 export default function TransactionInfo({navigation}){
@@ -79,13 +80,7 @@ export default function TransactionInfo({navigation}){
         <View style={general.app}>
             <ModalRemove modalVisible={modalVisible} close={() => setModalVisible(false)} action={handleRemove}/>
 
-            <View style={general.header}>
-                    <View style={{ alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', width: '40%'}}>
-                             {getImage(selectedTransaction.image_link, 25, 25, '#FFFFFF')}
-                            <Text style={[general.generalText, { fontSize: 20  }]}>{selectedTransaction.x}</Text>
-                            <Text style={[general.generalText, { fontSize: 20  }]}>${moneySum}</Text>
-                    </View>
-                </View>
+            <CommonHeader navigation={navigation} title={`${selectedTransaction.x} $${moneySum}`} image_link={selectedTransaction.image_link}/>
 
             <View style={general.content} >
                 <FlatList keyExtractor={item => item.id} style={{marginTop: 25}}
