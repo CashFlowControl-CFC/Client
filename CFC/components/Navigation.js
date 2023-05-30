@@ -18,6 +18,7 @@ import TargetInfo from "./pages/TargetInfo";
 import { getAccessToken } from "../modules/storage";
 import { ActivityIndicator } from "react-native";
 import general from "../styles/general";
+import ScheduledPayments from "./pages/SheduledPayments";
 const Stack = createStackNavigator();
 const InsideStack = createStackNavigator();
 const RegisterStack = createStackNavigator();
@@ -34,6 +35,7 @@ const InsideLayout = ()=> {
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Target' component={Target} />
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='TargetForm' component={TargetForm} />
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='TargetInfo' component={TargetInfo} />
+      <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='ScheduledPayments' component={ScheduledPayments} />
     </InsideStack.Navigator>
     )
   

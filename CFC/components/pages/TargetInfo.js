@@ -26,7 +26,6 @@ export default function TargetInfo({navigation}){
     }
    }, [targets])
     const handleAddMoney = (value) => {
-        console.log(value);
         let index = targets.findIndex(item => item.id === target.id);
         if(index != -1){
             dispatch({type: 'UPDATE_TARGET', payload: {newItem: {...targets[index], 
