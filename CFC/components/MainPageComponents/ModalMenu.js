@@ -44,7 +44,7 @@ function ModalMenu(){
                                             <Text style={[general.generalText, {marginLeft: '5%'}]}>Saving</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback>
+                                    <TouchableWithoutFeedback onPress={() => onClick('ScheduledPayments')}>
                                         <View style={{flexDirection: 'row'}}>
                                             {getImage(process.env.API_SCHEDULED_URL, 20, 20, '#FFFFFF')}
                                             <Text style={[general.generalText, {marginLeft: '5%'}]}>Scheduled payments</Text>

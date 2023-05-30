@@ -93,7 +93,18 @@ export default function TargetForm({navigation}){
         navigation.navigate('Target');    
     }
     const handleAddPayment = async () => {
-        console.log('Payment');  
+        let index = categories.findIndex(item => item.id == selectedCategory);
+        dispatch({type: "ADD_PAYMENT", payload: {
+            id: `${new Date()}`,
+            user_id: 3,
+            color: categories[index].color, 
+            image_link: categories[index].image_link, 
+            image_color: categories[index].image_color, 
+            name: name,
+            deadline: `${selectedDate.format('YYYY-MM-DD')}`, 
+            cash: value
+        }})
+        navigation.navigate('ScheduledPayments');    
     }
     return(
             <TouchableWithoutFeedback 
@@ -104,7 +115,7 @@ export default function TargetForm({navigation}){
                 }}>
             <View style={[general.app, isMove ? general.isMove : null]}>
 
-                <CommonHeader title={'Add Target'} navigation={navigation}/>
+                <CommonHeader title={route.params?.isTarget ? 'Add Target' : 'Add Scheduled payments'} navigation={navigation}/>
 
                 <View style={general.content}>
                 <View style={{width: "90%", marginTop: "7%"}}>
