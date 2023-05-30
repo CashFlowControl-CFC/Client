@@ -1,5 +1,16 @@
 const initialState = {
-    targets: []
+    targets: [
+        {
+            id: '1',
+            name: 'goal 1',
+            cash: 100,
+            total_cash: 200,
+            color: '#9FC9FF',
+            image_link: 'https://raw.githubusercontent.com/Witcher-MTM/Witcher-MTM.github.io/main/Home.svg',
+            image_color: '#273546',
+            deadline: '2022-12-12',
+        }
+    ]
 }
 
 export const targetReducer = (state = initialState, action) => {

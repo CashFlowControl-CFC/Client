@@ -52,8 +52,8 @@ export default function Main({navigation}){
     const loadData = async () =>{
         let res = await getData(`${process.env.API_URL}/account/1`);
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(res.cash)});
-        await dispatch({type: 'SET_DATA', payload: await getData(`${process.env.API_URL}/load/3`)});
-        await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${process.env.API_URL}/category/user/3`)});
+        await dispatch({type: 'SET_DATA', payload: await getData(`${process.env.API_URL}/load/hDMsD5qjK7XIyEv3RgOTUKfSR1g2`)});
+        await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${process.env.API_URL}/category/user/hDMsD5qjK7XIyEv3RgOTUKfSR1g2`)});
         await dispatch({type: 'SET_ICONS', payload: await getData(`${process.env.API_URL}/icon`)});
         await dispatch({type: 'SET_DEFAULT_CATEGORIES', payload: await getData(`${process.env.API_URL}/defaultcategory`)});
     }

@@ -6,17 +6,55 @@ import moment from 'moment';
 import general from "../../styles/general";
 import { useDispatch, useSelector } from "react-redux";
 import ModalRemove from "../General/ModalRemove";
+import ModalMessage from "../General/ModalMessage";
 
 function TargetList(props){
+    const dispatch = useDispatch();
     const targets = useSelector(state => state.target.targets);
     const [updatedData, setUpdatedData] = useState([]);
     const [selected, setSelected] = useState([]);
     const [modalRemoveVisible, setModalRemoveVisible] = useState(false);
-    const dispatch = useDispatch();
+    const [modalVisible, setModalVisible] = useState(false);
+    const [isCompleted, setIsCompleted] = useState(null);
+    const [text, setText] = useState('');
+
+    const object = {
+        modalVisible,
+        setModalVisible,
+        isCompleted,
+        text
+    }
 
     useEffect(() => {
         countPercent();
-    }, [targets])
+        checkDeadline();
+        checkIsCompleted();
+    }, [targets]);
+
+    const checkIsCompleted = () => {
+        let index = targets.findIndex(item => item.cash >= item.total_cash);
+
+        if(index != -1){
+            setIsCompleted(true);
+            setText("Wow! YOU ARE GREAT! You completed your goal in time!");
+            setModalVisible(true);
+            let newData = targets.filter(item => item.id != targets[index].id);
+            dispatch({type: 'SET_TARGETS', payload: newData});
+        }
+    }
+
+    const checkDeadline = () => {
+        let index = targets.findIndex(item => moment(item.deadline).format('YYYY-MM-DD') < moment(new Date()).format('YYYY-MM-DD') &&
+        item.cash < item.total_cash);
+
+        if(index != -1){
+            setIsCompleted(false);
+            setText("Oh, unfortunately you didn't complete your goal in time( \nBut don't worry, you'll get it next time");
+            setModalVisible(true);
+            let newData = targets.filter(item => item.id != targets[index].id);
+            dispatch({type: 'SET_TARGETS', payload: newData});
+        }
+    }
     const countPercent = () => {
         setUpdatedData(targets.reduce((acc, cur) => {
             let percent = (cur.cash * 100) / cur.total_cash;
@@ -42,6 +80,7 @@ function TargetList(props){
     return (
         <View style={{width: "95%", flex: 1}}>
         <ModalRemove modalVisible={modalRemoveVisible} close={() => setModalRemoveVisible(false)} action={handleRemove}/>
+        <ModalMessage object={object}/>
         <FlatList keyExtractor={item => item.id} 
             data={updatedData} 
             renderItem={({item}) =>

@@ -7,6 +7,7 @@ import TargetList from "../TargetComponents/TargetList";
 
 export default function Target({navigation}){
     const [selectedPeriod, setSelectedPeriod] = useState();
+
     const contextValue = {
         selectedPeriod,
         setSelectedPeriod

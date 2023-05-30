@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CommonHeader from "../General/CommonHeader";
 import { TouchableWithoutFeedback, View } from "react-native";
 import general from "../../styles/general";
@@ -19,7 +19,12 @@ export default function TargetInfo({navigation}){
     const targets = useSelector(state => state.target.targets);
     const [target, setTarget] = useState(route.params?.target);
 
-   
+   useEffect(() => {
+    let index = targets.findIndex(item => item.cash >= target.total_cash);
+    if(index != -1){
+        navigation.goBack();
+    }
+   }, [targets])
     const handleAddMoney = (value) => {
         console.log(value);
         let index = targets.findIndex(item => item.id === target.id);
