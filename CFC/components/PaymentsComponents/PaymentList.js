@@ -12,7 +12,12 @@ function PaymentList(props){
     const dispatch = useDispatch();
     const [modalRemoveVisible, setModalRemoveVisible] = useState(false);
     const [selected, setSelected] = useState(false);
+    const [filteredData, setFilteredData] = useState(false);
     const payments = useSelector(state => state.payment.payments);
+
+    useEffect(() => {
+        setFilteredData(payments.sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()));
+    }, [payments]);
 
     const handleRemove = async () =>{
          let newData = payments.filter(item => item.id != selected);
@@ -28,7 +33,7 @@ function PaymentList(props){
         <ModalRemove modalVisible={modalRemoveVisible} close={() => setModalRemoveVisible(false)} action={handleRemove}/>
         
         <FlatList keyExtractor={item => item.id} 
-            data={payments} 
+            data={filteredData} 
             renderItem={({item}) =>
             <View style={{gap: 10, marginTop: '5%'}}>
                             <TouchableWithoutFeedback onPress={() => handleSelectTarget(item.id)} onLongPress={() => {

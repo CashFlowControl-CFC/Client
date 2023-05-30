@@ -60,7 +60,7 @@ function TargetList(props){
             let percent = (cur.cash * 100) / cur.total_cash;
             acc.push({...cur, percent: Math.round(percent)});
             return acc;
-        }, []));
+        }, []).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()));
     }
     const onClick = () => {
         dispatch({type: 'SET_SELECTED', payload: null});
