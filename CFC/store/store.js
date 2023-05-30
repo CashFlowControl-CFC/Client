@@ -4,6 +4,7 @@ import { categoriesReducer } from './categoriesReducer';
 import { transDataReducer } from './transDataReducer';
 import iconReducer from './iconReducer';
 import { targetReducer } from './targetReducer';
+import paymentReducer from './paymentReducer';
 
 
 const rootReducer = combineReducers({
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
     category: categoriesReducer,
     transData: transDataReducer,
     icon: iconReducer,
-    target: targetReducer
+    target: targetReducer,
+    payment: paymentReducer
 })
 
 export default store = createStore(rootReducer);
