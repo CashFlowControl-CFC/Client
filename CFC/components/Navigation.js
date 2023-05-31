@@ -20,9 +20,12 @@ import ScheduledPayments from "./pages/SheduledPayments";
 import { addData } from "../modules/requests";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { onAuthStateChanged } from "firebase/auth";
+import { FIREBASE_AUTH } from "../modules/FirebaseConfig";
 const Stack = createStackNavigator();
 const InsideStack = createStackNavigator();
 const RegisterStack = createStackNavigator();
+
 const InsideLayout = () => {
 
   return (
@@ -58,17 +61,20 @@ const auth = async(dispatch)=>{
     console.log("result in enter",result)
     dispatch({type:"SET_USER",payload:result})
   }
+
 }
 export default function Navigation() {
   const user = useSelector(state=>state.user.user)
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, async () => {
     if(!user){
       setLoading(true)
-      auth(dispatch);
+      await auth(dispatch);
       setLoading(false)
     }
+    });
   }, [user]);
 
   return (
