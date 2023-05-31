@@ -13,7 +13,7 @@ import Target from "./pages/Target"
 import Registration from "./pages/Registration";
 import TargetForm from "./TargetComponents/TargetForm";
 import TargetInfo from "./pages/TargetInfo";
-import { getAccessToken } from "../modules/storage";
+import { getAccessToken, removeAccessToken } from "../modules/storage";
 import { ActivityIndicator } from "react-native";
 import general from "../styles/general";
 import ScheduledPayments from "./pages/SheduledPayments";
@@ -56,22 +56,25 @@ const RegisterLayout = () => {
 const auth = async (dispatch) => {
   const token = await getAccessToken()
   console.log("token in enter:", token)
-  const result = await addData(`${process.env.API_URL}/auth/token`, token)
-  console.log("result in enter", result)
-  dispatch({ type: "SET_USER", payload: result })
+  if(token.accessToken!=null){
+    const result = await addData(`${process.env.API_URL}/auth/token`, token)
+    console.log("result in enter", result)
+    dispatch({ type: "SET_USER", payload: result })
+  }
+  else{
+    dispatch({ type: "SET_USER", payload: null })
+  }
 }
 export default function Navigation() {
   const user = useSelector(state => state.user.user)
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   useEffect(() => {
-    onAuthStateChanged(FIREBASE_AUTH, async () => {
-      setLoading(true)
-      if (!user) {
-        await auth(dispatch);
+      console.log("user in start",user)
+      if (user==null) {
+        auth(dispatch);
       }
-      setLoading(false)
-    });
+
   }, [user]);
 
   return (

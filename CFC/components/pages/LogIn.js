@@ -26,6 +26,7 @@ export default function LogIn({navigation}){
         try {
             if(emailPattern.test(email) && passwordPattern.test(password)){
                 const userCredentials = await signInWithEmailAndPassword(auth,email,password)
+                console.log("auth/login")
                 const result = await addData(`${process.env.API_URL}/auth/login`,userCredentials.user)
                 console.log("result login",result)
                 await saveAccessToken(result.accesstoken)

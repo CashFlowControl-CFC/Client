@@ -37,7 +37,7 @@ export default function Registration({ navigation }) {
                 const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
                 const user = await addData(`${process.env.API_URL}/auth/register`,userCredentials.user)
                 await saveAccessToken(user.accesstoken)
-                dispatch({type:"SET_USER",payload:user})
+                await dispatch({type:"SET_USER",payload:user})
             }
             else {
                 setIsValidEmail(false);
