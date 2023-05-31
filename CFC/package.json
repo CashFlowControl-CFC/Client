@@ -13,6 +13,8 @@
     "@react-native-async-storage/async-storage": "^1.18.1",
     "@react-native-community/art": "^1.2.0",
     "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-firebase/app": "^17.5.0",
+    "@react-native-firebase/messaging": "^17.5.0",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "btoa": "^1.2.1",
@@ -39,7 +41,9 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.0",
     "redux": "^4.2.1",
-    "victory-native": "^36.6.8"
+    "victory-native": "^36.6.8",
+    "expo-notifications": "~0.18.1",
+    "expo-device": "~5.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

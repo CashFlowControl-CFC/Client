@@ -35,7 +35,11 @@ function PaymentList(props){
         <FlatList keyExtractor={item => item.id} 
             data={filteredData} 
             renderItem={({item}) =>
-            <View style={{gap: 10, marginTop: '5%'}}>
+            <View style={{gap: 10, marginTop: '2%'}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={[general.deadlineText, {color: '#D8D8D8'}]}>Expired date: </Text>
+                            <Text style={[general.deadlineText, {color: '#D8D8D8', marginLeft: 0, fontWeight: 600}]}>{moment(item.deadline).format('DD.MM.YYYY')}</Text>
+                        </View>
                             <TouchableWithoutFeedback onPress={() => handleSelectTarget(item.id)} onLongPress={() => {
                                 setModalRemoveVisible(true);
                                 setSelected(item.id);
@@ -46,7 +50,6 @@ function PaymentList(props){
                                     </View>
                                     <View style={{width:"70%", flexDirection: "row", justifyContent: "space-between"}}>
                                             <Text style={styles.categoryText}>{item.name}</Text>
-                                            <Text style={[styles.categoryText, {color: '#D8D8D890'}]}>{moment(item.deadline).format('DD.MM.YYYY')}</Text>
                                             <Text style={[styles.categoryText, {direction: 'ltr'}]}>{item.cash}$</Text>
                                     </View>
                                 </View> 

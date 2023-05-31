@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View, TouchableWithoutFeedback, Text, Keyboard, TextInput, Dimensions } from "react-native";
 import moment from "moment";
@@ -11,9 +11,18 @@ import DateBtns from "./DateBtns";
 import CustomCalendar from "./CustomCalendar";
 import styles from "../../styles/TransactionPage";
 import { useRoute } from "@react-navigation/native";
+import * as Notifications from 'expo-notifications';
+import { registerForPushNotificationsAsync, schedulePushNotification } from "../../pushNotificationsUtils";
 const { width, height } = Dimensions.get('window');
 
-
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    }),
+  });
+  
 export default function TargetForm({navigation}){
     const route = useRoute();
     const dispatch = useDispatch();
@@ -29,11 +38,13 @@ export default function TargetForm({navigation}){
     const [selectedDate, setSelectedDate] = useState(moment(new Date()));
     const [disabled, setDisabled] = useState(true);
 
-    const [isTaget, setIsTaget] = useState([]);
     const [data, setData] = useState([]);
     const [isMove, setIsMove] = useState(false);
     const [selectedBtn, setSelectedBtn] = useState(transDate ? 3 : null);
     const [showDatePicker, setShowDatePicker] = useState(false);
+
+    const notificationListener = useRef();
+    const responseListener = useRef();
 
     const object = {
         value,
@@ -58,7 +69,25 @@ export default function TargetForm({navigation}){
           } else {
             setDisabled(true);
           }
-    }, [value, selectedDate, selectedCategory, name])
+    }, [value, selectedDate, selectedCategory, name]);
+
+    useEffect(() => {
+        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    
+        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+          setNotification(notification);
+        });
+    
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+          console.log(response);
+        });
+    
+        return () => {
+          Notifications.removeNotificationSubscription(notificationListener.current);
+          Notifications.removeNotificationSubscription(responseListener.current);
+        };
+      }, []);
+
     const filterCategories = () =>{
         setData([...categories?.sort((a, b) => new Date(b.lastUsed).getTime() - new Date(a.lastUsed).getTime())
             .slice(0, 5), 
@@ -103,9 +132,16 @@ export default function TargetForm({navigation}){
             name: name,
             deadline: `${selectedDate.format('YYYY-MM-DD')}`, 
             cash: value
-        }})
+        }});
+        schedulePaymentNotification();
         navigation.navigate('ScheduledPayments');    
-    }
+    };
+    const schedulePaymentNotification = async () => {
+        const reminderDate = moment(selectedDate).subtract(2, 'days'); // За пару дней до даты      
+        const sameDayDate = moment(selectedDate); // В тот же день
+        console.log(sameDayDate)
+        schedulePushNotification(reminderDate, sameDayDate);
+    };
     return(
             <TouchableWithoutFeedback 
             onPress={() => {
