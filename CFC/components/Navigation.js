@@ -53,27 +53,24 @@ const RegisterLayout = () => {
     </RegisterStack.Navigator>
   )
 }
-const auth = async(dispatch)=>{
+const auth = async (dispatch) => {
   const token = await getAccessToken()
-  console.log("token in enter:",token)
-  if(token){
-    const result = await addData(`${process.env.API_URL}/auth/token`,token)
-    console.log("result in enter",result)
-    dispatch({type:"SET_USER",payload:result})
-  }
-
+  console.log("token in enter:", token)
+  const result = await addData(`${process.env.API_URL}/auth/token`, token)
+  console.log("result in enter", result)
+  dispatch({ type: "SET_USER", payload: result })
 }
 export default function Navigation() {
-  const user = useSelector(state=>state.user.user)
+  const user = useSelector(state => state.user.user)
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, async () => {
-    if(!user){
       setLoading(true)
-      await auth(dispatch);
+      if (!user) {
+        await auth(dispatch);
+      }
       setLoading(false)
-    }
     });
   }, [user]);
 

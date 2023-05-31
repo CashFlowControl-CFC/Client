@@ -6,6 +6,7 @@ import general from "../../styles/general";
 import getImage from "../../resources/imageComponent";
 import { FIREBASE_AUTH } from "../../modules/FirebaseConfig";
 import { useDispatch } from "react-redux";
+import { removeAccessToken } from "../../modules/storage";
 function ModalMenu(){
     const dispatch = useDispatch();
     const {navigation, modalMenuVisible, setModalMenuVisible} = useContext(MainContext);
@@ -13,11 +14,11 @@ function ModalMenu(){
         setModalMenuVisible(false);
         navigation.navigate(name);
     }
-    const logOut = () =>{
+    const logOut = async () =>{
         console.log("log out")
         FIREBASE_AUTH.signOut()
-        dispatch({type:"SET_TOKEN",payload:null})
-        dispatch({type:"SET_USER",payload:null})
+        await removeAccessToken()
+        await dispatch({type:"SET_USER",payload:null})
 
     }
     return(

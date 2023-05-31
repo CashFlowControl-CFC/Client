@@ -28,8 +28,8 @@ export default function LogIn({navigation}){
                 const userCredentials = await signInWithEmailAndPassword(auth,email,password)
                 const result = await addData(`${process.env.API_URL}/auth/login`,userCredentials.user)
                 console.log("result login",result)
-                await dispatch({type:"SET_USER",payload:result})
                 await saveAccessToken(result.accesstoken)
+                await dispatch({type:"SET_USER",payload:result})
                 setIsValidEmail(true);
                 setIsValidPassword(true);
             }
