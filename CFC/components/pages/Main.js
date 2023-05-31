@@ -58,6 +58,7 @@ export default function Main({navigation}){
         await dispatch({type: 'SET_ICONS', payload: await getData(`${process.env.API_URL}/icon`)});
         await dispatch({type: 'SET_DEFAULT_CATEGORIES', payload: await getData(`${process.env.API_URL}/defaultcategory`)});
         await dispatch({type: 'SET_TARGETS', payload: await getData(`${process.env.API_URL}/goal/user/${user.uid}`)});
+        await dispatch({type: 'SET_PAYMENTS', payload: await getData(`${process.env.API_URL}/remainder/user/${user.uid}`)});
     }
     const combine = () =>{
         const newData = filteredData?.reduce((acc, cur) => {

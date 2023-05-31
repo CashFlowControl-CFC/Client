@@ -3,7 +3,6 @@ import general from "../../styles/general";
 import { View } from "react-native";
 import CommonHeader from "../General/CommonHeader";
 import { TargetContext } from "../../modules/context";
-import TargetList from "../TargetComponents/TargetList";
 import PaymentList from "../PaymentsComponents/PaymentList";
 
 export default function ScheduledPayments({navigation}){

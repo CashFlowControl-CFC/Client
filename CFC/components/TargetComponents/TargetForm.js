@@ -116,17 +116,21 @@ export default function TargetForm({navigation}){
         navigation.navigate('Target');    
     }
     const handleAddPayment = async () => {
+        let result = await addData(`${process.env.API_URL}/remainder`, {
+            uid: user.uid,
+            category_id: selectedCategory, 
+            name: name,
+            dateRemainde: `${selectedDate.format('YYYY-MM-DD')}`, 
+            cash: value,
+        });
         let index = categories.findIndex(item => item.id == selectedCategory);
         dispatch({type: "ADD_PAYMENT", payload: {
-            id: `${new Date()}`,
-            user_id: 3,
+            ...result,
             color: categories[index].color, 
             image_link: categories[index].image_link, 
-            image_color: categories[index].image_color, 
-            name: name,
-            deadline: `${selectedDate.format('YYYY-MM-DD')}`, 
-            cash: value
+            image_color: categories[index].image_color,
         }});
+            
         schedulePaymentNotification();
         navigation.navigate('ScheduledPayments');    
     };

@@ -6,7 +6,8 @@ import moment from 'moment';
 import general from "../../styles/general";
 import { useDispatch, useSelector } from "react-redux";
 import ModalRemove from "../General/ModalRemove";
-import ModalMessage from "../General/ModalMessage";
+import { removeData } from "../../modules/requests";
+
 
 function PaymentList(props){
     const dispatch = useDispatch();
@@ -20,8 +21,11 @@ function PaymentList(props){
     }, [payments]);
 
     const handleRemove = async () =>{
-         let newData = payments.filter(item => item.id != selected);
-         dispatch({type: 'SET_PAYMENTS', payload: newData});
+         let result = await removeData(`${process.env.API_URL}/remainder/${selected}`);
+         if(result.status == 200){
+            let newData = payments.filter(item => item.id != selected);
+            dispatch({type: 'SET_PAYMENTS', payload: newData});
+         }
          setModalRemoveVisible(false);
     }
     const onClick = () => {
