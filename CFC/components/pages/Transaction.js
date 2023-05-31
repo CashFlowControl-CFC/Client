@@ -24,6 +24,7 @@ export default function Transaction({navigation}){
     const transCash = useSelector(state => state.transData.cash);
     const transDate = useSelector(state => state.transData.date);
     const isAdd = useSelector(state => state.transData.isAdd);
+    const user = useSelector(state => state.user.user);
     const selectedTransaction = useSelector(state => state.transData.selectedTransaction);
 
     const [value, setValue] = useState(transCash ? transCash : '');
@@ -55,7 +56,7 @@ export default function Transaction({navigation}){
     }, [isIncome, categories]);
 
     useEffect(() => {
-        updateData(`${process.env.API_URL}/account/1`, {cash: totalMoney});
+        updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: totalMoney});
     }, [totalMoney])
 
     const filterCategories = () =>{
@@ -74,7 +75,7 @@ export default function Transaction({navigation}){
         }
         let result = await addData(`${process.env.API_URL}/transaction`, {
             category_id: selectedCategory, 
-            user_id: 3, 
+            uid: user.uid, 
             date: `${selectedDate.format('YYYY-MM-DD')}`, 
             comment: comment, 
             cash: value, 
@@ -100,7 +101,7 @@ export default function Transaction({navigation}){
         }
         let object = {
             category_id: selectedCategory, 
-            user_id: 3, 
+            uid: user.uid, 
             date: `${selectedDate.format('YYYY-MM-DD')}`, 
             comment: comment, 
             cash: value, 

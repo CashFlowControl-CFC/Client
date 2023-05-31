@@ -18,6 +18,7 @@ function CategoryForm({navigation}){
     const defaultCategories = useSelector(state => state.category.defaultCategories);
     const selectedIcon = useSelector(state => state.icon.selectedIcon);
     const isIncome = useSelector(state => state.transaction.isIncome);
+    const user = useSelector(state => state.user.user);
     const [data, setData] = useState([]);
     const dispatch = useDispatch();
 
@@ -43,7 +44,7 @@ function CategoryForm({navigation}){
         console.log(isIncome)
         if(index != -1){
             let result = await addData(`${process.env.API_URL}/category`, {
-                user_id: 3,
+                uid: user.uid,
                 name: catName,
                 image_link: icons[index].image_link,
                 color: icons[index].color,

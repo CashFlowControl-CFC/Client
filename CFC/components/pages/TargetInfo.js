@@ -11,6 +11,7 @@ import ModalCash from "../MainPageComponents/ModalCash";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import ModalRemove from "../General/ModalRemove";
+import { updateData } from "../../modules/requests";
 
 export default function TargetInfo({navigation}){
     const route = useRoute();
@@ -25,21 +26,28 @@ export default function TargetInfo({navigation}){
         navigation.goBack();
     }
    }, [targets])
-    const handleAddMoney = (value) => {
-        let index = targets.findIndex(item => item.id === target.id);
-        if(index != -1){
-            dispatch({type: 'UPDATE_TARGET', payload: {newItem: {...targets[index], 
-                cash: Number(target.cash) + Number(value),
-                last_cash: value,
-                last_installment_date: moment(new Date()).format('YYYY-MM-DD')
-            }, 
-                index: index}});
-            setTarget({...targets[index], 
-                cash: Number(target.cash) + Number(value),
-                last_cash: value > 0 ? value : target.last_cash,
-                last_installment_date: moment(new Date()).format('YYYY-MM-DD'),
-                percent: Math.round(((Number(target.cash)+ Number(value)) * 100) / Number(route.params?.target.total_cash))
-            });
+    const handleAddMoney = async (value) => {
+        let result = await updateData(`${process.env.API_URL}/goal/${target.id}`, {
+            cash:Number(target.cash) + Number(value),
+            last_income: value,
+            date_last_income: moment(new Date()).format('YYYY-MM-DD')
+        });
+        if(result.status == 200){
+            let index = targets.findIndex(item => item.id === target.id);
+            if(index != -1){
+                dispatch({type: 'UPDATE_TARGET', payload: {newItem: {...targets[index], 
+                    cash: Number(target.cash) + Number(value),
+                    last_income: value,
+                    date_last_income: moment(new Date()).format('YYYY-MM-DD')
+                }, 
+                    index: index}});
+                setTarget({...targets[index], 
+                    cash: Number(target.cash) + Number(value),
+                    last_income: value > 0 ? value : target.last_cash,
+                    date_last_income: moment(new Date()).format('YYYY-MM-DD'),
+                    percent: Math.round(((Number(target.cash)+ Number(value)) * 100) / Number(route.params?.target.total_cash))
+                });
+            }
         }
         setModalVisible(false);
     }

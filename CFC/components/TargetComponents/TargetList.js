@@ -7,6 +7,7 @@ import general from "../../styles/general";
 import { useDispatch, useSelector } from "react-redux";
 import ModalRemove from "../General/ModalRemove";
 import ModalMessage from "../General/ModalMessage";
+import { removeData } from "../../modules/requests";
 
 function TargetList(props){
     const dispatch = useDispatch();
@@ -62,7 +63,7 @@ function TargetList(props){
             return acc;
         }, []).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()));
     }
-    const onClick = () => {
+    const onClick = () => { 
         dispatch({type: 'SET_SELECTED', payload: null});
         props.navigation.navigate('TargetForm', {isTarget: true});
     }
@@ -73,8 +74,11 @@ function TargetList(props){
         }
     }
     const handleRemove = async () =>{
-        let newData = targets.filter(item => item.id != selected);
-        dispatch({type: 'SET_TARGETS', payload: newData});
+        let result = await removeData(`${process.env.API_URL}/goal/${selected}`);
+        if(result.status == 200){
+            let newData = targets.filter(item => item.id != selected);
+            dispatch({type: 'SET_TARGETS', payload: newData});
+        }
         setModalRemoveVisible(false);
     }
     return (

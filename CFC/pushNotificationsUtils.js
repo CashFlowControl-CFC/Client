@@ -18,7 +18,7 @@ import moment from 'moment';
               body: 'Скоро будет снят платеж!',
             },
             trigger: {
-              date: new Date(reminderDate.year(), reminderDate.month(), reminderDate.date(), 15, 23) 
+              date: new Date(reminderDate.year(), reminderDate.month(), reminderDate.date(), 9, 0) 
             }
           });
       }
@@ -29,7 +29,7 @@ import moment from 'moment';
           body: 'Сегодня будет снят платеж!',
         },
         trigger: {
-          date: new Date(sameDayDate.year(), sameDayDate.month(), sameDayDate.date(), 15, 22)
+          date: new Date(sameDayDate.year(), sameDayDate.month(), sameDayDate.date(), 9, 0)
         },
       });
   };

@@ -1,13 +1,5 @@
 const initialState = {
-    categories: [
-        {
-            id: '1',
-            color: '#FF9876',
-            image_color: '#523024',
-            name: 'Family',
-            image_link: process.env.API_SMILE
-        }
-    ],
+    categories: [],
     defaultCategories: [],
     selectedCategory: 0,
 }

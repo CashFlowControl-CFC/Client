@@ -15,7 +15,7 @@ function SelectedTarget(props){
                                     </View>
                                     <View style={{width:"70%", flexDirection: "row", justifyContent: "space-between"}}>
                                             <Text style={styles.categoryText}>{props.target.name}</Text>
-                                            <Text style={[styles.categoryText, {color: '#D8D8D890'}]}>{props.target.percent}%({props.target.cash}$)</Text>
+                                            <Text style={[styles.categoryText, {color: '#D8D8D890'}]}>{props.target.percent}%</Text>
                                             <Text style={[styles.categoryText, {direction: 'ltr'}]}>{props.target.total_cash}$</Text>
                                     </View>
                                 </View> 

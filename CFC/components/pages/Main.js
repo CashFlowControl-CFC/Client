@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import general from "../../styles/general";
 import { getData, updateData } from "../../modules/requests";
@@ -19,11 +19,13 @@ export default function Main({navigation}){
     const [filterDate, setFilterDate] = useState(moment(new Date()).format("YYYY-MM-D"));
     const [selectedPeriod, setSelectedPeriod] = useState('Day');
     const [step, setStep] = useState(0);
+    const categories = useSelector(state => state.category.cateries);
 
     const [filteredData, setFilteredData] = useState([]);
     const [combinedData, setCombinedData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalMenuVisible, setModalMenuVisible] = useState(false);
+    const user = useSelector(state => state.user.user);
 
     const contextValue = {
         modalVisible, 
@@ -50,14 +52,13 @@ export default function Main({navigation}){
       }, [filteredData]);
 
     const loadData = async () =>{
-        let res = await getData(`${process.env.API_URL}/account/hDMsD5qjK7XIyEv3RgOTUKfSR1g2`);
-        await dispatch({type: 'SET_TOTALMONEY', payload: Number(res.cash)});
-        await dispatch({type: 'SET_DATA', payload: await getData(`${process.env.API_URL}/load/hDMsD5qjK7XIyEv3RgOTUKfSR1g2`)});
-        await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${process.env.API_URL}/category/user/hDMsD5qjK7XIyEv3RgOTUKfSR1g2`)});
+        await dispatch({type: 'SET_TOTALMONEY', payload: Number(user.total_cash)});
+        await dispatch({type: 'SET_DATA', payload: await getData(`${process.env.API_URL}/load/${user.uid}`)});
+        await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${process.env.API_URL}/category/user/${user.uid}`)});
         await dispatch({type: 'SET_ICONS', payload: await getData(`${process.env.API_URL}/icon`)});
         await dispatch({type: 'SET_DEFAULT_CATEGORIES', payload: await getData(`${process.env.API_URL}/defaultcategory`)});
+        await dispatch({type: 'SET_TARGETS', payload: await getData(`${process.env.API_URL}/goal/user/${user.uid}`)});
     }
-
     const combine = () =>{
         const newData = filteredData?.reduce((acc, cur) => {
             const index = acc.findIndex(item => item.x === cur.x);
@@ -80,7 +81,7 @@ export default function Main({navigation}){
           setCombinedData(newData);
     }
     const handleSetMoney = async (value) =>{
-        let res = await updateData(`${process.env.API_URL}/account/1`, {cash: parseFloat(value)})
+        let res = await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(value)})
         if(res.status == 200){
             dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : Number(totalMoney)});
             setModalVisible(false);

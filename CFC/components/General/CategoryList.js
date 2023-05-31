@@ -25,7 +25,7 @@ function CategoryList(props){
         else if(id != 'add'){
             dispatch({type: 'SET_SELECTED', payload: id});
             if(route.name == 'Categories'){
-                props.navigation.navigate('Transaction');
+                props.navigation.goBack();
             }
         }
     }
