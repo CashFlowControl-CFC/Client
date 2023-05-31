@@ -50,7 +50,7 @@ export default function Main({navigation}){
       }, [filteredData]);
 
     const loadData = async () =>{
-        let res = await getData(`${process.env.API_URL}/account/1`);
+        let res = await getData(`${process.env.API_URL}/account/hDMsD5qjK7XIyEv3RgOTUKfSR1g2`);
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(res.cash)});
         await dispatch({type: 'SET_DATA', payload: await getData(`${process.env.API_URL}/load/hDMsD5qjK7XIyEv3RgOTUKfSR1g2`)});
         await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${process.env.API_URL}/category/user/hDMsD5qjK7XIyEv3RgOTUKfSR1g2`)});

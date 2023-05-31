@@ -6,11 +6,11 @@ const getData = async (url) =>{
         const result = await fetch(url, {
             method: 'GET',
         })
-        if(result.status == 400){
-            return null;
+        if(result.status == 200){
+            const data = await result.json();
+            return data;
         }
-        const data = await result.json();
-        return data;
+        return null;
     }
     catch(err){
         console.error(err);
@@ -28,8 +28,12 @@ const addData = async (url, object) =>{
               },
             body: JSON.stringify(object),
         })
-        const data = await result.json();
-        return data;
+        if(result.status == 200){
+            console.log("200")
+            const data = await result.json();
+            return data;
+        }
+        return null;
     }
     catch(err){
         console.error(err);

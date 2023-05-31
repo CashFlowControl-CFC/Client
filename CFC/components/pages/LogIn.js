@@ -4,9 +4,11 @@ import general from "../../styles/general";
 import EmailInput from "../AuthComponents/EmailInput";
 import PasswordInput from "../AuthComponents/PasswordInput";
 import AuthHeader from "../AuthComponents/AuthHeader";
-import { FIREBASE_AUTH, auth } from "../../modules/FirebaseConfig";
+import { FIREBASE_AUTH } from "../../modules/FirebaseConfig";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-
+import { useDispatch } from "react-redux";
+import { addData } from "../../modules/requests";
+import { saveAccessToken } from "../../modules/storage";
 
 export default function LogIn({navigation}){
     const [email, setEmail] = useState('');
@@ -16,15 +18,18 @@ export default function LogIn({navigation}){
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordPattern = /^[a-zA-Z0-9]{8,30}$/;
     const [isPressed, setIsPressed] = useState(false);
-
     const [loading,setLoading] = useState(false)
     const auth = FIREBASE_AUTH
-
+    const dispatch = useDispatch();
     const authorization = async () =>{
         setLoading(true);
         try {
             if(emailPattern.test(email) && passwordPattern.test(password)){
-                await signInWithEmailAndPassword(auth,email,password)
+                const userCredentials = await signInWithEmailAndPassword(auth,email,password)
+                const result = await addData(`${process.env.API_URL}/auth/login`,userCredentials.user)
+                console.log("result login",result)
+                await dispatch({type:"SET_USER",payload:result})
+                await saveAccessToken(result.accesstoken)
                 setIsValidEmail(true);
                 setIsValidPassword(true);
             }

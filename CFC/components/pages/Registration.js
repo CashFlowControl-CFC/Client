@@ -4,9 +4,11 @@ import general from "../../styles/general";
 import EmailInput from "../AuthComponents/EmailInput";
 import PasswordInput from "../AuthComponents/PasswordInput";
 import AuthHeader from "../AuthComponents/AuthHeader";
-import { FIREBASE_AUTH, auth } from "../../modules/FirebaseConfig";
+import { FIREBASE_AUTH } from "../../modules/FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { saveAccessToken } from "../../modules/storage";
+import { addData } from "../../modules/requests";
+import { useDispatch } from "react-redux";
 
 
 
@@ -20,11 +22,12 @@ export default function Registration({ navigation }) {
     const passwordPattern = /^[a-zA-Z0-9]{8,30}$/;
     const [isValidRepeatedPass, setIsValidRepeatedPass] = useState(null);
     const [isPressed, setIsPressed] = useState(false);
-
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false)
     const auth = FIREBASE_AUTH
 
     const isValid = async () => {
+
         setLoading(true)
         try {
             if (emailPattern.test(email) && passwordPattern.test(password) && password === repeatedPass) {
@@ -32,16 +35,9 @@ export default function Registration({ navigation }) {
                 setIsValidPassword(true);
                 setIsValidRepeatedPass(true);
                 const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
-                await fetch(`${process.env.API_URL}/user`,{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body:JSON.stringify(userCredentials.user)
-                }).then(async(res)=>{
-                    const data = await res.json()
-                    saveAccessToken(data.stsTokenManager.accessToken)
-                })
+                const user = await addData(`${process.env.API_URL}/auth/register`,userCredentials.user)
+                await saveAccessToken(user.accesstoken)
+                dispatch({type:"SET_USER",payload:user})
             }
             else {
                 setIsValidEmail(false);
