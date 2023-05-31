@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "../modules/FirebaseConfig";
+import Profile from "./pages/Profile";
 const Stack = createStackNavigator();
 const InsideStack = createStackNavigator();
 const RegisterStack = createStackNavigator();
@@ -40,6 +41,7 @@ const InsideLayout = () => {
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='TargetForm' component={TargetForm} />
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='TargetInfo' component={TargetInfo} />
       <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='ScheduledPayments' component={ScheduledPayments} />
+      <InsideStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Profile' component={Profile} />
     </InsideStack.Navigator>
   )
 

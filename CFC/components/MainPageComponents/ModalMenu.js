@@ -31,7 +31,7 @@ function ModalMenu(){
                         <View style={[styles.pModal, {backgroundColor: 'transparent', justifyContent: 'flex-start', alignItems: 'flex-start'}]} >
                             <View style={[styles.sModalMenu]}>
                                 <View style={styles.menuContent}>
-                                    <TouchableWithoutFeedback>
+                                    <TouchableWithoutFeedback onPress={() => onClick('Profile')}>
                                         <View style={{flexDirection: 'row'}}>
                                             {getImage(process.env.API_PROFILE_URL, 20, 20, '#FFFFFF')}
                                             <Text style={[general.generalText, {marginLeft: '5%'}]}>Profile</Text>
