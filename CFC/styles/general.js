@@ -105,6 +105,23 @@ const general = StyleSheet.create({
             fontSize: 17,
             fontWeight: 400,
             marginLeft: '5%'
+        },
+        avatar:{
+            backgroundColor: '#FECC7A',
+            width: width * 0.5,
+            height: width * 0.5,
+            borderRadius: 100,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: '10%'
+        },
+        modalCurrency:{
+            width: '40%', 
+            marginTop: '5%', 
+            padding: '5%', 
+            alignSelf: 'flex-start',
+            backgroundColor: '#393939',
+            borderRadius: 20
         }
 });
 

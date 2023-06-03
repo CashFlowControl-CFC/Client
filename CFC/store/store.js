@@ -6,6 +6,7 @@ import iconReducer from './iconReducer';
 import { targetReducer } from './targetReducer';
 import paymentReducer from './paymentReducer';
 import { userReducer } from './userReducer';
+import { currencyReducer } from './currencyReducer';
 
 const rootReducer = combineReducers({
     transaction: transactionReducer, 
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     icon: iconReducer,
     target: targetReducer,
     payment: paymentReducer,
-    user:userReducer
+    user:userReducer,
+    currency: currencyReducer
 })
 
 export default store = createStore(rootReducer);
