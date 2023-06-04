@@ -4,8 +4,10 @@ import general from "../../styles/general";
 import moment from "moment";
 import styles from "../../styles/MainPage";
 import getImage from "../../resources/imageComponent";
+import { useSelector } from "react-redux";
 
 function LastInstallment(props){
+    const currentSymb = useSelector(state => state.currency.currentSymb);
     return (
         <View style={{width: "95%", marginTop: '5%', gap: 10}}>
                          <><Text style={[general.generalText, {marginLeft: '5%', color: '#D8D8D8'}]}>Last installment</Text>
@@ -16,7 +18,7 @@ function LastInstallment(props){
                                     </View>
                                     <View style={{width:"70%", flexDirection: "row", justifyContent: "space-between"}}>
                                             <Text style={styles.categoryText}>{props.target.name}</Text>
-                                            <Text style={[styles.categoryText, {direction: 'ltr'}]}>{props.target.last_income}$</Text>
+                                            <Text style={[styles.categoryText, {direction: 'ltr'}]}>{props.target.last_income}{currentSymb}</Text>
                                     </View>
                                 </View> 
                     </View>     

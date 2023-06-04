@@ -12,6 +12,7 @@ import { removeData } from "../../modules/requests";
 function TargetList(props){
     const dispatch = useDispatch();
     const targets = useSelector(state => state.target.targets);
+    const currentSymb = useSelector(state => state.currency.currentSymb);
     const [updatedData, setUpdatedData] = useState([]);
     const [selected, setSelected] = useState([]);
     const [modalRemoveVisible, setModalRemoveVisible] = useState(false);
@@ -104,8 +105,8 @@ function TargetList(props){
                                     </View>  
                                         <View style={{width:"70%", flexDirection: "row", justifyContent: "space-between", position: 'absolute', marginLeft: '20%'}}>
                                             <Text style={styles.categoryText}>{item.name}</Text>
-                                            <Text style={[styles.categoryText, {color: '#D8D8D890'}]}>{item.percent}%({item.cash}$)</Text>
-                                            <Text style={[styles.categoryText, {direction: 'ltr'}]}>{item.total_cash}$</Text>
+                                            <Text style={[styles.categoryText, {color: '#D8D8D890'}]}>{item.percent}%({item.cash}{currentSymb})</Text>
+                                            <Text style={[styles.categoryText, {direction: 'ltr'}]}>{item.total_cash}{currentSymb}</Text>
                                         </View>
                                 </View> 
                 

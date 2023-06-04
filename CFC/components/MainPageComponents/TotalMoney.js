@@ -10,8 +10,7 @@ import TransactionType from "../General/TransactionType";
 function TotalMoney(){
     const {setModalVisible, setModalMenuVisible} = useContext(MainContext);
     const totalMoney = useSelector(state => state.transaction.totalMoney);
-    const symbols = useSelector(state => state.currency.symbols);
-    const current = useSelector(state => state.currency.current);
+    const currentSymb = useSelector(state => state.currency.currentSymb);
     const currencyMoney = useSelector(state => state.currency.currencyMoney);
     useEffect(()=>{}, [currencyMoney, totalMoney])
     return(
@@ -26,7 +25,7 @@ function TotalMoney(){
                         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", width: '100%', zIndex: 0}}>
                             {getImage(process.env.API_BAG_URL, 20, 20, '#FFFFFF')}
                             <Text style={[general.generalText, {fontSize: 20}]}>Total:</Text>
-                            <Text style={styles.totalMoney}>{symbols.findLast(item => item.name == current).symb}{currencyMoney?Math.round(currencyMoney):0}</Text>
+                            <Text style={styles.totalMoney}>{currentSymb}{currencyMoney?Math.round(currencyMoney):0}</Text>
                         </View>
                         </TouchableWithoutFeedback>
                     </View>

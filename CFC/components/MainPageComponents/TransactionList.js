@@ -3,10 +3,11 @@ import { View,  TouchableWithoutFeedback, Text, FlatList} from "react-native";
 import styles from "../../styles/MainPage";
 import { MainContext } from "../../modules/context";
 import getImage from "../../resources/imageComponent";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function TransactionList(){
     const {combinedData, navigation} = useContext(MainContext);
+    const currentSymb = useSelector(state => state.currency.currentSymb);
     const dispatch = useDispatch();
 
     const handleSelectTransaction = (id) =>{
@@ -27,7 +28,7 @@ function TransactionList(){
                                     </View>
                                     <View style={{width:"70%", flexDirection: "row", justifyContent: "space-between"}}>
                                         <Text style={styles.categoryText}>{item.x}</Text>
-                                        <Text style={[styles.categoryText, {direction: 'ltr'}]}>${item.y}</Text>
+                                        <Text style={[styles.categoryText, {direction: 'ltr'}]}>{currentSymb}{item.y}</Text>
                                     </View>
                                 </View>   
                 

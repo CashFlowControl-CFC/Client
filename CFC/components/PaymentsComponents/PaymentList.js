@@ -15,6 +15,7 @@ function PaymentList(props){
     const [selected, setSelected] = useState(false);
     const [filteredData, setFilteredData] = useState(false);
     const payments = useSelector(state => state.payment.payments);
+    const currentSymb = useSelector(state => state.currency.currentSymb);
 
     useEffect(() => {
         setFilteredData(payments.sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()));
@@ -54,7 +55,7 @@ function PaymentList(props){
                                     </View>
                                     <View style={{width:"70%", flexDirection: "row", justifyContent: "space-between"}}>
                                             <Text style={styles.categoryText}>{item.name}</Text>
-                                            <Text style={[styles.categoryText, {direction: 'ltr'}]}>{item.cash}$</Text>
+                                            <Text style={[styles.categoryText, {direction: 'ltr'}]}>{item.cash}{currentSymb}</Text>
                                     </View>
                                 </View> 
                             </TouchableWithoutFeedback> 

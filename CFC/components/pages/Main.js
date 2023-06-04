@@ -19,13 +19,16 @@ export default function Main({navigation}){
     const [filterDate, setFilterDate] = useState(moment(new Date()).format("YYYY-MM-D"));
     const [selectedPeriod, setSelectedPeriod] = useState('Day');
     const [step, setStep] = useState(0);
-    const categories = useSelector(state => state.category.cateries);
 
     const [filteredData, setFilteredData] = useState([]);
     const [combinedData, setCombinedData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalMenuVisible, setModalMenuVisible] = useState(false);
     const user = useSelector(state => state.user.user);
+
+    const current = useSelector(state => state.currency.current);
+    const currency = useSelector(state => state.currency.currency);
+    const totalMoney = useSelector(state => state.transaction.totalMoney);
 
     const contextValue = {
         modalVisible, 
@@ -51,6 +54,9 @@ export default function Main({navigation}){
           combine();
       }, [filteredData]);
 
+      useEffect(() => {
+        setCurrency();
+      }, [totalMoney])
     const loadData = async () =>{
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(user.total_cash)});
         await dispatch({type: 'SET_DATA', payload: await getData(`${process.env.API_URL}/load/${user.uid}`)});
@@ -59,6 +65,16 @@ export default function Main({navigation}){
         await dispatch({type: 'SET_DEFAULT_CATEGORIES', payload: await getData(`${process.env.API_URL}/defaultcategory`)});
         await dispatch({type: 'SET_TARGETS', payload: await getData(`${process.env.API_URL}/goal/user/${user.uid}`)});
         await dispatch({type: 'SET_PAYMENTS', payload: await getData(`${process.env.API_URL}/remainder/user/${user.uid}`)});
+        await dispatch({type: 'SET_CURRENCY', payload: await getData(process.env.API_PRIVAT_URL)}); 
+    }
+    const setCurrency = async () => {
+        const currencyIndex = currency.findIndex(item => item.ccy == current);
+        if(currencyIndex != -1){
+            await dispatch({type: 'SET_CURRENCY_MONEY', payload: Math.round(Number(totalMoney) / Number(currency[currencyIndex].sale))})
+        }
+        else{
+            await dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney)})
+        }
     }
     const combine = () =>{
         const newData = filteredData?.reduce((acc, cur) => {

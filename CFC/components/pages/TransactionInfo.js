@@ -17,6 +17,7 @@ export default function TransactionInfo({navigation}){
     const totalMoney = useSelector(state => state.transaction.totalMoney);
     const data = useSelector(state => state.transaction.data);
     const selected = useSelector(state => state.transData.selectedTransaction);
+    const currentSymb = useSelector(state => state.currency.currentSymb);
 
     const [moneySum, setMoneySum] = useState(0);
     const [filteredData, setFilteredData] = useState([]);
@@ -80,7 +81,7 @@ export default function TransactionInfo({navigation}){
         <View style={general.app}>
             <ModalRemove modalVisible={modalVisible} close={() => setModalVisible(false)} action={handleRemove}/>
 
-            <CommonHeader navigation={navigation} title={`${selectedTransaction.x} $${moneySum}`} image_link={selectedTransaction.image_link}/>
+            <CommonHeader navigation={navigation} title={`${selectedTransaction.x} ${currentSymb}${moneySum}`} image_link={selectedTransaction.image_link}/>
 
             <View style={general.content} >
                 <FlatList keyExtractor={item => item.id} style={{marginTop: 25}}
@@ -100,7 +101,7 @@ export default function TransactionInfo({navigation}){
                                                             {item.comment}
                                                             </Text> : <></>}
                                                     </View>
-                                                    <Text style={[styles.categoryText, {direction: 'ltr', alignSelf: 'center'}]}>${item.y}</Text>
+                                                    <Text style={[styles.categoryText, {direction: 'ltr', alignSelf: 'center'}]}>{currentSymb}{item.y}</Text>
                                                 </View>
                                             </View> 
                                     </View>
