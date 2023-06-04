@@ -15,7 +15,6 @@ function TransactionList(){
         dispatch({type: 'SET_SELECTED_TRANSACTION', payload: res[0]})
         navigation.navigate('TransactionInfo');
     }
-
     return (
         <View style={{width: "95%", flex: 1}}>
         <FlatList keyExtractor={item => item.id} 

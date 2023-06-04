@@ -17,7 +17,7 @@ export default function Currency(props){
         dispatch({type: 'SET_CURRENT', payload: symbols[index].name});
         dispatch({type: 'SET_CURRENT_SYMB', payload: symbols[index].symb});
         if(currencyIndex != -1){
-            dispatch({type: 'SET_CURRENCY_MONEY', payload: Math.round(Number(totalMoney) / Number(currency[currencyIndex].sale))})
+            dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney) / Number(currency[currencyIndex].sale)})
         }
         else{
             dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney)})

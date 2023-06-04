@@ -52,7 +52,7 @@ export default function Main({navigation}){
 
       useEffect(() =>{
           combine();
-      }, [filteredData]);
+      }, [filteredData, current]);
 
       useEffect(() => {
         setCurrency();
@@ -81,7 +81,7 @@ export default function Main({navigation}){
             const index = acc.findIndex(item => item.x === cur.x);
             if (index === -1) {
               acc.push({ x: cur.x, 
-                y: Number(cur.y), 
+                y: current == 'UAH' ? Number(cur.y) : changeDataCurrency(Number(cur.y)), 
                 fill: cur.fill, 
                 id: cur.id, 
                 image_link: 
@@ -96,6 +96,14 @@ export default function Main({navigation}){
             return acc;
           }, []);
           setCombinedData(newData);
+    }
+    
+    const changeDataCurrency = (number) => {
+        const currencyIndex = currency.findIndex(item => item.ccy == current);
+        if(currencyIndex != -1){
+            return Number((number / currency[currencyIndex].sale).toFixed(2));
+        }
+        return Number(number);
     }
     const handleSetMoney = async (value) =>{
         let res = await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(value)})

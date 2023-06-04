@@ -10,7 +10,7 @@ export default function UserInfo(props){
             <TouchableWithoutFeedback>
                 <View style={{width: '90%', marginTop: '5%', alignSelf: 'flex-start'}}>
                     <Text style={[general.generalText, {color: '#D8D8D8'}]}>Name</Text>
-                    <Text style={[general.generalText, {fontSize: 19, marginTop: 5}]}>Peter Peter</Text>
+                    <Text style={[general.generalText, {fontSize: 19, marginTop: 5}]}>Nickname</Text>
                 </View>
             </TouchableWithoutFeedback>
             <View style={{width: '90%', marginTop: '5%', alignSelf: 'flex-start'}}>
