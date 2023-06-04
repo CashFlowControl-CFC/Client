@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { View,  Text} from "react-native";
 import { VictoryPie } from "victory-native";
 import { MainContext } from "../../modules/context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CreateBtn from "../General/CreateBtn";
 import general from "../../styles/general";
 
 function PieChart(){
     const {combinedData, filteredData, navigation} = useContext(MainContext);
     const [transactionMoney, setTransactionMoney] = useState(0);
-    const dispatch = useDispatch();
+    const currentSymb = useSelector(state => state.currency.currentSymb);
     useEffect(() =>{
         sum();
     }, [filteredData]);
@@ -44,7 +44,7 @@ function PieChart(){
             color: '#FFFFFF',
             fontWeight: 700,
             fontSize: 25,
-            }}> ${transactionMoney?transactionMoney:0} </Text>
+            }}> {currentSymb}{transactionMoney?transactionMoney:0} </Text>
         </View>     
     );
 }

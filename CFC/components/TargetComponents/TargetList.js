@@ -33,7 +33,7 @@ function TargetList(props){
         checkIsCompleted();
     }, [targets]);
 
-    const checkIsCompleted = () => {
+    const checkIsCompleted = async () => {
         let index = targets.findIndex(item => item.cash >= item.total_cash);
 
         if(index != -1){
@@ -41,19 +41,21 @@ function TargetList(props){
             setText("Wow! YOU ARE GREAT! You completed your goal in time!");
             setModalVisible(true);
             let newData = targets.filter(item => item.id != targets[index].id);
+            await removeData(`${process.env.API_URL}/goal/${targets[index].id}`);
             dispatch({type: 'SET_TARGETS', payload: newData});
         }
     }
 
-    const checkDeadline = () => {
+    const checkDeadline = async () => {
         let index = targets.findIndex(item => moment(item.deadline).format('YYYY-MM-DD') < moment(new Date()).format('YYYY-MM-DD') &&
         item.cash < item.total_cash);
-
+        
         if(index != -1){
             setIsCompleted(false);
             setText("Oh, unfortunately you didn't complete your goal in time( \nBut don't worry, you'll get it next time");
             setModalVisible(true);
             let newData = targets.filter(item => item.id != targets[index].id);
+            await removeData(`${process.env.API_URL}/goal/${targets[index].id}`);
             dispatch({type: 'SET_TARGETS', payload: newData});
         }
     }
