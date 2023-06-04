@@ -58,7 +58,7 @@ const RegisterLayout = () => {
 const auth = async (dispatch) => {
   const token = await getAccessToken()
   console.log("token in enter:", token)
-  if(token.accessToken!=null){
+  if(token!=null){
     const result = await addData(`${process.env.API_URL}/auth/token`, token)
     console.log("result in enter", result)
     dispatch({ type: "SET_USER", payload: result })
@@ -72,6 +72,7 @@ export default function Navigation() {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   useEffect(() => {
+      console.log("server:",process.env.API_URL)
       console.log("user in start",user)
       if (user==null) {
         auth(dispatch);
