@@ -6,11 +6,22 @@ import { useDispatch, useSelector } from "react-redux";
 export default function Currency(props){
     const symbols = useSelector(state => state.currency.symbols);
     const current = useSelector(state => state.currency.current);
+    const currency = useSelector(state => state.currency.currency);
+    const totalMoney = useSelector(state => state.transaction.totalMoney);
     const dispatch = useDispatch();
-    const onSelect = (id) => {
+
+    const onSelect = async (id) => {
         const index = symbols.findIndex(item => item.id == id);
+        const currencyIndex = currency.findIndex(item => item.ccy == symbols[index].name);
         dispatch({type: 'SET_CURRENT', payload: symbols[index].name});
+        if(currencyIndex != -1){
+            dispatch({type: 'SET_CURRENCY_MONEY', payload: Math.round(Number(totalMoney) / Number(currency[currencyIndex].sale))})
+        }
+        else{
+            dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney)})
+        }
     }
+    
     return (
         <View style={{width: '90%', justifyContent: 'center', alignItems: 'center'}}>
                 {!props.showModal ? 

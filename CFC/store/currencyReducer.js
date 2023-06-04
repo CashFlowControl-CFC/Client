@@ -5,7 +5,8 @@ const initialState = {
         {id: '2', name: 'USD', symb:'$'}, 
         {id: '3', name: 'EUR', symb:'€'}
     ],
-    current: 'UAH'
+    current: 'UAH',
+    currencyMoney: 0
 }
 
 export const currencyReducer = (state = initialState, action) => {
@@ -14,6 +15,8 @@ export const currencyReducer = (state = initialState, action) => {
             return {...state, currency: action.payload}
         case 'SET_CURRENT':
             return {...state, current: action.payload}
+        case 'SET_CURRENCY_MONEY':
+            return {...state, currencyMoney: action.payload}
         default:
             return state;
     }

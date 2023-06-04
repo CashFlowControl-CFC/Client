@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableWithoutFeedback, View } from "react-native";
 import general from "../../styles/general";
 import CommonHeader from "../General/CommonHeader";
 import Avatar from "../ProfilePageComponents/Avatar";
 import UserInfo from "../ProfilePageComponents/UserInfo";
 import Currency from "../ProfilePageComponents/Currency";
+import { useDispatch } from "react-redux";
+import {getData} from '../../modules/requests'
 
 export default function Profile({navigation}){
     const [showModal, setShowModal] = useState(false);
