@@ -91,7 +91,8 @@ export default function Main({navigation}){
                 isIncome: cur.isIncome,
                 category_id: cur.category_id });
             } else {
-              acc[index].y = Number(acc[index].y) + Number(cur.y);
+              acc[index].y = current == 'UAH' ? Number(acc[index].y) + Number(cur.y) 
+              : changeDataCurrency(Number(acc[index].y) + Number(cur.y));
             }
             return acc;
           }, []);

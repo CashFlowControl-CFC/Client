@@ -18,6 +18,8 @@ export default function TransactionInfo({navigation}){
     const data = useSelector(state => state.transaction.data);
     const selected = useSelector(state => state.transData.selectedTransaction);
     const currentSymb = useSelector(state => state.currency.currentSymb);
+    const current = useSelector(state => state.currency.current);
+    const currency = useSelector(state => state.currency.currency);
 
     const [moneySum, setMoneySum] = useState(0);
     const [filteredData, setFilteredData] = useState([]);
@@ -27,16 +29,28 @@ export default function TransactionInfo({navigation}){
 
     useEffect(() => {
         filter();
-    }, [data])
+    }, [data, current])
     
     const filter = () =>{
-        let res = data.filter(item => item.x == selectedTransaction.x && item.isIncome == selectedTransaction.isIncome);
+        const dataCurrency = data.reduce((acc, cur) => {
+              acc.push({ ...cur, y: current == 'UAH' ? Number(cur.y) : changeDataCurrency(Number(cur.y)) });
+            return acc;
+          }, []);
+        let res = dataCurrency.filter(item => item.x == selectedTransaction.x && item.isIncome == selectedTransaction.isIncome);
         setFilteredData(res.sort((a, b) => (a.date != b.date) ? new Date(b.date).getTime() - new Date(a.date).getTime() : b.id - a.id));
         const sum = res?.reduce((acc, cur)  => {
             acc.y = Number(acc.y) + Number(cur.y);
             return acc;
         }, {y: 0});
         setMoneySum(sum.y);
+    }
+    
+    const changeDataCurrency = (number) => {
+        const currencyIndex = currency.findIndex(item => item.ccy == current);
+        if(currencyIndex != -1){
+            return Number((number / currency[currencyIndex].sale).toFixed(2));
+        }
+        return Number(number);
     }
     const handleRemove = async () =>{
         let res = await removeData(`${process.env.API_URL}/transaction/${selected}`);
