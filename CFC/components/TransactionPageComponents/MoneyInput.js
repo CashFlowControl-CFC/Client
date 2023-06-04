@@ -1,8 +1,10 @@
 import React from "react";
-import { View, TextInput} from "react-native";
+import { View, TextInput, Text} from "react-native";
 import general from "../../styles/general";
+import { useSelector } from "react-redux";
 
 function MoneyInput(props){
+  const current = useSelector(state => state.currency.current);
     return (
         <View style={{width: "100%", alignItems: 'center', justifyContent: 'center', marginTop: "5%"}}>
                         <TextInput 
@@ -17,6 +19,7 @@ function MoneyInput(props){
                                         }
                                       }}
                                       /> 
+                          <Text style={[general.generalText, {fontSize: 20, position: 'absolute', right: 30}]}>{current}</Text>
                 </View>     
     );
 }

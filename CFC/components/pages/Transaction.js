@@ -12,6 +12,7 @@ import MoneyInput from "../TransactionPageComponents/MoneyInput";
 import DateButtons from "../TransactionPageComponents/DateButtons";
 import CommentInput from "../TransactionPageComponents/CommentInput";
 import Header from "../General/Header";
+import { changeTransactionCurrency } from "../../modules/generalFuncs";
 
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
@@ -26,6 +27,8 @@ export default function Transaction({navigation}){
     const isAdd = useSelector(state => state.transData.isAdd);
     const user = useSelector(state => state.user.user);
     const selectedTransaction = useSelector(state => state.transData.selectedTransaction);
+    const current = useSelector(state => state.currency.current);
+    const currency = useSelector(state => state.currency.currency);
 
     const [value, setValue] = useState(transCash ? transCash : '');
     const [comment, setComment] = useState(transComment ? transComment : '');
@@ -67,6 +70,10 @@ export default function Transaction({navigation}){
     }
     
     const handleAddTransaction = async () => {
+        let valueCurrency = value;
+        if(current != 'UAH'){
+            valueCurrency = changeTransactionCurrency(value, currency, current)
+        }
         if(isIncome){
             dispatch({type: 'ADD_INCOME', payload: value});
         }
@@ -78,10 +85,9 @@ export default function Transaction({navigation}){
             uid: user.uid, 
             date: `${selectedDate.format('YYYY-MM-DD')}`, 
             comment: comment, 
-            cash: value, 
+            cash: Number(valueCurrency), 
             isIncome: isIncome
         })
-        console.log(result)
         let newDate = new Date();
         updateData(`${process.env.API_URL}/category/${selectedCategory}`, {lastUsed: newDate});
         let index = categories.findIndex(item => item.id == selectedCategory);

@@ -10,7 +10,6 @@ import getImage from "../../resources/imageComponent";
 import ModalCash from "../MainPageComponents/ModalCash";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import ModalRemove from "../General/ModalRemove";
 import { updateData } from "../../modules/requests";
 
 export default function TargetInfo({navigation}){

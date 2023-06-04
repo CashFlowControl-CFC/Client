@@ -12,6 +12,7 @@ import TotalMoney from "../MainPageComponents/TotalMoney";
 import PeriodButtons from "../MainPageComponents/PeriodButtons";
 import TransactionList from "../MainPageComponents/TransactionList";
 import ModalMenu from "../MainPageComponents/ModalMenu";
+import { changeDataCurrency } from "../../modules/generalFuncs";
 
 export default function Main({navigation}){
     const dispatch = useDispatch();
@@ -81,7 +82,7 @@ export default function Main({navigation}){
             const index = acc.findIndex(item => item.x === cur.x);
             if (index === -1) {
               acc.push({ x: cur.x, 
-                y: current == 'UAH' ? Number(cur.y) : changeDataCurrency(Number(cur.y)), 
+                y: current == 'UAH' ? Number(cur.y) : changeDataCurrency(Number(cur.y), currency, current), 
                 fill: cur.fill, 
                 id: cur.id, 
                 image_link: 
@@ -91,20 +92,12 @@ export default function Main({navigation}){
                 isIncome: cur.isIncome,
                 category_id: cur.category_id });
             } else {
-              acc[index].y = current == 'UAH' ? Number(acc[index].y) + Number(cur.y) 
-              : changeDataCurrency(Number(acc[index].y) + Number(cur.y));
+              acc[index].y = (Number(acc[index].y) + (current == 'UAH' ? (Number(cur.y))
+              : changeDataCurrency((Number(cur.y)), currency, current))).toFixed(2);
             }
             return acc;
           }, []);
           setCombinedData(newData);
-    }
-    
-    const changeDataCurrency = (number) => {
-        const currencyIndex = currency.findIndex(item => item.ccy == current);
-        if(currencyIndex != -1){
-            return Number((number / currency[currencyIndex].sale).toFixed(2));
-        }
-        return Number(number);
     }
     const handleSetMoney = async (value) =>{
         let res = await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(value)})
