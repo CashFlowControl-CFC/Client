@@ -77,17 +77,17 @@ export default function Transaction({navigation}){
             valueCurrency = changeCurrencyToUAH(value, currency, current)
         }
         if(isIncome){
-            dispatch({type: 'ADD_INCOME', payload: valueCurrency});
+            dispatch({type: 'ADD_INCOME', payload: parseFloat(valueCurrency.replace(',', '.'))});
         }
         else{
-            dispatch({type: 'ADD_EXPENSES', payload: valueCurrency});
+            dispatch({type: 'ADD_EXPENSES', payload: parseFloat(valueCurrency.replace(',', '.'))});
         }
         let result = await addData(`${process.env.API_URL}/transaction`, {
             category_id: selectedCategory, 
             uid: user.uid, 
             date: `${selectedDate.format('YYYY-MM-DD')}`, 
             comment: comment, 
-            cash: Number(valueCurrency), 
+            cash: valueCurrency.replace(',', '.'), 
             isIncome: isIncome
         })
         let newDate = new Date();

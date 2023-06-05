@@ -2,20 +2,23 @@ import React, { useContext, useEffect, useState } from "react";
 import { View,  Text} from "react-native";
 import { VictoryPie } from "victory-native";
 import { MainContext } from "../../modules/context";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import CreateBtn from "../General/CreateBtn";
 import general from "../../styles/general";
+import { changeCurrencyFromUAH } from "../../modules/generalFuncs";
 
 function PieChart(){
     const {combinedData, filteredData, navigation} = useContext(MainContext);
     const [transactionMoney, setTransactionMoney] = useState(0);
+    const current = useSelector(state => state.currency.current);
+    const currency = useSelector(state => state.currency.currency);
     const currentSymb = useSelector(state => state.currency.currentSymb);
     useEffect(() =>{
         sum();
-    }, [filteredData]);
+    }, [filteredData, current]);
     const sum = () =>{
-         const total = filteredData?.reduce((acc, cur) => Number(acc) + Number(cur.y), 0);
-         setTransactionMoney(total);
+        const total = filteredData?.reduce((acc, cur) => Number(acc) + Number(cur.y), 0);
+        setTransactionMoney(changeCurrencyFromUAH((Number(total)), currency, current));
     }
     return (
             <View style={{alignItems: "center", justifyContent: 'center'}}>
