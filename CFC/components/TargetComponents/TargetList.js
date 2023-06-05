@@ -67,8 +67,8 @@ function TargetList(props){
             let percent = (cur.cash * 100) / cur.total_cash;
             acc.push({...cur, 
                 percent: Math.round(percent),
-                cash: current == 'UAH' ? Number(cur.cash) : changeCurrencyFromUAH(Number(cur.cash), currency, current),
-                total_cash: current == 'UAH' ? Number(cur.total_cash) : changeCurrencyFromUAH(Number(cur.total_cash), currency, current)
+                cash: current == 'UAH' ? Number(cur.cash).toFixed(2) : changeCurrencyFromUAH(Number(cur.cash), currency, current),
+                total_cash: current == 'UAH' ? Number(cur.total_cash).toFixed(2) : changeCurrencyFromUAH(Number(cur.total_cash), currency, current)
             });
             return acc;
         }, []).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()));
@@ -115,7 +115,7 @@ function TargetList(props){
                                     </View>  
                                         <View style={{width:"70%", flexDirection: "row", justifyContent: "space-between", position: 'absolute', marginLeft: '20%'}}>
                                             <Text style={styles.categoryText}>{item.name}</Text>
-                                            <Text style={[styles.categoryText, {color: '#D8D8D890'}]}>{item.percent}%({item.cash}{currentSymb})</Text>
+                                            <Text style={[styles.categoryText, {color: '#D8D8D890'}]}>{item.percent}%</Text>
                                             <Text style={[styles.categoryText, {direction: 'ltr'}]}>{item.total_cash}{currentSymb}</Text>
                                         </View>
                                 </View> 

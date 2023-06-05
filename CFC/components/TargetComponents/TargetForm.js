@@ -13,6 +13,7 @@ import styles from "../../styles/TransactionPage";
 import { useRoute } from "@react-navigation/native";
 import * as Notifications from 'expo-notifications';
 import { registerForPushNotificationsAsync, schedulePushNotification } from "../../pushNotificationsUtils";
+import { changeCurrencyToUAH } from "../../modules/generalFuncs";
 const { width, height } = Dimensions.get('window');
 
 Notifications.setNotificationHandler({
@@ -29,11 +30,12 @@ export default function TargetForm({navigation}){
     const categories = useSelector(state => state.category.categories);
     const selectedCategory = useSelector(state => state.category.selectedCategory);
     const transComment = useSelector(state => state.transData.comment);
-    const transCash = useSelector(state => state.transData.cash);
     const transDate = useSelector(state => state.transData.date);
     const user = useSelector(state => state.user.user);
+    const current = useSelector(state => state.currency.current);
+    const currency = useSelector(state => state.currency.currency);
 
-    const [value, setValue] = useState(transCash ? transCash : '');
+    const [value, setValue] = useState('');
     const [name, setName] = useState('');
     const [comment, setComment] = useState(transComment ? transComment : '');
     const [selectedDate, setSelectedDate] = useState(moment(new Date()));
@@ -65,7 +67,7 @@ export default function TargetForm({navigation}){
         filterCategories();
     }, [categories]);
     useEffect(()=>{
-        if (value > 0 && selectedDate && selectedCategory && name) {
+        if (Number(value.replace(',', '.')) > 0 && selectedDate && selectedCategory && name) {
             setDisabled(false);
           } else {
             setDisabled(true);
@@ -98,12 +100,16 @@ export default function TargetForm({navigation}){
     }
     
     const handleAddTarget = async () => {
+        let valueCurrency = value.replace(',', '.');
+        if(current != 'UAH'){
+            valueCurrency = changeCurrencyToUAH(value.replace(',', '.'), currency, current);
+        }
         let result = await addData(`${process.env.API_URL}/goal`, {
             uid: user.uid,
             category_id: selectedCategory, 
             name: name,
             deadline: `${selectedDate.format('YYYY-MM-DD')}`, 
-            total_cash: value,
+            total_cash: Number(valueCurrency),
             cash: 0
         });
         let index = categories.findIndex(item => item.id == selectedCategory);
