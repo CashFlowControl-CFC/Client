@@ -18,8 +18,7 @@ function PieChart(){
     }, [filteredData, current]);
     const sum = () =>{
         const total = filteredData?.reduce((acc, cur) => Number(acc) + Number(cur.y), 0);
-        setTransactionMoney(changeCurrencyFromUAH((Number(total)), currency, current));
-        //setTransactionMoney(total);
+        setTransactionMoney(changeCurrencyFromUAH((Number(total)), currency, current).toFixed(2));
     }
     return (
             <View style={{alignItems: "center", justifyContent: 'center'}}>

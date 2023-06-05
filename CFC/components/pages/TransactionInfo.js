@@ -10,7 +10,7 @@ import { removeData } from "../../modules/requests";
 import { updateData } from "../../modules/requests";
 import CreateBtn from "../General/CreateBtn";
 import CommonHeader from "../General/CommonHeader";
-import { changeDataCurrency } from "../../modules/generalFuncs";
+import { changeCurrencyFromUAH } from "../../modules/generalFuncs";
 
 
 export default function TransactionInfo({navigation}){
@@ -34,7 +34,7 @@ export default function TransactionInfo({navigation}){
     
     const filter = () =>{
         const dataCurrency = data.reduce((acc, cur) => {
-              acc.push({ ...cur, y: current == 'UAH' ? Number(cur.y) : changeDataCurrency(Number(cur.y), currency, current) });
+              acc.push({ ...cur, y: current == 'UAH' ? Number(cur.y.toFixed(2)) : changeCurrencyFromUAH(Number(cur.y), currency, current).toFixed(2) });
             return acc;
           }, []);
         let res = dataCurrency.filter(item => item.x == selectedTransaction.x && item.isIncome == selectedTransaction.isIncome);
@@ -43,7 +43,7 @@ export default function TransactionInfo({navigation}){
             acc.y = Number(acc.y) + Number(cur.y);
             return acc;
         }, {y: 0});
-        setMoneySum(sum.y);
+        setMoneySum(sum.y.toFixed(2));
     }
     
     const handleRemove = async () =>{

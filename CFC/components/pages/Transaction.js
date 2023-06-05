@@ -11,7 +11,7 @@ import MoneyInput from "../TransactionPageComponents/MoneyInput";
 import DateButtons from "../TransactionPageComponents/DateButtons";
 import CommentInput from "../TransactionPageComponents/CommentInput";
 import Header from "../General/Header";
-import { changeCurrencyToUAH } from "../../modules/generalFuncs";
+import { changeCurrencyFromUAH, changeCurrencyToUAH } from "../../modules/generalFuncs";
 
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
@@ -60,6 +60,7 @@ export default function Transaction({navigation}){
     useEffect(() => {
         const setMoney = async () => {
             let res = await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(totalMoney)})
+            dispatch({type: 'SET_CURRENCY_MONEY', payload: changeCurrencyFromUAH(totalMoney, currency, current)});
         }
         setMoney();
     }, [totalMoney])
@@ -72,22 +73,23 @@ export default function Transaction({navigation}){
     }
     
     const handleAddTransaction = async () => {
-        let valueCurrency = value;
+        let valueCurrency = value.replace(',', '.');
         if(current != 'UAH'){
-            valueCurrency = changeCurrencyToUAH(value, currency, current)
+            valueCurrency = changeCurrencyToUAH(value.replace(',', '.'), currency, current);
+            console.log(valueCurrency);
         }
         if(isIncome){
-            dispatch({type: 'ADD_INCOME', payload: parseFloat(valueCurrency.replace(',', '.'))});
+            dispatch({type: 'ADD_INCOME', payload: parseFloat(valueCurrency)});
         }
         else{
-            dispatch({type: 'ADD_EXPENSES', payload: parseFloat(valueCurrency.replace(',', '.'))});
+            dispatch({type: 'ADD_EXPENSES', payload: parseFloat(valueCurrency)});
         }
         let result = await addData(`${process.env.API_URL}/transaction`, {
             category_id: selectedCategory, 
             uid: user.uid, 
             date: `${selectedDate.format('YYYY-MM-DD')}`, 
             comment: comment, 
-            cash: valueCurrency.replace(',', '.'), 
+            cash: valueCurrency, 
             isIncome: isIncome
         })
         let newDate = new Date();
@@ -96,7 +98,6 @@ export default function Transaction({navigation}){
         if(index != -1){
             await dispatch({type: 'UPDATE_CATEGORY', payload: {newItem: {...categories[index], lastUsed: newDate}, index: index}})
         }
-        console.log(result)
         await dispatch({type: 'ADD_TRANSACTION', payload: result});
         navigation.navigate('Main')    
     }

@@ -9,7 +9,7 @@ function AddBtn(props){
     const [disabled, setDisabled] = useState(true);
     useEffect(() => {
       console.log(props.object.value)
-        if (props.object.value.replace(',', '.') > 0 && props.object.selectedDate && selectedCategory) {
+        if (Number(props.object.value.replace(',', '.')) > 0 && props.object.selectedDate && selectedCategory) {
           setDisabled(false);
         } else {
           setDisabled(true);

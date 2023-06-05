@@ -21,11 +21,11 @@ export const transactionReducer = (state = initialState, action) =>{
         case 'EXPENSES':
             return {...state, isIncome: false}
         case 'ADD_INCOME':
-            return {...state, totalMoney: Number(state.totalMoney) + Number(action.payload)}
+            return {...state, totalMoney: (Number(state.totalMoney) + Number(action.payload)).toFixed(2)}
         case 'ADD_EXPENSES':
-            return {...state, totalMoney: Number(state.totalMoney) - Number(action.payload)}
+            return {...state, totalMoney: (Number(state.totalMoney) - Number(action.payload)).toFixed(2)}
         case 'SET_TOTALMONEY':
-            return {...state, totalMoney: Number(action.payload)}
+            return {...state, totalMoney: Number(action.payload.toFixed(2))}
         case 'SET_SELECTED_TRANSACTION':
             return {...state, selectedTransaction: action.payload}
         default:
