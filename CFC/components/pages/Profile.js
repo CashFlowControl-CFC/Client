@@ -7,7 +7,6 @@ import Avatar from "../ProfilePageComponents/Avatar";
 import UserInfo from "../ProfilePageComponents/UserInfo";
 import Currency from "../ProfilePageComponents/Currency";
 import ExitBtn from "../ProfilePageComponents/ExitBtn";
-import { useSelector } from "react-redux";
 const cameraPermission = async (platformType) => {
   if (platformType === 'ios') {
     // Дозвіл на використання камери на iOS
@@ -22,26 +21,7 @@ const cameraPermission = async (platformType) => {
       console.log('Помилка при запиті дозволу на використання камери на iOS:', error);
     }
   } else if (platformType === 'android') {
-    // Дозвіл на використання камери на Android
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: 'Дозвіл на використання камери',
-          message: 'Дозвольте додатку використовувати камеру',
-          buttonNeutral: 'Пізніше',
-          buttonNegative: 'Відмінити',
-          buttonPositive: 'Дозволити',
-        }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Дозвіл на використання камери на Android');
-      } else {
-        console.log('Дозвіл на використання камери на Android відхилено');
-      }
-    } catch (error) {
-      console.log('Помилка при запиті дозволу на використання камери на Android:', error);
-    }
+    ImagePicker.getCameraPermissionsAsync()
   } else {
     console.log('Невідома платформа');
   }
