@@ -122,12 +122,16 @@ export default function TargetForm({navigation}){
         navigation.navigate('Target');    
     }
     const handleAddPayment = async () => {
+        let valueCurrency = value.replace(',', '.');
+        if(current != 'UAH'){
+            valueCurrency = changeCurrencyToUAH(value.replace(',', '.'), currency, current);
+        }
         let result = await addData(`${process.env.API_URL}/remainder`, {
             uid: user.uid,
             category_id: selectedCategory, 
             name: name,
             dateRemainde: `${selectedDate.format('YYYY-MM-DD')}`, 
-            cash: value,
+            cash: Number(valueCurrency),
         });
         let index = categories.findIndex(item => item.id == selectedCategory);
         dispatch({type: "ADD_PAYMENT", payload: {

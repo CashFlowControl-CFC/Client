@@ -7,7 +7,7 @@ import general from "../../styles/general";
 import { useDispatch, useSelector } from "react-redux";
 import ModalRemove from "../General/ModalRemove";
 import { removeData } from "../../modules/requests";
-
+import { changeCurrencyFromUAH } from "../../modules/generalFuncs";
 
 function PaymentList(props){
     const dispatch = useDispatch();
@@ -16,10 +16,17 @@ function PaymentList(props){
     const [filteredData, setFilteredData] = useState(false);
     const payments = useSelector(state => state.payment.payments);
     const currentSymb = useSelector(state => state.currency.currentSymb);
+    const current = useSelector(state => state.currency.current);
+    const currency = useSelector(state => state.currency.currency);
 
     useEffect(() => {
-        setFilteredData(payments.sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()));
-    }, [payments]);
+        setFilteredData(payments.reduce((acc, cur) => {
+            acc.push({...cur, 
+                cash: current == 'UAH' ? Number(cur.cash).toFixed(2) : changeCurrencyFromUAH(Number(cur.cash), currency, current),
+            });
+            return acc;
+        }, []).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()));
+     }, [payments]);
 
     const handleRemove = async () =>{
          let result = await removeData(`${process.env.API_URL}/remainder/${selected}`);
