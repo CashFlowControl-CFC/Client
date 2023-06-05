@@ -13,17 +13,14 @@ import Target from "./pages/Target"
 import Registration from "./pages/Registration";
 import TargetForm from "./TargetComponents/TargetForm";
 import TargetInfo from "./pages/TargetInfo";
-import { getAccessToken, removeAccessToken } from "../modules/storage";
+import { getAccessToken } from "../modules/storage";
 import { ActivityIndicator } from "react-native";
 import general from "../styles/general";
 import ScheduledPayments from "./pages/SheduledPayments";
 import { addData } from "../modules/requests";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { onAuthStateChanged } from "firebase/auth";
-import { FIREBASE_AUTH } from "../modules/FirebaseConfig";
 import Profile from "./pages/Profile";
-const Stack = createStackNavigator();
 const InsideStack = createStackNavigator();
 const RegisterStack = createStackNavigator();
 
@@ -55,6 +52,7 @@ const RegisterLayout = () => {
     </RegisterStack.Navigator>
   )
 }
+
 const auth = async (dispatch) => {
   const token = await getAccessToken()
   console.log("token in enter:", token)
@@ -72,6 +70,7 @@ export default function Navigation() {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   useEffect(() => {
+      
       console.log("server:",process.env.API_URL)
       console.log("user in start",user)
       if (user==null) {
