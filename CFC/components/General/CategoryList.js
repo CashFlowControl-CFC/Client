@@ -9,9 +9,11 @@ import {useRoute} from "@react-navigation/native";
 function CategoryList(props){
     const dispatch = useDispatch();
     const selectedCategory = useSelector(state => state.category.selectedCategory);
+    const categories = useSelector(state => state.category.categories);
     const route = useRoute();
 
     const handleSelectCategory = (id) => {
+        console.log(categories.findLast(item => item.id == id))
         if (selectedCategory == id){
             dispatch({type: 'SET_SELECTED', payload: null});
         }

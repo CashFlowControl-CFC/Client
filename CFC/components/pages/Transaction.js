@@ -4,7 +4,6 @@ import { View, TouchableWithoutFeedback, Text, Keyboard } from "react-native";
 import moment from "moment";
 import general from "../../styles/general";
 import { addData, updateData } from "../../modules/requests";
-import { TransactionContext } from "../../modules/context";
 import AddBtn from "../General/AddBtn";
 import CategoryList from "../General/CategoryList";
 import MyCalendar from "../TransactionPageComponents/Calendar";
@@ -12,7 +11,7 @@ import MoneyInput from "../TransactionPageComponents/MoneyInput";
 import DateButtons from "../TransactionPageComponents/DateButtons";
 import CommentInput from "../TransactionPageComponents/CommentInput";
 import Header from "../General/Header";
-import { changeTransactionCurrency } from "../../modules/generalFuncs";
+import { changeCurrencyToUAH } from "../../modules/generalFuncs";
 
 export default function Transaction({navigation}){
     const dispatch = useDispatch();
@@ -59,7 +58,10 @@ export default function Transaction({navigation}){
     }, [isIncome, categories]);
 
     useEffect(() => {
-        updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: totalMoney});
+        const setMoney = async () => {
+            let res = await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(totalMoney)})
+        }
+        setMoney();
     }, [totalMoney])
 
     const filterCategories = () =>{
@@ -72,13 +74,13 @@ export default function Transaction({navigation}){
     const handleAddTransaction = async () => {
         let valueCurrency = value;
         if(current != 'UAH'){
-            valueCurrency = changeTransactionCurrency(value, currency, current)
+            valueCurrency = changeCurrencyToUAH(value, currency, current)
         }
         if(isIncome){
-            dispatch({type: 'ADD_INCOME', payload: value});
+            dispatch({type: 'ADD_INCOME', payload: valueCurrency});
         }
         else{
-            dispatch({type: 'ADD_EXPENSES', payload: value});
+            dispatch({type: 'ADD_EXPENSES', payload: valueCurrency});
         }
         let result = await addData(`${process.env.API_URL}/transaction`, {
             category_id: selectedCategory, 
@@ -94,7 +96,8 @@ export default function Transaction({navigation}){
         if(index != -1){
             await dispatch({type: 'UPDATE_CATEGORY', payload: {newItem: {...categories[index], lastUsed: newDate}, index: index}})
         }
-        dispatch({type: 'ADD_TRANSACTION', payload: result});
+        console.log(result)
+        await dispatch({type: 'ADD_TRANSACTION', payload: result});
         navigation.navigate('Main')    
     }
 
