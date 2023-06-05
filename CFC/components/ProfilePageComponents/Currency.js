@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TouchableWithoutFeedback, View, Text, Modal, FlatList } from "react-native";
 import general from "../../styles/general";
 import { useDispatch, useSelector } from "react-redux";
+import { saveCurrency } from "../../modules/storage";
 
 export default function Currency(props){
     const symbols = useSelector(state => state.currency.symbols);
@@ -16,6 +17,7 @@ export default function Currency(props){
         const currencyIndex = currency.findIndex(item => item.ccy == symbols[index].name);
         dispatch({type: 'SET_CURRENT', payload: symbols[index].name});
         dispatch({type: 'SET_CURRENT_SYMB', payload: symbols[index].symb});
+        await saveCurrency(symbols[index].name);
         if(currencyIndex != -1){
             dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney) / Number(currency[currencyIndex].sale)})
         }

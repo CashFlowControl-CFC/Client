@@ -30,8 +30,30 @@ const removeAccessToken = async () => {
     console.log('Помилка при видаленні accesstoken:', error);
   }
 };
+
+const saveCurrency = async (currency) => {
+  try {
+    await SecureStore.setItemAsync('currency', currency);
+    console.log('Currency збережено.');
+  } catch (error) {
+    console.log('Помилка при збереженні Currency:', error);
+  }
+};
+
+const getCurrency = async () => {
+  try {
+    const currency = await SecureStore.getItemAsync('currency');
+    return {currency:currency};
+  } catch (error) {
+    console.log('Помилка при отриманні Currency:', error);
+    return null;
+  }
+};
+
 export{
     saveAccessToken,
     getAccessToken,
-    removeAccessToken
+    removeAccessToken,
+    saveCurrency,
+    getCurrency
 }

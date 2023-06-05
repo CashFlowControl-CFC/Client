@@ -13,6 +13,7 @@ import PeriodButtons from "../MainPageComponents/PeriodButtons";
 import TransactionList from "../MainPageComponents/TransactionList";
 import ModalMenu from "../MainPageComponents/ModalMenu";
 import { changeCurrencyFromUAH, changeCurrencyToUAH } from "../../modules/generalFuncs";
+import { getCurrency } from "../../modules/storage";
 
 export default function Main({navigation}){
     const dispatch = useDispatch();
@@ -29,6 +30,7 @@ export default function Main({navigation}){
 
     const current = useSelector(state => state.currency.current);
     const currency = useSelector(state => state.currency.currency);
+    const symbols = useSelector(state => state.currency.symbols);
     const totalMoney = useSelector(state => state.transaction.totalMoney);
     const payments = useSelector(state => state.payment.payments);
 
@@ -64,6 +66,10 @@ export default function Main({navigation}){
          checkIsPaymentExpired();
       }, [payments]);
 
+      useEffect(() => {
+        changeCurrency();
+     }, [currency]);
+
     const loadData = async () =>{
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(user.total_cash)});
         const result = await getData(`${process.env.API_URL}/load/${user.uid}`);
@@ -74,6 +80,21 @@ export default function Main({navigation}){
         await dispatch({type: 'SET_TARGETS', payload: result.goal});
         await dispatch({type: 'SET_PAYMENTS', payload: result.remainder});
         await dispatch({type: 'SET_CURRENCY', payload: await getData(process.env.API_PRIVAT_URL)});
+    }
+    const changeCurrency = async () => {
+        const currencyRes = await getCurrency();
+        const index = symbols.findIndex(item => item.name == currencyRes.currency);
+        const currencyIndex = currency.findIndex(item => item.ccy == symbols[index].name);
+        console.log(index)
+        console.log(currencyIndex)
+        dispatch({type: 'SET_CURRENT', payload: symbols[index].name});
+        dispatch({type: 'SET_CURRENT_SYMB', payload: symbols[index].symb});
+        if(currencyIndex != -1){
+            await dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney) / Number(currency[currencyIndex].sale)})
+        }
+        else{
+            await dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney)})
+        }
     }
     const checkIsPaymentExpired = async () => {
         payments.reduce((acc, cur) => {
@@ -95,7 +116,8 @@ export default function Main({navigation}){
             uid: user.uid, 
             date: `${moment(item.dateRemainde).format('YYYY-MM-DD')}`,
             cash: valueCurrency, 
-            isIncome: false
+            isIncome: false,
+            comment: item.name
         })
         await dispatch({type: 'ADD_TRANSACTION', payload: result}); 
     }

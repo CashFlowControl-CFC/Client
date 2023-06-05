@@ -22,16 +22,17 @@ import moment from 'moment';
             }
           });
       }
-    
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: 'Сегодня будет снят платеж!',
-          body: 'Сегодня будет снят платеж!',
-        },
-        trigger: {
-          date: new Date(sameDayDate.year(), sameDayDate.month(), sameDayDate.date(), 9, 0)
-        },
-      });
+      if(moment(sameDayDate).format('YYYY-MM-DD') > moment(new Date()).format('YYYY-MM-DD')){
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: 'Сегодня будет снят платеж!',
+            body: 'Сегодня будет снят платеж!',
+          },
+          trigger: {
+            date: new Date(sameDayDate.year(), sameDayDate.month(), sameDayDate.date(), 9, 0)
+          },
+        });
+      }
   };
 
   export async function registerForPushNotificationsAsync() {
@@ -54,14 +55,11 @@ import moment from 'moment';
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
       console.log(token);
-    } else {
-      alert('Must use physical device for Push Notifications');
-    }
+    } 
   
     return token;
   }

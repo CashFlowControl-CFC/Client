@@ -63,7 +63,7 @@ function TargetList(props){
         }
     }
     const countPercent = () => {
-        setUpdatedData(targets.reduce((acc, cur) => {
+        setUpdatedData(targets?.reduce((acc, cur) => {
             let percent = (cur.cash * 100) / cur.total_cash;
             acc.push({...cur, 
                 percent: Math.round(percent),
