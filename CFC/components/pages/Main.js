@@ -12,7 +12,7 @@ import TotalMoney from "../MainPageComponents/TotalMoney";
 import PeriodButtons from "../MainPageComponents/PeriodButtons";
 import TransactionList from "../MainPageComponents/TransactionList";
 import ModalMenu from "../MainPageComponents/ModalMenu";
-import { changeDataCurrency } from "../../modules/generalFuncs";
+import { changeCurrencyFromUAH, changeCurrencyToUAH } from "../../modules/generalFuncs";
 
 export default function Main({navigation}){
     const dispatch = useDispatch();
@@ -82,7 +82,7 @@ export default function Main({navigation}){
             const index = acc.findIndex(item => item.x === cur.x);
             if (index === -1) {
               acc.push({ x: cur.x, 
-                y: current == 'UAH' ? Number(cur.y) : changeDataCurrency(Number(cur.y), currency, current), 
+                y: current == 'UAH' ? Number(cur.y).toFixed(2) : changeCurrencyFromUAH(Number(cur.y), currency, current).toFixed(2), 
                 fill: cur.fill, 
                 id: cur.id, 
                 image_link: 
@@ -93,16 +93,20 @@ export default function Main({navigation}){
                 category_id: cur.category_id });
             } else {
               acc[index].y = (Number(acc[index].y) + (current == 'UAH' ? (Number(cur.y))
-              : changeDataCurrency((Number(cur.y)), currency, current))).toFixed(2);
+              : changeCurrencyFromUAH((Number(cur.y)), currency, current))).toFixed(2);
             }
             return acc;
           }, []);
           setCombinedData(newData);
     }
     const handleSetMoney = async (value) =>{
-        let res = await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(value)})
+        let valueCurrency = value;
+        if(current != 'UAH'){
+            valueCurrency = changeCurrencyToUAH(value, currency, current);
+        }
+        let res = await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(Number(valueCurrency))})
         if(res.status == 200){
-            dispatch({type:'SET_TOTALMONEY', payload: value ? Number(value.replace(',', '.')) : Number(totalMoney)});
+            dispatch({type:'SET_TOTALMONEY', payload: valueCurrency ? Number(valueCurrency) : Number(totalMoney)});
             setModalVisible(false);
         }
     }

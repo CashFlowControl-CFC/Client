@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ModalRemove from "../General/ModalRemove";
 import ModalMessage from "../General/ModalMessage";
 import { removeData } from "../../modules/requests";
-import { changeDataCurrency } from "../../modules/generalFuncs";
+import { changeCurrencyFromUAH } from "../../modules/generalFuncs";
 
 function TargetList(props){
     const dispatch = useDispatch();
@@ -67,8 +67,8 @@ function TargetList(props){
             let percent = (cur.cash * 100) / cur.total_cash;
             acc.push({...cur, 
                 percent: Math.round(percent),
-                cash: current == 'UAH' ? Number(cur.cash) : changeDataCurrency(Number(cur.cash), currency, current),
-                total_cash: current == 'UAH' ? Number(cur.total_cash) : changeDataCurrency(Number(cur.total_cash), currency, current)
+                cash: current == 'UAH' ? Number(cur.cash) : changeCurrencyFromUAH(Number(cur.cash), currency, current),
+                total_cash: current == 'UAH' ? Number(cur.total_cash) : changeCurrencyFromUAH(Number(cur.total_cash), currency, current)
             });
             return acc;
         }, []).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()));
