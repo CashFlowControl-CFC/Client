@@ -25,7 +25,7 @@ function PaymentList(props){
                 cash: current == 'UAH' ? Number(cur.cash).toFixed(2) : changeCurrencyFromUAH(Number(cur.cash), currency, current),
             });
             return acc;
-        }, []).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()));
+        }, []).sort((a, b) => new Date(a.dateRemainde).getTime() - new Date(b.dateRemainde).getTime()));
      }, [payments]);
 
     const handleRemove = async () =>{
@@ -50,7 +50,7 @@ function PaymentList(props){
             <View style={{gap: 10, marginTop: '2%'}}>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={[general.deadlineText, {color: '#D8D8D8'}]}>Expired date: </Text>
-                            <Text style={[general.deadlineText, {color: '#D8D8D8', marginLeft: 0, fontWeight: 600}]}>{moment(item.deadline).format('DD.MM.YYYY')}</Text>
+                            <Text style={[general.deadlineText, {color: '#D8D8D8', marginLeft: 0, fontWeight: 600}]}>{moment(item.dateRemainde).format('DD.MM.YYYY')}</Text>
                         </View>
                             <TouchableWithoutFeedback onPress={() => handleSelectTarget(item.id)} onLongPress={() => {
                                 setModalRemoveVisible(true);

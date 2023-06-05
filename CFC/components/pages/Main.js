@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import general from "../../styles/general";
-import { getData, updateData } from "../../modules/requests";
+import { getData, updateData, removeData, addData } from "../../modules/requests";
 import { MainContext } from "../../modules/context";
 import Period from "../MainPageComponents/Period";
 import PieChart from "../MainPageComponents/PieChart";
@@ -30,6 +30,7 @@ export default function Main({navigation}){
     const current = useSelector(state => state.currency.current);
     const currency = useSelector(state => state.currency.currency);
     const totalMoney = useSelector(state => state.transaction.totalMoney);
+    const payments = useSelector(state => state.payment.payments);
 
     const contextValue = {
         modalVisible, 
@@ -57,7 +58,12 @@ export default function Main({navigation}){
 
       useEffect(() => {
         setCurrency();
-      }, [totalMoney])
+      }, [totalMoney]);
+
+      useEffect(() => {
+         checkIsPaymentExpired();
+      }, [payments]);
+
     const loadData = async () =>{
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(user.total_cash)});
         const result = await getData(`${process.env.API_URL}/load/${user.uid}`);
@@ -67,8 +73,39 @@ export default function Main({navigation}){
         await dispatch({type: 'SET_DEFAULT_CATEGORIES', payload: result.default_categories});
         await dispatch({type: 'SET_TARGETS', payload: result.goal});
         await dispatch({type: 'SET_PAYMENTS', payload: result.remainder});
-        await dispatch({type: 'SET_CURRENCY', payload: await getData(process.env.API_PRIVAT_URL)}); 
+        await dispatch({type: 'SET_CURRENCY', payload: await getData(process.env.API_PRIVAT_URL)});
     }
+    const checkIsPaymentExpired = async () => {
+        payments.reduce((acc, cur) => {
+            if(moment(cur.dateRemainde).format('YYYY-MM-DD') <= moment(new Date()).format('YYYY-MM-DD')){
+                addTransaction(cur);
+                removePayment(cur.id);
+            }
+        }, []);
+    }
+    const addTransaction = async (item) => {
+        let valueCurrency = Number(item.cash);
+        if(current != 'UAH'){
+            valueCurrency = changeCurrencyToUAH(Number(item.cash), currency, current);
+            console.log(valueCurrency);
+        }
+        dispatch({type: 'ADD_EXPENSES', payload: parseFloat(valueCurrency)});
+        let result = await addData(`${process.env.API_URL}/transaction`, {
+            category_id: item.category_id, 
+            uid: user.uid, 
+            date: `${moment(item.dateRemainde).format('YYYY-MM-DD')}`,
+            cash: valueCurrency, 
+            isIncome: false
+        })
+        await dispatch({type: 'ADD_TRANSACTION', payload: result}); 
+    }
+    const removePayment = async (id) =>{
+        let result = await removeData(`${process.env.API_URL}/remainder/${id}`);
+        if(result.status == 200){
+           let newData = payments.filter(item => item.id != id);
+           dispatch({type: 'SET_PAYMENTS', payload: newData});
+        }
+   }
     const setCurrency = async () => {
         const currencyIndex = currency.findIndex(item => item.ccy == current);
         if(currencyIndex != -1){
