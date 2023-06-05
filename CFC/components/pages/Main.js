@@ -60,12 +60,13 @@ export default function Main({navigation}){
       }, [totalMoney])
     const loadData = async () =>{
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(user.total_cash)});
-        await dispatch({type: 'SET_DATA', payload: await getData(`${process.env.API_URL}/load/${user.uid}`)});
-        await dispatch({type: 'SET_CATEGORIES', payload: await getData(`${process.env.API_URL}/category/user/${user.uid}`)});
-        await dispatch({type: 'SET_ICONS', payload: await getData(`${process.env.API_URL}/icon`)});
-        await dispatch({type: 'SET_DEFAULT_CATEGORIES', payload: await getData(`${process.env.API_URL}/defaultcategory`)});
-        await dispatch({type: 'SET_TARGETS', payload: await getData(`${process.env.API_URL}/goal/user/${user.uid}`)});
-        await dispatch({type: 'SET_PAYMENTS', payload: await getData(`${process.env.API_URL}/remainder/user/${user.uid}`)});
+        const result = await getData(`${process.env.API_URL}/load/${user.uid}`);
+        await dispatch({type: 'SET_DATA', payload: result.transaction});
+        await dispatch({type: 'SET_CATEGORIES', payload: result.category});
+        await dispatch({type: 'SET_ICONS', payload: result. icons});
+        await dispatch({type: 'SET_DEFAULT_CATEGORIES', payload: result.default_categories});
+        await dispatch({type: 'SET_TARGETS', payload: result.goal});
+        await dispatch({type: 'SET_PAYMENTS', payload: result.remainder});
         await dispatch({type: 'SET_CURRENCY', payload: await getData(process.env.API_PRIVAT_URL)}); 
     }
     const setCurrency = async () => {
