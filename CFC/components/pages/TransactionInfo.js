@@ -10,17 +10,19 @@ import { removeData } from "../../modules/requests";
 import { updateData } from "../../modules/requests";
 import CreateBtn from "../General/CreateBtn";
 import CommonHeader from "../General/CommonHeader";
-import { changeCurrencyFromUAH } from "../../modules/generalFuncs";
+import { changeCurrencyFromUAH, changeCurrencyToUAH } from "../../modules/generalFuncs";
 
 
 export default function TransactionInfo({navigation}){
     const selectedTransaction = useSelector(state => state.transaction.selectedTransaction);
     const totalMoney = useSelector(state => state.transaction.totalMoney);
+    const isIncome = useSelector(state => state.transaction.isIncome);
     const data = useSelector(state => state.transaction.data);
     const selected = useSelector(state => state.transData.selectedTransaction);
     const currentSymb = useSelector(state => state.currency.currentSymb);
     const current = useSelector(state => state.currency.current);
     const currency = useSelector(state => state.currency.currency);
+    const user = useSelector(state => state.user.user);
 
     const [moneySum, setMoneySum] = useState(0);
     const [filteredData, setFilteredData] = useState([]);
@@ -48,15 +50,30 @@ export default function TransactionInfo({navigation}){
     
     const handleRemove = async () =>{
         let res = await removeData(`${process.env.API_URL}/transaction/${selected}`);
+        console.log(res.status)
         if(res.status == 200){
             let money = data.filter(item => item.id == selected)
             let newData = data.filter(item => item.id != selected);
             let filtered = filteredData.filter(item => item.id != selected);
 
-            dispatch({type:'ADD_INCOME', payload: money[0].y});
-            dispatch({type: 'SET_DATA', payload: newData});
-            
-            updateData(`${process.env.API_URL}/account/1`, {cash: totalMoney + money[0].y});
+            if(!isIncome){
+                dispatch({type:'ADD_INCOME', payload: money[0].y});
+                dispatch({type: 'SET_DATA', payload: newData});
+    
+                const sum = Number(totalMoney) + Number(money[0].y);
+                await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(sum)});
+                console.log(sum);
+                dispatch({type: 'SET_CURRENCY_MONEY', payload: await changeCurrencyFromUAH(sum, currency, current)});
+            }
+            else{
+                dispatch({type:'ADD_EXPENSES', payload: money[0].y});
+                dispatch({type: 'SET_DATA', payload: newData});
+    
+                const sum = Number(totalMoney) - Number(money[0].y);
+                await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(sum)});
+                console.log(sum);
+                dispatch({type: 'SET_CURRENCY_MONEY', payload: await changeCurrencyFromUAH(sum, currency, current)});
+            }
         
             if(filtered.length <= 0){
                 navigation.goBack();

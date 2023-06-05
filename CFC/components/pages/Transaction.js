@@ -59,6 +59,7 @@ export default function Transaction({navigation}){
 
     useEffect(() => {
         const setMoney = async () => {
+            console.log('change total cash');
             let res = await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(totalMoney)})
             dispatch({type: 'SET_CURRENCY_MONEY', payload: changeCurrencyFromUAH(totalMoney, currency, current)});
         }
@@ -103,18 +104,23 @@ export default function Transaction({navigation}){
     }
 
     const handleUpdateTransaction = async () => {
+        let valueCurrency = value.replace(',', '.');
+        if(current != 'UAH'){
+            valueCurrency = changeCurrencyToUAH(value.replace(',', '.'), currency, current);
+            console.log(valueCurrency);
+        }
         if(isIncome){
-            dispatch({type: 'ADD_INCOME', payload: value - transCash})
+            dispatch({type: 'ADD_INCOME', payload: parseFloat(valueCurrency) - parseFloat(transCash)})
         }
         else{
-            dispatch({type: 'ADD_EXPENSES', payload: value - transCash})
+            dispatch({type: 'ADD_EXPENSES', payload: parseFloat(valueCurrency) - parseFloat(transCash)})
         }
         let object = {
             category_id: selectedCategory, 
             uid: user.uid, 
             date: `${selectedDate.format('YYYY-MM-DD')}`, 
             comment: comment, 
-            cash: value, 
+            cash: valueCurrency, 
             isIncome: isIncome
         };
         updateData(`${process.env.API_URL}/transaction/${selectedTransaction}`, object);
@@ -122,7 +128,7 @@ export default function Transaction({navigation}){
         if(index != -1){
             let catName = categories.filter(item => item.id == selectedCategory);
             dispatch({type:'UPDATE_DATA', payload: {newItem: {...transactions[index], 
-                y: value,
+                y: parseFloat(valueCurrency),
                 comment: comment, 
                 x: catName[0].name, 
                 image_color: catName[0].image_color, 
