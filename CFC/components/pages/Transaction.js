@@ -60,7 +60,6 @@ export default function Transaction({navigation}){
 
     useEffect(() => {
         const setMoney = async () => {
-            console.log('change total cash');
             let res = await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(totalMoney)})
             dispatch({type: 'SET_CURRENCY_MONEY', payload: changeCurrencyFromUAH(totalMoney, currency, current)});
         }
@@ -79,13 +78,6 @@ export default function Transaction({navigation}){
         let valueCurrency = value.replace(',', '.');
         if(current != 'UAH'){
             valueCurrency = changeCurrencyToUAH(value.replace(',', '.'), currency, current);
-            console.log(valueCurrency);
-        }
-        if(isIncome){
-            dispatch({type: 'ADD_INCOME', payload: parseFloat(valueCurrency)});
-        }
-        else{
-            dispatch({type: 'ADD_EXPENSES', payload: parseFloat(valueCurrency)});
         }
         let result = await addData(`${process.env.API_URL}/transaction`, {
             category_id: selectedCategory, 
@@ -95,13 +87,24 @@ export default function Transaction({navigation}){
             cash: valueCurrency, 
             isIncome: isIncome
         })
-        let newDate = new Date();
-        updateData(`${process.env.API_URL}/category/${selectedCategory}`, {lastUsed: newDate});
-        let index = categories.findIndex(item => item.id == selectedCategory);
-        if(index != -1){
-            await dispatch({type: 'UPDATE_CATEGORY', payload: {newItem: {...categories[index], lastUsed: newDate}, index: index}})
+        if(result){
+            if(isIncome){
+                dispatch({type: 'ADD_INCOME', payload: parseFloat(valueCurrency)});
+            }
+            else{
+                dispatch({type: 'ADD_EXPENSES', payload: parseFloat(valueCurrency)});
+            }
+            let newDate = new Date();
+            updateData(`${process.env.API_URL}/category/${selectedCategory}`, {lastUsed: newDate});
+            let index = categories.findIndex(item => item.id == selectedCategory);
+            if(index != -1){
+                await dispatch({type: 'UPDATE_CATEGORY', payload: {newItem: {...categories[index], lastUsed: newDate}, index: index}})
+            }
+            await dispatch({type: 'ADD_TRANSACTION', payload: result});
         }
-        await dispatch({type: 'ADD_TRANSACTION', payload: result});
+        else{
+            alert('Sorry, unable to add transaction!\nWe are already working on it :)');
+        }
         setLoading(false);
         navigation.navigate('Main');    
     }
@@ -111,7 +114,6 @@ export default function Transaction({navigation}){
         let valueCurrency = value.replace(',', '.');
         if(current != 'UAH'){
             valueCurrency = changeCurrencyToUAH(value.replace(',', '.'), currency, current);
-            console.log(valueCurrency);
         }
         if(isIncome){
             dispatch({type: 'ADD_INCOME', payload: parseFloat(valueCurrency) - parseFloat(transCash)})

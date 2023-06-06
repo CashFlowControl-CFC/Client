@@ -12,7 +12,8 @@ function TotalMoney(){
     const totalMoney = useSelector(state => state.transaction.totalMoney);
     const currentSymb = useSelector(state => state.currency.currentSymb);
     const currencyMoney = useSelector(state => state.currency.currencyMoney);
-    useEffect(()=>{}, [currencyMoney, totalMoney])
+    useEffect(()=>{
+    }, [currencyMoney, totalMoney])
     return(
         <View style={general.header}>
                     <View style={{flexDirection: "row", justifyContent: "flex-start", alignItems: "center", width: '90%'}}>

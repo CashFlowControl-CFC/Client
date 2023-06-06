@@ -35,12 +35,12 @@ export default function TransactionInfo({navigation}){
     }, [data, current])
     
     const filter = () =>{
-        const dataCurrency = data.reduce((acc, cur) => {
+        const dataCurrency = data?.reduce((acc, cur) => {
               acc.push({ ...cur, y: current == 'UAH' ? Number(cur.y.toFixed(2)) : changeCurrencyFromUAH(Number(cur.y), currency, current).toFixed(2) });
             return acc;
           }, []);
-        let res = dataCurrency.filter(item => item.x == selectedTransaction.x && item.isIncome == selectedTransaction.isIncome);
-        setFilteredData(res.sort((a, b) => (a.date != b.date) ? new Date(b.date).getTime() - new Date(a.date).getTime() : b.id - a.id));
+        let res = dataCurrency?.filter(item => item.x == selectedTransaction.x && item.isIncome == selectedTransaction.isIncome);
+        setFilteredData(res?.sort((a, b) => (a.date != b.date) ? new Date(b.date).getTime() - new Date(a.date).getTime() : b.id - a.id));
         const sum = res?.reduce((acc, cur)  => {
             acc.y = Number(acc.y) + Number(cur.y);
             return acc;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import general from "../../styles/general";
@@ -21,6 +21,7 @@ export default function Main({navigation}){
     const [filterDate, setFilterDate] = useState(moment(new Date()).format("YYYY-MM-D"));
     const [selectedPeriod, setSelectedPeriod] = useState('Day');
     const [step, setStep] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     const [filteredData, setFilteredData] = useState([]);
     const [combinedData, setCombinedData] = useState([]);
@@ -80,6 +81,7 @@ export default function Main({navigation}){
         await dispatch({type: 'SET_TARGETS', payload: result.goal? result.goal : []});
         await dispatch({type: 'SET_PAYMENTS', payload: result.remainder? result.remainder : []});
         await dispatch({type: 'SET_CURRENCY', payload: await getData(process.env.API_PRIVAT_URL)});
+        setLoading(false);
     }
     const changeCurrency = async () => {
         const currencyRes = await getCurrency();
@@ -167,6 +169,9 @@ export default function Main({navigation}){
             dispatch({type:'SET_TOTALMONEY', payload: valueCurrency ? Number(valueCurrency) : Number(totalMoney)});
             setModalVisible(false);
         }
+        else{
+            alert('Sorry, unable to change!\nWe are already working on it :)');
+        }
     }
     const object = {
         modalVisible: modalVisible, 
@@ -177,6 +182,8 @@ export default function Main({navigation}){
     return(
     <MainContext.Provider value={contextValue}>
         <View style={general.app}>
+        {loading ? <ActivityIndicator size="large" color="#fcbe53"/> :
+        <>
             <ModalCash object={object}/>
             <ModalMenu/>
             <TotalMoney/>
@@ -187,6 +194,7 @@ export default function Main({navigation}){
                 <PieChart/>
                 <TransactionList/>
             </View>
+        </>}
         </View>
     </MainContext.Provider>
     );
