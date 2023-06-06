@@ -73,8 +73,6 @@ export default function Main({navigation}){
     const loadData = async () =>{
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(user.total_cash)});
         const result = await getData(`${process.env.API_URL}/load/${user.uid}`);
-        console.log(user.uid)
-        console.log(result)
         await dispatch({type: 'SET_DATA', payload: result.transaction ? result.transaction : []});
         await dispatch({type: 'SET_CATEGORIES', payload: result.category? result.category : []});
         await dispatch({type: 'SET_ICONS', payload: result. icons? result.icons : []});
