@@ -73,20 +73,20 @@ export default function Main({navigation}){
     const loadData = async () =>{
         await dispatch({type: 'SET_TOTALMONEY', payload: Number(user.total_cash)});
         const result = await getData(`${process.env.API_URL}/load/${user.uid}`);
-        await dispatch({type: 'SET_DATA', payload: result.transaction});
-        await dispatch({type: 'SET_CATEGORIES', payload: result.category});
-        await dispatch({type: 'SET_ICONS', payload: result. icons});
-        await dispatch({type: 'SET_DEFAULT_CATEGORIES', payload: result.default_categories});
-        await dispatch({type: 'SET_TARGETS', payload: result.goal});
-        await dispatch({type: 'SET_PAYMENTS', payload: result.remainder});
+        console.log(user.uid)
+        console.log(result)
+        await dispatch({type: 'SET_DATA', payload: result.transaction ? result.transaction : []});
+        await dispatch({type: 'SET_CATEGORIES', payload: result.category? result.category : []});
+        await dispatch({type: 'SET_ICONS', payload: result. icons? result.icons : []});
+        await dispatch({type: 'SET_DEFAULT_CATEGORIES', payload: result.default_categories? result.default_categories : []});
+        await dispatch({type: 'SET_TARGETS', payload: result.goal? result.goal : []});
+        await dispatch({type: 'SET_PAYMENTS', payload: result.remainder? result.remainder : []});
         await dispatch({type: 'SET_CURRENCY', payload: await getData(process.env.API_PRIVAT_URL)});
     }
     const changeCurrency = async () => {
         const currencyRes = await getCurrency();
         const index = symbols.findIndex(item => item.name == currencyRes.currency);
         const currencyIndex = currency.findIndex(item => item.ccy == symbols[index].name);
-        console.log(index)
-        console.log(currencyIndex)
         dispatch({type: 'SET_CURRENT', payload: symbols[index].name});
         dispatch({type: 'SET_CURRENT_SYMB', payload: symbols[index].symb});
         if(currencyIndex != -1){
@@ -108,7 +108,6 @@ export default function Main({navigation}){
         let valueCurrency = Number(item.cash);
         if(current != 'UAH'){
             valueCurrency = changeCurrencyToUAH(Number(item.cash), currency, current);
-            console.log(valueCurrency);
         }
         dispatch({type: 'ADD_EXPENSES', payload: parseFloat(valueCurrency)});
         let result = await addData(`${process.env.API_URL}/transaction`, {
@@ -129,12 +128,13 @@ export default function Main({navigation}){
         }
    }
     const setCurrency = async () => {
+        await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(totalMoney)});
         const currencyIndex = currency.findIndex(item => item.ccy == current);
         if(currencyIndex != -1){
-            await dispatch({type: 'SET_CURRENCY_MONEY', payload: Math.round(Number(totalMoney) / Number(currency[currencyIndex].sale))})
+            await dispatch({type: 'SET_CURRENCY_MONEY', payload: Math.round(Number(totalMoney) / Number(currency[currencyIndex].sale))});
         }
         else{
-            await dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney)})
+            await dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney)});
         }
     }
     const combine = () =>{

@@ -20,7 +20,7 @@ function PaymentList(props){
     const currency = useSelector(state => state.currency.currency);
 
     useEffect(() => {
-        setFilteredData(payments.reduce((acc, cur) => {
+        setFilteredData(payments?.reduce((acc, cur) => {
             acc.push({...cur, 
                 cash: current == 'UAH' ? Number(cur.cash).toFixed(2) : changeCurrencyFromUAH(Number(cur.cash), currency, current),
             });

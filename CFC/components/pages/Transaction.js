@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { View, TouchableWithoutFeedback, Text, Keyboard } from "react-native";
+import { View, TouchableWithoutFeedback, Text, Keyboard, ActivityIndicator } from "react-native";
 import moment from "moment";
 import general from "../../styles/general";
 import { addData, updateData } from "../../modules/requests";
@@ -29,6 +29,7 @@ export default function Transaction({navigation}){
     const current = useSelector(state => state.currency.current);
     const currency = useSelector(state => state.currency.currency);
 
+    const [loading, setLoading] = useState(false);
     const [value, setValue] = useState(transCash ? transCash : '');
     const [comment, setComment] = useState(transComment ? transComment : '');
     const [selectedDate, setSelectedDate] = useState(moment(new Date()));
@@ -74,6 +75,7 @@ export default function Transaction({navigation}){
     }
     
     const handleAddTransaction = async () => {
+        setLoading(true);
         let valueCurrency = value.replace(',', '.');
         if(current != 'UAH'){
             valueCurrency = changeCurrencyToUAH(value.replace(',', '.'), currency, current);
@@ -100,10 +102,12 @@ export default function Transaction({navigation}){
             await dispatch({type: 'UPDATE_CATEGORY', payload: {newItem: {...categories[index], lastUsed: newDate}, index: index}})
         }
         await dispatch({type: 'ADD_TRANSACTION', payload: result});
-        navigation.navigate('Main')    
+        setLoading(false);
+        navigation.navigate('Main');    
     }
 
     const handleUpdateTransaction = async () => {
+        setLoading(true);
         let valueCurrency = value.replace(',', '.');
         if(current != 'UAH'){
             valueCurrency = changeCurrencyToUAH(value.replace(',', '.'), currency, current);
@@ -141,6 +145,7 @@ export default function Transaction({navigation}){
                 index: index
             }});
         }
+        setLoading(false);
         navigation.goBack();   
     }
     return(
@@ -162,7 +167,8 @@ export default function Transaction({navigation}){
                     <MyCalendar object={object}/>
                 </View>
                 <View style={{position: 'absolute', bottom: 25}}>
-                    <AddBtn action={isAdd ? handleAddTransaction : handleUpdateTransaction} object={object}/>
+                    {loading ? <ActivityIndicator style={general.addAuthBtn} size="large" color="#fcbe53"/> :
+                    <AddBtn action={isAdd ? handleAddTransaction : handleUpdateTransaction} object={object}/>}
                 </View>
             </View>
             </TouchableWithoutFeedback>
