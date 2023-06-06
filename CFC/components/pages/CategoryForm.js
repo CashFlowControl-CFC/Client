@@ -37,7 +37,7 @@ function CategoryForm({navigation}){
         filterCategories();
     }, []);
     const filterCategories = async () => {
-        setData([...defaultCategories.filter(item => item.image_link != 'tmp'), {id: 'all', name:'All', color: '#FECC7A', image_color: '#483A23', image_link: process.env.API_DOTS_URL}]);
+        setData([...defaultCategories.filter(item => item.image_link != 'tmp' && item.id < 15), {id: 'all', name:'All', color: '#FECC7A', image_color: '#483A23', image_link: process.env.API_DOTS_URL}]);
     }
     const handleCreateCategory = async () =>{
         let index = icons.findIndex(item  => item.id == selectedIcon);

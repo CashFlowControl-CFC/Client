@@ -57,15 +57,7 @@ export default function Transaction({navigation}){
     useEffect(() => {
         filterCategories();
     }, [isIncome, categories]);
-
-    useEffect(() => {
-        const setMoney = async () => {
-            let res = await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(totalMoney)})
-            dispatch({type: 'SET_CURRENCY_MONEY', payload: changeCurrencyFromUAH(totalMoney, currency, current)});
-        }
-        setMoney();
-    }, [totalMoney])
-
+    
     const filterCategories = () =>{
         setData([...categories?.filter(item => item.isIncome == isIncome || item.isIncome == null)
             .sort((a, b) => new Date(b.lastUsed).getTime() - new Date(a.lastUsed).getTime())

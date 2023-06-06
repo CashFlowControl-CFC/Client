@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -128,6 +128,7 @@ export default function Main({navigation}){
         }
    }
     const setCurrency = async () => {
+        console.log('totalMoney', totalMoney)
         await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(totalMoney)});
         const currencyIndex = currency.findIndex(item => item.ccy == current);
         if(currencyIndex != -1){
@@ -182,7 +183,9 @@ export default function Main({navigation}){
     return(
     <MainContext.Provider value={contextValue}>
         <View style={general.app}>
-        {loading ? <ActivityIndicator size="large" color="#fcbe53"/> :
+        {loading ? <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}> 
+            <ActivityIndicator size='large' color="#fcbe53"/>
+        </View>  :
         <>
             <ModalCash object={object}/>
             <ModalMenu/>

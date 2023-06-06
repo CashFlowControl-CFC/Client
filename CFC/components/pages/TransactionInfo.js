@@ -36,7 +36,7 @@ export default function TransactionInfo({navigation}){
     
     const filter = () =>{
         const dataCurrency = data?.reduce((acc, cur) => {
-              acc.push({ ...cur, y: current == 'UAH' ? Number(cur.y.toFixed(2)) : changeCurrencyFromUAH(Number(cur.y), currency, current).toFixed(2) });
+              acc.push({ ...cur, y: current == 'UAH' ? Number(cur.y)?.toFixed(2) : changeCurrencyFromUAH(Number(cur.y), currency, current).toFixed(2) });
             return acc;
           }, []);
         let res = dataCurrency?.filter(item => item.x == selectedTransaction.x && item.isIncome == selectedTransaction.isIncome);
