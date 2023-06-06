@@ -23,7 +23,6 @@ export default function VerifiedEmail({navigation}){
         if(code===usercode){
             var userCredentials = await createUserWithEmailAndPassword(auth, email, password)
             userCredentials.user.emailVerified=true
-            console.log("verif",userCredentials.user.emailVerified)
             const user = await addData(`${process.env.API_URL}/auth/register`,userCredentials.user)
             await saveAccessToken(user.accesstoken)
             await dispatch({type:"SET_USER",payload:user})
@@ -32,8 +31,6 @@ export default function VerifiedEmail({navigation}){
             alert("Code is uncorrect")
         }
         const result = addData(`${process.env.API_URL}/mail/codeverified`,{usercode:usercode})
-        console.log("answer code server:",await result.json())
-
     }
     return(
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
