@@ -11,6 +11,7 @@ import AuthPage from "./pages/AuthPage";
 import LogIn from "./pages/LogIn";
 import Target from "./pages/Target"
 import Registration from "./pages/Registration";
+import VerifiedEmail from "./pages/VerifiedEmail"
 import TargetForm from "./TargetComponents/TargetForm";
 import TargetInfo from "./pages/TargetInfo";
 import { getAccessToken } from "../modules/storage";
@@ -49,6 +50,7 @@ const RegisterLayout = () => {
       <RegisterStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Auth' component={AuthPage} />
       <RegisterStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='LogIn' component={LogIn} />
       <RegisterStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Registration' component={Registration} />
+      <RegisterStack.Screen options={{ ...TransitionPresets.SlideFromRightIOS }} name='Verified' component={VerifiedEmail} />
     </RegisterStack.Navigator>
   )
 }
