@@ -30,7 +30,12 @@ function ModalMenu(){
                 <TouchableWithoutFeedback onPress={() => setModalMenuVisible(false)}>
                         <View style={[styles.pModal, {backgroundColor: 'transparent', justifyContent: 'flex-start', alignItems: 'flex-start'}]} >
                             <View style={[styles.sModalMenu]}>
-                                <View style={styles.menuContent}>
+                                <View style={[styles.menuContent, {flex: 1}]}>
+                                    <TouchableWithoutFeedback onPress={() => setModalMenuVisible(false)}>
+                                        <View style={{flexDirection: 'row'}}>
+                                            {getImage(process.env.API_MENU_URL, 30, 30, '#FFFFFF')}
+                                        </View>
+                                    </TouchableWithoutFeedback>
                                     <TouchableWithoutFeedback onPress={() => onClick('Profile')}>
                                         <View style={{flexDirection: 'row'}}>
                                             {getImage(process.env.API_PROFILE_URL, 20, 20, '#FFFFFF')}
@@ -55,12 +60,16 @@ function ModalMenu(){
                                             <Text style={[general.generalText, {marginLeft: '5%'}]}>Scheduled payments</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={logOut}>
-                                        <View style={{flexDirection: 'row'}}>
-                                            {getImage(process.env.API_EXIT_URL, 20, 20, '#FFFFFF')}
-                                            <Text style={[general.generalText, {marginLeft: '5%'}]}>Go out</Text>
-                                        </View>
-                                    </TouchableWithoutFeedback>
+                                </View>
+                                <View style={[styles.menuContent, {flex: 2}]}>
+                                    <View style={{position: 'absolute', bottom: 55}}>
+                                        <TouchableWithoutFeedback onPress={logOut}>
+                                            <View style={{flexDirection: 'row'}}>
+                                                {getImage(process.env.API_EXIT_URL, 20, 20, '#FFFFFF')}
+                                                <Text style={[general.generalText, {marginLeft: '10%'}]}>Go out</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                    </View>
                                 </View>
                         </View>
                     </View>

@@ -43,10 +43,12 @@ const openImagePicker = async (user) => {
 export default function Avatar(props) {
     const user = useSelector(state => state.user.user)
     return (
-        <TouchableWithoutFeedback onPress={() => openImagePicker(user)}>
-            <View style={general.avatar}>
-                {getImage(process.env.API_PLUS_URL, 90, 90, '#000000')}
-            </View>
-        </TouchableWithoutFeedback>
+        <View style={{marginTop: '5%'}}>
+                <TouchableWithoutFeedback onPress={() => openImagePicker(user)}>
+                    <View style={general.avatar}>
+                        {getImage(process.env.API_PLUS_URL, 90, 90, '#000000')}
+                    </View>
+                </TouchableWithoutFeedback>
+        </View>
     );
 }

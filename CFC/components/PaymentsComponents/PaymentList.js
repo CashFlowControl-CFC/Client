@@ -34,6 +34,9 @@ function PaymentList(props){
             let newData = payments.filter(item => item.id != selected);
             dispatch({type: 'SET_PAYMENTS', payload: newData});
          }
+         else{
+            alert('Sorry, unable to remove!\nWe are already working on it :)');
+        }
          setModalRemoveVisible(false);
     }
     const onClick = () => {

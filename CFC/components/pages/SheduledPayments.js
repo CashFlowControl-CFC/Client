@@ -18,7 +18,9 @@ export default function ScheduledPayments({navigation}){
                 <CommonHeader navigation={navigation} title='Scheduled payments' image_link={process.env.API_PURPOSE_URL}/>
 
                 <View style={general.content}>
-                    <PaymentList navigation={navigation}/>
+                <View style={{width: "100%", flex: 1, alignItems: 'center', marginTop: '5%'}}>
+                        <PaymentList navigation={navigation}/>
+                    </View>
                 </View>
             </View>
         </TargetContext.Provider>

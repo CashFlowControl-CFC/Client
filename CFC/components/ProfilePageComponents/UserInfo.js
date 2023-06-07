@@ -6,7 +6,7 @@ import { updateData } from "../../modules/requests";
 import { isAlphanumeric } from 'validator';
 export default function UserInfo(props) {
     const user = useSelector(state => state.user.user);
-    const [nickname, setNickname] = useState(user.name)
+    const [nickname, setNickname] = useState(user.name);
     
     const handleNicknameSubmit = async () => {
         if(isAlphanumeric(nickname) && /^[a-zA-Z]+$/.test(nickname)){
@@ -20,7 +20,7 @@ export default function UserInfo(props) {
         }
     };
     return (
-        <View style={{ width: '90%', justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ width: '90%', justifyContent: 'center', alignItems: 'center', marginTop: '15%' }}>
             <TouchableWithoutFeedback>
                 <View style={{ width: '90%', marginTop: '5%', alignSelf: 'flex-start' }}>
                     <Text style={[general.generalText, { color: '#D8D8D8' }]}>Name</Text>

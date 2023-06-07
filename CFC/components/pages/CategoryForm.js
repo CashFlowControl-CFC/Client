@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, TouchableWithoutFeedback,Text,FlatList, Dimensions, Keyboard } from "react-native";
+import { View, TouchableWithoutFeedback,Text,FlatList, Dimensions, Keyboard, ActivityIndicator } from "react-native";
 import general from "../../styles/general";
 import Header from "../General/Header";
 import CategoryInput from "../CategoryFormComponents/CategoryInput";
@@ -20,6 +20,7 @@ function CategoryForm({navigation}){
     const isIncome = useSelector(state => state.transaction.isIncome);
     const user = useSelector(state => state.user.user);
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     const contextValue = {
@@ -40,6 +41,7 @@ function CategoryForm({navigation}){
         setData([...defaultCategories.filter(item => item.image_link != 'tmp' && item.id < 15), {id: 'all', name:'All', color: '#FECC7A', image_color: '#483A23', image_link: process.env.API_DOTS_URL}]);
     }
     const handleCreateCategory = async () =>{
+        setLoading(true);
         let index = icons.findIndex(item  => item.id == selectedIcon);
         console.log(isIncome)
         if(index != -1){
@@ -53,6 +55,7 @@ function CategoryForm({navigation}){
             });
             dispatch({type: 'ADD_CATEGORY', payload: result});
             dispatch({type: 'SET_SELECTED', payload: null});
+            setLoading(false);
             navigation.navigate('Categories');
         }
     }
@@ -70,11 +73,13 @@ function CategoryForm({navigation}){
                                 </View>
 
                             <View style={{flex: 1}}>
+                            {loading ? <ActivityIndicator style={styles.addBtn} size="large" color="#fcbe53"/> :
                                 <TouchableWithoutFeedback disabled={disabled} onPress={handleCreateCategory}>
                                         <View style={[styles.addBtn, disabled ? {backgroundColor: '#FECC7A50'} : {backgroundColor: '#FECC7A'}, {width: width * 0.7, height: height * 0.05}]}>
                                             <Text style={styles.addText}>Add</Text>
                                         </View>
                                 </TouchableWithoutFeedback>   
+                                }
                             </View>
                         
                         </View>

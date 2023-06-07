@@ -33,6 +33,8 @@ function Categories({navigation}){
             let newData = categories.filter(item => item.id != selectedCategory);
             dispatch({type: 'SET_CATEGORIES', payload: newData});
             dispatch({type: 'SET_SELECTED', payload: null});
+        } else{
+            alert('Sorry, unable to remove!\nWe are already working on it :)');
         }
         setModalVisible(false);
     }

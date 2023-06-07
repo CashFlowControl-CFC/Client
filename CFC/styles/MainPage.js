@@ -73,11 +73,11 @@ const styles = StyleSheet.create({
         height: height,
         backgroundColor: "#393939",
         alignItems: 'flex-start',
-        paddingTop: '15%',
+        paddingTop: '10%',
         paddingLeft: '5%'
        },
        menuContent:{
-        height: '45%',
+        height: '35%',
         justifyContent: 'space-around',
        }
     }

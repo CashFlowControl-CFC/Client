@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { View, TouchableWithoutFeedback, Text, Keyboard, TextInput, Dimensions } from "react-native";
+import { View, TouchableWithoutFeedback, Text, Keyboard, TextInput, Dimensions, ActivityIndicator } from "react-native";
 import moment from "moment";
 import general from "../../styles/general";
 import { addData } from "../../modules/requests";
@@ -40,6 +40,7 @@ export default function TargetForm({navigation}){
     const [comment, setComment] = useState(transComment ? transComment : '');
     const [selectedDate, setSelectedDate] = useState(moment(new Date()));
     const [disabled, setDisabled] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const [data, setData] = useState([]);
     const [isMove, setIsMove] = useState(false);
@@ -100,6 +101,7 @@ export default function TargetForm({navigation}){
     }
     
     const handleAddTarget = async () => {
+        setLoading(true);
         let valueCurrency = value.replace(',', '.');
         if(current != 'UAH'){
             valueCurrency = changeCurrencyToUAH(value.replace(',', '.'), currency, current);
@@ -119,9 +121,11 @@ export default function TargetForm({navigation}){
             image_link: categories[index].image_link, 
             image_color: categories[index].image_color,
         }})
+        setLoading(false);
         navigation.navigate('Target');    
     }
     const handleAddPayment = async () => {
+        setLoading(true);
         let valueCurrency = value.replace(',', '.');
         if(current != 'UAH'){
             valueCurrency = changeCurrencyToUAH(value.replace(',', '.'), currency, current);
@@ -142,6 +146,7 @@ export default function TargetForm({navigation}){
         }});
             
         schedulePaymentNotification();
+        setLoading(false);
         navigation.navigate('ScheduledPayments');    
     };
     const schedulePaymentNotification = async () => {
@@ -187,11 +192,13 @@ export default function TargetForm({navigation}){
                     <CustomCalendar object={object}/>
                 </View>
                 <View style={{position: 'absolute', bottom: 30}}>
+                    {loading ? <ActivityIndicator  size="large" color="#fcbe53"/> :
                     <TouchableWithoutFeedback disabled={disabled} onPress={() => route.params?.isTarget ? handleAddTarget() : handleAddPayment()}>
                         <View style={[styles.addBtn, disabled ? {backgroundColor: '#FECC7A50'} : {backgroundColor: '#FECC7A'}, {width: width * 0.7, height: height * 0.05}]}>
                             <Text style={styles.addText}>Add</Text>
                         </View>
                     </TouchableWithoutFeedback> 
+                    }
                 </View>
             </View>
             </TouchableWithoutFeedback>

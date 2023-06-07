@@ -46,7 +46,7 @@ function PieChart(){
             position: 'absolute',
             color: '#FFFFFF',
             fontWeight: 700,
-            fontSize: 25,
+            fontSize: 23,
             }}> {currentSymb}{transactionMoney?transactionMoney:0} </Text>
         </View>     
     );

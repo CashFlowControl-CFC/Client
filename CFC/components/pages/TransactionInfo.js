@@ -13,7 +13,7 @@ import CommonHeader from "../General/CommonHeader";
 import { changeCurrencyFromUAH, changeCurrencyToUAH } from "../../modules/generalFuncs";
 
 export default function TransactionInfo({ navigation }) {
-    const [isPressed, setPressed] = useState(false)
+    const [isPressed, setPressed] = useState(undefined)
     const selectedTransaction = useSelector(state => state.transaction.selectedTransaction);
     const totalMoney = useSelector(state => state.transaction.totalMoney);
     const isIncome = useSelector(state => state.transaction.isIncome);
@@ -78,6 +78,8 @@ export default function TransactionInfo({ navigation }) {
             if (filtered.length <= 0) {
                 navigation.goBack();
             }
+        } else{
+            alert('Sorry, unable to remove!\nWe are already working on it :)');
         }
         setModalVisible(false);
     }
@@ -103,13 +105,13 @@ export default function TransactionInfo({ navigation }) {
             console.log(err);
         }
     }
-    const handlePressIn = () => {
-        setPressed(true)
+    const handlePressIn = (id) => {
+        setPressed(id)
 
     };
 
     const handlePressOut = () => {
-        setPressed(false)
+        setPressed(undefined)
 
     };
     return (
@@ -121,10 +123,10 @@ export default function TransactionInfo({ navigation }) {
                 <FlatList keyExtractor={item => item.id} style={{ marginTop: 25 }}
                     data={filteredData}
                     renderItem={({ item }) =>
-                        <TouchableWithoutFeedback activeOpacity={1} onPressIn={() => handlePressIn()} onPressOut={() => handlePressOut()} onLongPress={() => showModal(item.id)} onPress={() => handleEdit(item.id)}>
+                        <TouchableWithoutFeedback activeOpacity={1} onPressIn={() => handlePressIn(item.id)} onPressOut={handlePressOut} onLongPress={() => showModal(item.id)} onPress={() => handleEdit(item.id)}>
                             <View>
                                 <Text style={[general.generalText, { color: '#D8D8D8', marginBottom: 10, marginLeft: 15 }]}>{moment(item.date).format('MMM DD, YYYY')}</Text>
-                                <View style={[styles.category, isPressed && styles.categoryPressed, { backgroundColor: item.fill + "20" }]}>
+                                <View style={[styles.category, isPressed == item.id && styles.categoryPressed, { backgroundColor: item.fill + "20" }]}>
                                     <View style={[styles.circle, { backgroundColor: item.fill }]}>
                                         {getImage(item.image_link, 25, 25, item.image_color)}
                                     </View>

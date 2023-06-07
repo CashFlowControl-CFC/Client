@@ -17,7 +17,7 @@ export default function ExitBtn(props){
         <View style={{width: '90%', justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: 70,}}>
             <TouchableWithoutFeedback onPress={logOut}>
                     <View style={{width: '90%', alignSelf: 'flex-start'}}>
-                        <Text style={[general.addText, {color: '#FDCD81', fontSize: 20}]}>Exit</Text>
+                        <Text style={[general.addText, {color: '#FDCD81', fontSize: 20, fontWeight: 500}]}>Exit</Text>
                     </View>
             </TouchableWithoutFeedback>
         </View>

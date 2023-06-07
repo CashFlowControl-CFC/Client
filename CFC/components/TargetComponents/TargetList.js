@@ -89,6 +89,8 @@ function TargetList(props){
         if(result.status == 200){
             let newData = targets.filter(item => item.id != selected);
             dispatch({type: 'SET_TARGETS', payload: newData});
+        } else{
+            alert('Sorry, unable to remove!\nWe are already working on it :)');
         }
         setModalRemoveVisible(false);
     }
