@@ -85,10 +85,10 @@ export default function Main({navigation}){
     }
     const changeCurrency = async () => {
         const currencyRes = await getCurrency();
-        const index = symbols.findIndex(item => item.name == currencyRes.currency);
+        const index = symbols?.findIndex(item => item.name == currencyRes.currency);
         const currencyIndex = currency.findIndex(item => item.ccy == symbols[index].name);
-        dispatch({type: 'SET_CURRENT', payload: symbols[index].name});
-        dispatch({type: 'SET_CURRENT_SYMB', payload: symbols[index].symb});
+        dispatch({type: 'SET_CURRENT', payload: symbols[index]?.name});
+        dispatch({type: 'SET_CURRENT_SYMB', payload: symbols[index]?.symb});
         if(currencyIndex != -1){
             await dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney) / Number(currency[currencyIndex].sale)})
         }

@@ -44,6 +44,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.0",
     "redux": "^4.2.1",
+    "validator": "^13.9.0",
     "victory-native": "^36.6.8"
   },
   "devDependencies": {

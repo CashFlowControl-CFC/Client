@@ -74,7 +74,7 @@ export default function Navigation() {
   useEffect(() => {
 
     console.log("server:", process.env.API_URL)
-    console.log("user in start", user)
+    console.log("user in start\nEmail:", user?.email,"\nNickname:",user?.name)
     if (user == null) {
         auth(dispatch);
     }
