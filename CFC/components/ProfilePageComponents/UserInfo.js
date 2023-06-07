@@ -7,6 +7,7 @@ import { isAlphanumeric } from 'validator';
 export default function UserInfo(props) {
     const user = useSelector(state => state.user.user);
     const [nickname, setNickname] = useState(user.name)
+    
     const handleNicknameSubmit = async () => {
         if(isAlphanumeric(nickname) && /^[a-zA-Z]+$/.test(nickname)){
             const result = await updateData(`${process.env.API_URL}/user/${user.uid}`,{name:nickname})

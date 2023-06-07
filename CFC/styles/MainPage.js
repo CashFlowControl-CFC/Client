@@ -26,6 +26,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: "3%",
        },
+       categoryPressed: {
+        transform: [{ translateY: 5 }, { scale: 0.9 }]
+      },
        circle:{
         width: 40,
         height: 40,
