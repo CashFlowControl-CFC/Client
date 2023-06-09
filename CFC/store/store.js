@@ -7,7 +7,7 @@ import { targetReducer } from './targetReducer';
 import paymentReducer from './paymentReducer';
 import { userReducer } from './userReducer';
 import { currencyReducer } from './currencyReducer';
-
+import {avatarReducer} from './avatarReducer'
 const rootReducer = combineReducers({
     transaction: transactionReducer, 
     category: categoriesReducer,
@@ -16,7 +16,8 @@ const rootReducer = combineReducers({
     target: targetReducer,
     payment: paymentReducer,
     user:userReducer,
-    currency: currencyReducer
+    currency: currencyReducer,
+    avatar:avatarReducer
 })
 
 export default store = createStore(rootReducer);
