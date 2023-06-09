@@ -84,6 +84,7 @@ export default function Main({navigation}){
         await dispatch({type: 'SET_PAYMENTS', payload: result.remainder? result.remainder : []});
         await dispatch({type: 'SET_CURRENCY', payload: await getData(process.env.API_PRIVAT_URL)});
         setLoading(false);
+        //www
     }
     const changeCurrency = async () => {
         const currencyRes = await getCurrency();
