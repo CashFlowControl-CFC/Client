@@ -25,6 +25,7 @@ export default function TransactionInfo({ navigation }) {
     const user = useSelector(state => state.user.user);
 
     const [moneySum, setMoneySum] = useState(0);
+    const [isNew, setIsNew] = useState(true);
     const [filteredData, setFilteredData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -32,7 +33,11 @@ export default function TransactionInfo({ navigation }) {
 
     useEffect(() => {
         filter();
-    }, [data, current])
+    }, [data, current]);
+
+    useEffect(() => {
+        
+    }, [isNew])
 
     const filter = () => {
         const dataCurrency = data?.reduce((acc, cur) => {
@@ -114,12 +119,33 @@ export default function TransactionInfo({ navigation }) {
         setPressed(undefined)
 
     };
+    const filterByDate = (isNew) => {
+        setIsNew(isNew);
+        if(isNew){
+            setFilteredData(filteredData?.sort((a, b) => (a.date != b.date) ? new Date(b.date).getTime() - new Date(a.date).getTime() : b.id - a.id));
+        }
+        else{
+            setFilteredData(filteredData?.sort((a, b) => (a.date != b.date) ? new Date(a.date).getTime() - new Date(b.date).getTime() : b.id - a.id));
+        }
+    }
     return (
         <View style={general.app}>
             <ModalRemove modalVisible={modalVisible} close={() => setModalVisible(false)} action={handleRemove} />
 
             <CommonHeader navigation={navigation} title={`${selectedTransaction.x} ${currentSymb}${moneySum}`} image_link={selectedTransaction.image_link} />
             <View style={general.content} >
+                <View style={{flexDirection: 'row', marginTop: '5%', justifyContent: 'space-between', width: '85%'}}>
+                    <View style={{flexDirection: 'row', gap: 5}}>
+                        {getImage(process.env.API_BAG_URL, 20, 20, '#FFFFFF')}
+                        <Text style={general.generalText}>Total</Text>
+                    </View>
+                    <TouchableWithoutFeedback onPress={() => filterByDate(!isNew)}>
+                        <View style={{flexDirection: 'row', gap: 5}}>
+                            <Text style={general.generalText}>By date</Text>
+                            {getImage(process.env.API_CALENDAR_URL, 20, 20, '#FFFFFF')}
+                        </View>
+                    </TouchableWithoutFeedback>
+                </View>
                 <FlatList keyExtractor={item => item.id} style={{ marginTop: 25 }}
                     data={filteredData}
                     renderItem={({ item }) =>
