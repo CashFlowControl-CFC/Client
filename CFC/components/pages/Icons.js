@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text} from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import { useSelector } from "react-redux";
 import IconsList from "../IconListComponents/IconsList";
 import CommonHeader from "../General/CommonHeader";

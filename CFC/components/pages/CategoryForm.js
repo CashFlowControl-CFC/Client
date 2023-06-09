@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View, TouchableWithoutFeedback,Text,FlatList, Dimensions, Keyboard, ActivityIndicator } from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import Header from "../General/Header";
 import CategoryInput from "../CategoryFormComponents/CategoryInput";
 import { CategoryFormContext } from "../../modules/context";
 import { useDispatch, useSelector } from "react-redux";
-import {styles, stylesLight} from "../../styles/TransactionPage";
+import styles from "../../styles/TransactionPage";
 const { width, height } = Dimensions.get('window');
 import DefaultCategoryList from "../CategoryFormComponents/DefaultCategoryList";
 import { addData, getData } from "../../modules/requests";

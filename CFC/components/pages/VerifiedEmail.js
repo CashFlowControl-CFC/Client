@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableWithoutFeedback,Keyboard } from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import VerifiedInput from "../AuthComponents/VerifiedInput";
 import { useRoute } from "@react-navigation/native";
 import { addData } from "../../modules/requests";

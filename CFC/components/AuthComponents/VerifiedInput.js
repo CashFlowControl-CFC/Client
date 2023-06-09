@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, TextInput } from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 
 export default function VerifiedInput(props){
     return(

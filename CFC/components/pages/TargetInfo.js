@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import CommonHeader from "../General/CommonHeader";
 import { TouchableWithoutFeedback, View } from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import { useRoute } from "@react-navigation/native";
 import ProgressBarCircle from "../TargetComponents/ProgressBarCircle";
 import SelectedTarget from "../TargetComponents/SelectedTarget";

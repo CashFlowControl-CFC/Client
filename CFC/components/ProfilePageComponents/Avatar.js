@@ -2,7 +2,6 @@ import React from "react";
 import { TouchableWithoutFeedback, View } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import getImage from "../../resources/imageComponent";
 import { useSelector } from "react-redux";
 

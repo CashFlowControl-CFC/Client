@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { TouchableWithoutFeedback, View ,} from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import CommonHeader from "../General/CommonHeader";
 import Avatar from "../ProfilePageComponents/Avatar";
 import UserInfo from "../ProfilePageComponents/UserInfo";

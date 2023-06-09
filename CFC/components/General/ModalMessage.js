@@ -1,8 +1,7 @@
 import React from "react";
 import { Modal, TouchableWithoutFeedback, View, Text } from "react-native";
-import {styles, stylesLight} from "../../styles/MainPage";
+import styles from "../../styles/MainPage";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import getImage from "../../resources/imageComponent";
 
 function ModalMessage(props){

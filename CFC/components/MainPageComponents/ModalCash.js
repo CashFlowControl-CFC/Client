@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, TouchableWithoutFeedback, View, TextInput, Text, Keyboard } from "react-native";
-import {styles, stylesLight} from "../../styles/MainPage";
+import styles from "../../styles/MainPage";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import { useDispatch, useSelector } from "react-redux";
 
 function ModalCash(props){

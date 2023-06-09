@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import { View } from "react-native";
 import CommonHeader from "../General/CommonHeader";
 import { TargetContext } from "../../modules/context";

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, TouchableWithoutFeedback, Text} from "react-native";
 import getImage from "../../resources/imageComponent";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
-import {styles, stylesLight} from "../../styles/TransactionPage";
+import styles from "../../styles/TransactionPage";
 import moment from "moment";
 import { useSelector } from "react-redux";
 

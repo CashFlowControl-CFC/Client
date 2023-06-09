@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, TouchableWithoutFeedback } from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import getImage from "../../resources/imageComponent";
 
 export default function CommonHeader(props){

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { TouchableWithoutFeedback, View, Text, Modal, FlatList } from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import { useDispatch, useSelector } from "react-redux";
 import { saveCurrency } from "../../modules/storage";
 

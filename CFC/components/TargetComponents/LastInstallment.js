@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, View} from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import moment from "moment";
 import styles from "../../styles/MainPage";
 import getImage from "../../resources/imageComponent";

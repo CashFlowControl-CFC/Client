@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, FlatList, TouchableWithoutFeedback} from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
-import {styles, stylesLight} from "../../styles/TransactionPage";
+import styles from "../../styles/TransactionPage";
 import getImage from "../../resources/imageComponent";
 import { useDispatch, useSelector } from "react-redux";
 import {useRoute} from "@react-navigation/native";

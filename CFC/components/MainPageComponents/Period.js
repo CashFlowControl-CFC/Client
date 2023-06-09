@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View,  TouchableWithoutFeedback, Text} from "react-native";
-import {styles, stylesLight} from "../../styles/MainPage";
+import styles from "../../styles/MainPage";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import { MainContext } from "../../modules/context";
 import getImage from "../../resources/imageComponent";
 import moment from "moment";

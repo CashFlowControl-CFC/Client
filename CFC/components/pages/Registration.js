@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableWithoutFeedback, Keyboard, ActivityIndicator } from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import EmailInput from "../AuthComponents/EmailInput";
 import PasswordInput from "../AuthComponents/PasswordInput";
 import AuthHeader from "../AuthComponents/AuthHeader";

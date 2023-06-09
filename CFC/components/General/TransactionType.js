@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View, TouchableWithoutFeedback, Text } from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 
 function TransactionType(){
     const dispatch = useDispatch();

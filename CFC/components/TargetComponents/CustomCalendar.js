@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import {styles, stylesLight} from "../../styles/TransactionPage";
+import styles from "../../styles/TransactionPage";
 import moment from "moment";
 import {Calendar} from 'react-native-calendars';
 

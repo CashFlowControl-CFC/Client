@@ -1,7 +1,6 @@
 import React  from "react";
 import { View, TextInput, Text} from "react-native";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 
 function CommentInput(props){
     return (

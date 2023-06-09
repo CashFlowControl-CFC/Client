@@ -3,7 +3,6 @@ import { ActivityIndicator, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import general from "../../styles/general";
-import generalLight from "../../styles/generalLight";
 import { getData, updateData, removeData, addData } from "../../modules/requests";
 import { MainContext } from "../../modules/context";
 import Period from "../MainPageComponents/Period";
@@ -30,7 +29,6 @@ export default function Main({navigation}){
     const [modalVisible, setModalVisible] = useState(false);
     const [modalMenuVisible, setModalMenuVisible] = useState(false);
     const user = useSelector(state => state.user.user);
-    const theme = useSelector(state => state.user.theme);
 
     const current = useSelector(state => state.currency.current);
     const currency = useSelector(state => state.currency.currency);
@@ -206,7 +204,7 @@ export default function Main({navigation}){
     }
     return(
     <MainContext.Provider value={contextValue}>
-        <View style={theme == 'dark' ? general.app : generalLight.app}>
+        <View style={general.app}>
         {loading ? <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}> 
             <ActivityIndicator size='large' color="#fcbe53"/>
         </View>  :
@@ -215,7 +213,7 @@ export default function Main({navigation}){
             <ModalMenu/>
             <TotalMoney/>
 
-            <View style={theme == 'dark' ? general.content : generalLight.content} >
+            <View style={general.content} >
                 <PeriodButtons/>
                 <Period/>
                 <PieChart/>
