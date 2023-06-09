@@ -27,7 +27,10 @@ function TransactionList(){
                                     </View>
                                     <View style={{width:"70%", flexDirection: "row", justifyContent: "space-between"}}>
                                         <Text style={styles.categoryText}>{item.x}</Text>
-                                        <Text style={[styles.categoryText, {direction: 'ltr'}]}>{currentSymb}{item.y}</Text>
+                                        <View style={[styles.categoryText, {direction: 'ltr', flexDirection: "row", gap: 20}]}>
+                                            <Text style={[styles.categoryText, {color: '#D8D8D8'}]}>{item.percent}%</Text>
+                                            <Text style={[styles.categoryText]}>{currentSymb}{item.y}</Text>
+                                        </View>
                                     </View>
                                 </View>   
                 

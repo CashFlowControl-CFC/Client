@@ -22,6 +22,7 @@ export default function Main({navigation}){
     const [selectedPeriod, setSelectedPeriod] = useState('Day');
     const [step, setStep] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [transactionMoney, setTransactionMoney] = useState(0);
 
     const [filteredData, setFilteredData] = useState([]);
     const [combinedData, setCombinedData] = useState([]);
@@ -44,6 +45,7 @@ export default function Main({navigation}){
         combinedData,
         filterDate,
         modalMenuVisible,
+        transactionMoney,
         setModalVisible, 
         setStep, 
         setSelectedPeriod,
@@ -85,15 +87,17 @@ export default function Main({navigation}){
     }
     const changeCurrency = async () => {
         const currencyRes = await getCurrency();
-        const index = symbols?.findIndex(item => item.name == currencyRes.currency);
-        const currencyIndex = currency.findIndex(item => item.ccy == symbols[index].name);
-        dispatch({type: 'SET_CURRENT', payload: symbols[index]?.name});
-        dispatch({type: 'SET_CURRENT_SYMB', payload: symbols[index]?.symb});
-        if(currencyIndex != -1){
-            await dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney) / Number(currency[currencyIndex].sale)})
-        }
-        else{
-            await dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney)})
+        if(currencyRes.currency){
+            const index = symbols?.findIndex(item => item.name == currencyRes.currency);
+            const currencyIndex = currency.findIndex(item => item.ccy == symbols[index].name);
+            dispatch({type: 'SET_CURRENT', payload: symbols[index]?.name});
+            dispatch({type: 'SET_CURRENT_SYMB', payload: symbols[index]?.symb});
+            if(currencyIndex != -1){
+                await dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney) / Number(currency[currencyIndex].sale)})
+            }
+            else{
+                await dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney)})
+            }
         }
     }
     const checkIsPaymentExpired = async () => {
@@ -129,7 +133,9 @@ export default function Main({navigation}){
    }
     const setCurrency = async () => {
         console.log('totalMoney', totalMoney)
-        await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(totalMoney)});
+        if(!loading){
+            await updateData(`${process.env.API_URL}/user/${user.uid}`, {total_cash: parseFloat(totalMoney)});
+        }
         const currencyIndex = currency.findIndex(item => item.ccy == current);
         if(currencyIndex != -1){
             await dispatch({type: 'SET_CURRENCY_MONEY', payload: Math.round(Number(totalMoney) / Number(currency[currencyIndex].sale))});
@@ -138,8 +144,8 @@ export default function Main({navigation}){
             await dispatch({type: 'SET_CURRENCY_MONEY', payload: Number(totalMoney)});
         }
     }
-    const combine = () =>{
-        const newData = filteredData?.reduce((acc, cur) => {
+    const combine = async () =>{
+        const newData = await filteredData?.reduce((acc, cur) => {
             const index = acc.findIndex(item => item.x === cur.x);
             if (index === -1) {
               acc.push({ x: cur.x, 
@@ -158,8 +164,20 @@ export default function Main({navigation}){
             }
             return acc;
           }, []);
+          countPercent(newData);
+    }
+    const countPercent = async (data) => {
+        const total = filteredData?.reduce((acc, cur) => Number(acc) + Number(cur.y), 0);
+          setTransactionMoney(changeCurrencyFromUAH((Number(total)), currency, current).toFixed(2));
+          let newData = await data?.reduce((acc, cur) => {
+            acc.push({...cur, 
+            percent: Math.round((cur.y * 100) / total)
+            });
+            return acc;
+          }, []);
           setCombinedData(newData);
     }
+
     const handleSetMoney = async (value) =>{
         let valueCurrency = value;
         if(current != 'UAH'){

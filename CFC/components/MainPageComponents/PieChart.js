@@ -8,18 +8,18 @@ import general from "../../styles/general";
 import { changeCurrencyFromUAH } from "../../modules/generalFuncs";
 
 function PieChart(){
-    const {combinedData, filteredData, navigation} = useContext(MainContext);
-    const [transactionMoney, setTransactionMoney] = useState(0);
+    const {combinedData, filteredData, navigation, transactionMoney} = useContext(MainContext);
+    //const [transactionMoney, setTransactionMoney] = useState(0);
     const current = useSelector(state => state.currency.current);
     const currency = useSelector(state => state.currency.currency);
     const currentSymb = useSelector(state => state.currency.currentSymb);
-    useEffect(() =>{
-        sum();
-    }, [filteredData, current]);
-    const sum = () =>{
-        const total = filteredData?.reduce((acc, cur) => Number(acc) + Number(cur.y), 0);
-        setTransactionMoney(changeCurrencyFromUAH((Number(total)), currency, current).toFixed(2));
-    }
+    // useEffect(() =>{
+    //     sum();
+    // }, [filteredData, current]);
+    // const sum = () =>{
+    //     const total = filteredData?.reduce((acc, cur) => Number(acc) + Number(cur.y), 0);
+    //     setTransactionMoney(changeCurrencyFromUAH((Number(total)), currency, current).toFixed(2));
+    // }
     return (
             <View style={{alignItems: "center", justifyContent: 'center'}}>
             <VictoryPie

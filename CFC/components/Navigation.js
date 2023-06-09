@@ -58,7 +58,7 @@ const RegisterLayout = () => {
 const auth = async (dispatch) => {
   const token = await getAccessToken()
   console.log("token in enter:", token)
-  if (token != null) {
+  if (token.accessToken != null) {
     const result = await addData(`${process.env.API_URL}/auth/token`, token)
     console.log("result in enter", result)
     dispatch({ type: "SET_USER", payload: result })
