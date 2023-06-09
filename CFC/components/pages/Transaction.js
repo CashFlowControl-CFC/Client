@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { View, TouchableWithoutFeedback, Text, Keyboard, ActivityIndicator } from "react-native";
 import moment from "moment";
 import general from "../../styles/general";
+import generalLight from "../../styles/generalLight";
 import { addData, updateData } from "../../modules/requests";
 import AddBtn from "../General/AddBtn";
 import CategoryList from "../General/CategoryList";

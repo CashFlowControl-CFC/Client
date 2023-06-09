@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import general from "../../styles/general";
+import generalLight from "../../styles/generalLight";
 import CategoryList from "../General/CategoryList";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../General/Header";

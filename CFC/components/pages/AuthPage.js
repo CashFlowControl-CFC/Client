@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableWithoutFeedback } from "react-native";
 import general from "../../styles/general";
+import generalLight from "../../styles/generalLight";
 import { FIREBASE_AUTH } from "../../modules/FirebaseConfig";
 import { GoogleAuthProvider , signInWithPopup} from "firebase/auth";
 const auth = FIREBASE_AUTH

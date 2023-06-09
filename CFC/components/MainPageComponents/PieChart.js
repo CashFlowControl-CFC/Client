@@ -5,6 +5,7 @@ import { MainContext } from "../../modules/context";
 import { useSelector } from "react-redux";
 import CreateBtn from "../General/CreateBtn";
 import general from "../../styles/general";
+import generalLight from "../../styles/generalLight";
 import { changeCurrencyFromUAH } from "../../modules/generalFuncs";
 
 function PieChart(){

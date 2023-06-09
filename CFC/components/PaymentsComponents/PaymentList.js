@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { View,  TouchableWithoutFeedback, Text, FlatList} from "react-native";
-import styles from "../../styles/MainPage";
+import {styles, stylesLight} from "../../styles/MainPage";
 import getImage from "../../resources/imageComponent";
 import moment from 'moment';
 import general from "../../styles/general";
+import generalLight from "../../styles/generalLight";
 import { useDispatch, useSelector } from "react-redux";
 import ModalRemove from "../General/ModalRemove";
 import { removeData } from "../../modules/requests";

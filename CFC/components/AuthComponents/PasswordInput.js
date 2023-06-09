@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, TouchableWithoutFeedback } from "react-native";
 import general from "../../styles/general";
+import generalLight from "../../styles/generalLight";
 import getImage from "../../resources/imageComponent";
 
 export default function PasswordInput(props){

@@ -1,14 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Modal, TouchableWithoutFeedback, View, Text } from "react-native";
-import styles from "../../styles/MainPage";
+import {styles, stylesLight} from "../../styles/MainPage";
 import { MainContext } from "../../modules/context";
 import general from "../../styles/general";
+import generalLight from "../../styles/generalLight";
 import getImage from "../../resources/imageComponent";
 import { FIREBASE_AUTH } from "../../modules/FirebaseConfig";
 import { useDispatch } from "react-redux";
 import { removeAccessToken } from "../../modules/storage";
 function ModalMenu(){
     const dispatch = useDispatch();
+    const [selected, setSelected] = useState(2);
     const {navigation, modalMenuVisible, setModalMenuVisible} = useContext(MainContext);
     const onClick = (name) =>{
         setModalMenuVisible(false);
@@ -20,6 +22,16 @@ function ModalMenu(){
         await removeAccessToken()
         await dispatch({type:"SET_USER",payload:null})
 
+    }
+    const onChangeTheme = (theme) => {
+        if(theme == 'dark'){
+            dispatch({type: 'SET_THEME', payload: 'dark'});
+            setSelected(2);
+        }
+        else{
+            dispatch({type: 'SET_THEME', payload: 'light'});
+            setSelected(1);
+        }
     }
     return(
         <Modal
@@ -36,6 +48,19 @@ function ModalMenu(){
                                             {getImage(process.env.API_MENU_URL, 30, 30, '#FFFFFF')}
                                         </View>
                                     </TouchableWithoutFeedback>
+                                        <View style={{flexDirection: 'row', gap: 10}}>
+                                            <Text style={[general.generalText, {marginLeft: '5%'}]}>Theme</Text>
+                                                <TouchableWithoutFeedback onPress={() => onChangeTheme('light')}>
+                                                    <View style={{width: '15%'}}>
+                                                        {getImage(process.env.API_SUN_URL, 20, 20, selected == 1 ? '#FDCD81' : '#FFFFFF')}
+                                                    </View>
+                                                </TouchableWithoutFeedback>
+                                                <TouchableWithoutFeedback onPress={() => onChangeTheme('dark')}>
+                                                    <View style={{width: '15%'}}>
+                                                        {getImage(process.env.API_MOON_URL, 20, 20, selected == 2 ? '#FDCD81' : '#FFFFFF')}
+                                                    </View>
+                                                </TouchableWithoutFeedback>
+                                        </View>
                                     <TouchableWithoutFeedback onPress={() => onClick('Profile')}>
                                         <View style={{flexDirection: 'row'}}>
                                             {getImage(process.env.API_PROFILE_URL, 20, 20, '#FFFFFF')}

@@ -1,6 +1,7 @@
 import React from "react";
 import { TouchableWithoutFeedback, View, Text } from "react-native";
 import general from "../../styles/general";
+import generalLight from "../../styles/generalLight";
 import { FIREBASE_AUTH } from "../../modules/FirebaseConfig";
 import { useDispatch } from "react-redux";
 import { removeAccessToken } from "../../modules/storage";

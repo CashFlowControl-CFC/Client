@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions  } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     categories:{
         width: "90%",
         marginTop: "10%",
@@ -71,4 +71,13 @@ const styles = StyleSheet.create({
     }
 });
 
-export default styles;
+export const stylesLight = StyleSheet.create({
+    dateBtn:{
+        backgroundColor: "#92C142",
+        borderRadius: 25,
+        width: "25%",
+        height: "70%",
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});

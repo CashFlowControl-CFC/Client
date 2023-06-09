@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions  } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
        categoryText:{
         color: '#FFFFFF',
         fontStyle: 'normal',
@@ -81,6 +81,19 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
        }
     }
-)
+);
 
-export default styles;
+export const stylesLight = StyleSheet.create({
+    categoryText:{
+        color: '#000000',
+        fontStyle: 'normal',
+        fontWeight: 500,
+        fontSize: 17,
+       },
+       totalMoney:{
+           color: "#000000",
+           fontSize: 23,
+           fontWeight: 500,
+           marginLeft: '1%'
+       },
+});

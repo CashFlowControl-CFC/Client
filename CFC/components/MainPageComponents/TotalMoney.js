@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { View, TouchableWithoutFeedback, Text } from "react-native";
 import general from "../../styles/general";
-import styles from "../../styles/MainPage";
+import generalLight from "../../styles/generalLight";
+import {styles, stylesLight} from "../../styles/MainPage";
 import { MainContext } from "../../modules/context";
 import getImage from "../../resources/imageComponent";
 import { useSelector } from "react-redux";
