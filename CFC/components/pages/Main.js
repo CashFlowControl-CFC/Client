@@ -113,7 +113,6 @@ export default function Main({navigation}){
         if(current != 'UAH'){
             valueCurrency = changeCurrencyToUAH(Number(item.cash), currency, current);
         }
-        dispatch({type: 'ADD_EXPENSES', payload: parseFloat(valueCurrency)});
         let result = await addData(`${process.env.API_URL}/transaction`, {
             category_id: item.category_id, 
             uid: user.uid, 
@@ -122,7 +121,12 @@ export default function Main({navigation}){
             isIncome: false,
             comment: item.name
         })
-        await dispatch({type: 'ADD_TRANSACTION', payload: result}); 
+        if(result){
+            dispatch({type: 'ADD_EXPENSES', payload: parseFloat(valueCurrency)});
+            await dispatch({type: 'ADD_TRANSACTION', payload: result}); 
+        }else{
+            alert('Sorry, unable to add transaction!\nWe are already working on it :)');
+        }
     }
     const removePayment = async (id) =>{
         let result = await removeData(`${process.env.API_URL}/remainder/${id}`);

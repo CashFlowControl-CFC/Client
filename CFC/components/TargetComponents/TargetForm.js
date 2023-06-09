@@ -12,7 +12,7 @@ import CustomCalendar from "./CustomCalendar";
 import styles from "../../styles/TransactionPage";
 import { useRoute } from "@react-navigation/native";
 import * as Notifications from 'expo-notifications';
-import { registerForPushNotificationsAsync, schedulePushNotification } from "../../pushNotificationsUtils";
+import { registerForPushNotificationsAsync, schedulePushNotification} from "../../pushNotificationsUtils";
 import { changeCurrencyToUAH } from "../../modules/generalFuncs";
 const { width, height } = Dimensions.get('window');
 
@@ -36,6 +36,7 @@ export default function TargetForm({navigation}){
     const currency = useSelector(state => state.currency.currency);
 
     const [value, setValue] = useState('');
+    const [expoPushToken, setExpoPushToken] = useState('');
     const [name, setName] = useState('');
     const [comment, setComment] = useState(transComment ? transComment : '');
     const [selectedDate, setSelectedDate] = useState(moment(new Date()));

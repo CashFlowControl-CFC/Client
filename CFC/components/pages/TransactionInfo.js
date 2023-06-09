@@ -152,6 +152,7 @@ export default function TransactionInfo({ navigation }) {
                         <TouchableWithoutFeedback activeOpacity={1} onPressIn={() => handlePressIn(item.id)} onPressOut={handlePressOut} onLongPress={() => showModal(item.id)} onPress={() => handleEdit(item.id)}>
                             <View>
                                 <Text style={[general.generalText, { color: '#D8D8D8', marginBottom: 10, marginLeft: 15 }]}>{moment(item.date).format('MMM DD, YYYY')}</Text>
+                                
                                 <View style={[styles.category, isPressed == item.id && styles.categoryPressed, { backgroundColor: item.fill + "20" }]}>
                                     <View style={[styles.circle, { backgroundColor: item.fill }]}>
                                         {getImage(item.image_link, 25, 25, item.image_color)}
@@ -165,7 +166,7 @@ export default function TransactionInfo({ navigation }) {
                                         </View>
                                         <Text style={[styles.categoryText, { direction: 'ltr', alignSelf: 'center' }]}>{currentSymb}{item.y}</Text>
                                     </View>
-                                </View>
+                                     </View>
                             </View>
                         </TouchableWithoutFeedback>
                     } />
