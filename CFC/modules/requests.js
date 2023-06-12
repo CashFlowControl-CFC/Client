@@ -4,13 +4,12 @@ import { getAccessToken,getRefreshToken } from "./storage";
 
 const getData = async (url) =>{
     const accessToken = await getAccessToken();
-    const refreshToken = await getRefreshToken();
     console.log('getData')
     try{
         const result = await fetch(url, {
             headers: {
                 'Content-Type': 'application/json',
-                'authorization':`Bearer ${accessToken?.accessToken} Refresh ${refreshToken?.refreshToken}`
+                'authorization':`Bearer ${accessToken?.accessToken}`
               },
             method: 'GET',
         })

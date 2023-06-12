@@ -14,7 +14,7 @@ import Registration from "./pages/Registration";
 import VerifiedEmail from "./pages/VerifiedEmail"
 import TargetForm from "./TargetComponents/TargetForm";
 import TargetInfo from "./pages/TargetInfo";
-import { getAccessToken, saveAccessToken, saveRefreshToken } from "../modules/storage";
+import { getAccessToken, saveAccessToken } from "../modules/storage";
 import { ActivityIndicator, View } from "react-native";
 import general from "../styles/general";
 import ScheduledPayments from "./pages/SheduledPayments";
@@ -64,15 +64,14 @@ export default function Navigation() {
 
   const auth = async () => {
     setLoading(true)
-    const token = await getAccessToken()
-    console.log("token in enter:", token)
-    if (token.accessToken != null) {
-      const result = await addData(`${process.env.API_URL}/auth/token`, token)
+    const accesstoken = await getAccessToken()
+    console.log("accesstoken in enter:", accesstoken)
+    if (accesstoken.accessToken != null) {
+      const result = await addData(`${process.env.API_URL}/auth/token`, accesstoken)
       console.log("result in enter", result)
       dispatch({ type: "SET_USER", payload: result })
       if(result){
         await saveAccessToken(result.accesstoken)
-        await saveRefreshToken(result.refreshtoken)
       }
     }
     else {

@@ -4,17 +4,9 @@ import * as SecureStore from 'expo-secure-store';
 const saveAccessToken = async (accessToken) => {
   try {
     await SecureStore.setItemAsync('accessToken', accessToken);
-    console.log('Accesstoken збережено.');
+    console.log('Accesstoken збережено2.');
   } catch (error) {
     console.log('Помилка при збереженні accesstoken:', error);
-  }
-};
-const saveRefreshToken = async (accessToken) => {
-  try {
-    await SecureStore.setItemAsync('refreshToken', accessToken);
-    console.log('refreshToken збережено.');
-  } catch (error) {
-    console.log('Помилка при збереженні refreshToken:', error);
   }
 };
 // Отримання accesstoken
@@ -35,15 +27,6 @@ const removeAccessToken = async () => {
     console.log('Accesstoken видалено.');
   } catch (error) {
     console.log('Помилка при видаленні accesstoken:', error);
-  }
-};
-const getRefreshToken = async () => {
-  try {
-    const accessToken = await SecureStore.getItemAsync('refreshToken');
-    return {accessToken:accessToken};
-  } catch (error) {
-    console.log('Помилка при отриманні accesstoken:', error);
-    return null;
   }
 };
 const saveCurrency = async (currency) => {
@@ -71,6 +54,4 @@ export{
     removeAccessToken,
     saveCurrency,
     getCurrency,
-    saveRefreshToken,
-    getRefreshToken
 }
