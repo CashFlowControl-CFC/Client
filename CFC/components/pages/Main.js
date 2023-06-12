@@ -85,7 +85,6 @@ export default function Main({ navigation }) {
         await dispatch({ type: 'SET_CURRENCY', payload: await getData(process.env.API_PRIVAT_URL) });
         await dispatch({ type: 'SET_AVATARS', payload: await getData(`${process.env.API_URL}/avatar`) })
         setLoading(false);
-        //www
     }
     const changeCurrency = async () => {
         const currencyRes = await getCurrency();
