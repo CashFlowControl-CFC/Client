@@ -9,7 +9,7 @@ const getData = async (url) =>{
         const result = await fetch(url, {
             headers: {
                 'Content-Type': 'application/json',
-                'authorization':`Bearer ${accessToken?.accessToken}`
+                'authorization':accessToken?.accessToken
               },
             method: 'GET',
         })
@@ -58,7 +58,7 @@ const removeData = async (url) =>{
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': accessToken.accessToken
+                'authorization': accessToken?.accessToken
               },
         })
         return result;
@@ -78,7 +78,7 @@ const updateData = async (url, object) =>{
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': accessToken.accessToken
+                'authorization': accessToken?.accessToken
               },
             body: await JSON.stringify(object)
         })
@@ -97,7 +97,7 @@ const login = async (url, object) =>{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': accessToken.accessToken
+                'authorization': accessToken?.accessToken
               },
             body: JSON.stringify(object),
         })
