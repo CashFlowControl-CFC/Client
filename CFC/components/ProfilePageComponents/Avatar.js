@@ -1,5 +1,5 @@
 import React , { useState }from "react";
-import { TouchableWithoutFeedback, View , Dimensions} from "react-native";
+import { TouchableWithoutFeedback, View , Dimensions, Image} from "react-native";
 import general from "../../styles/general";
 import getImage from "../../resources/imageComponent";
 import { useSelector } from "react-redux";
@@ -27,7 +27,9 @@ export default function Avatar(props) {
                 <View style={general.avatar}>
                         {user.avatar_id==0
                         ?getImage(process.env.API_PLUS_URL, 90, 90, '#000000')
-                        :getImage(avatars.findLast(x=>x.id==user.avatar_id)?.image_link, width*0.5, width*0.5)}
+                        :<Image source={{uri: (avatars.findLast(x=>x.id==user.avatar_id)?.image_link)}} 
+                        style={{width: width*0.53, height: width*0.53}}/>
+                    }
                     </View>
                 </TouchableWithoutFeedback>
         </View>

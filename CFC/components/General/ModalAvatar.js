@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Image, Modal, Text, TouchableWithoutFeedback, View } from "react-native";
 import styles from "../../styles/MainPage";
 import getImage from "../../resources/imageComponent";
 import { useSelector, useDispatch } from "react-redux";
@@ -36,7 +36,8 @@ function ModalAvatar(props) {
                                             <TouchableWithoutFeedback onPress={() => handleSelectedAvatar(item.id)}>
                                                 <View style={{ alignItems: 'center', margin: 5}}>
                                                         <View style={[styles.catCircle, {backgroundColor: item.color}]}> 
-                                                            {getImage(item.image_link, 60, 60, item.image_color)}
+                                                        <Image source={{uri: item.image_link}} 
+                                                            style={{width: 60, height: 60}}/>
                                                         </View>
                                                 </View>
                                             </TouchableWithoutFeedback>}

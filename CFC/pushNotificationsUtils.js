@@ -2,7 +2,8 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import moment from 'moment';
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Calling getExpoPushTokenAsync without specifying a projectId is deprecated and will no longer be supported in SDK 49+']);
+LogBox.ignoreLogs(['Calling getExpoPushTokenAsync without specifying a projectId is deprecated and will no longer be supported in SDK 49+', 
+'[Unhandled promise rejection: Error: Failed to schedule notification. time interval must be greater than 0]']);
 
   export async function schedulePushNotification(reminderDate, sameDayDate) {
     Notifications.setNotificationHandler({
