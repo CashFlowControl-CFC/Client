@@ -14,7 +14,7 @@ import Registration from "./pages/Registration";
 import VerifiedEmail from "./pages/VerifiedEmail"
 import TargetForm from "./TargetComponents/TargetForm";
 import TargetInfo from "./pages/TargetInfo";
-import { getAccessToken } from "../modules/storage";
+import { getAccessToken, saveAccessToken } from "../modules/storage";
 import { ActivityIndicator, View } from "react-native";
 import general from "../styles/general";
 import ScheduledPayments from "./pages/SheduledPayments";
@@ -69,8 +69,10 @@ export default function Navigation() {
       const result = await addData(`${process.env.API_URL}/auth/token`, token)
       console.log("result in enter", result)
       dispatch({ type: "SET_USER", payload: result })
+      if(result){
+        await saveAccessToken(result.accesstoken)
+      }
     }
-
     else {
       dispatch({ type: "SET_USER", payload: null })
     }
