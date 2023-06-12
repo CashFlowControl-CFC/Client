@@ -10,7 +10,7 @@ const getData = async (url) =>{
         const result = await fetch(url, {
             headers: {
                 'Content-Type': 'application/json',
-                'authorization':`Bearer ${accessToken.accessToken} Refresh ${refreshToken.refreshToken}`
+                'authorization':`Bearer ${accessToken?.accessToken} Refresh ${refreshToken?.refreshToken}`
               },
             method: 'GET',
         })
@@ -34,7 +34,7 @@ const addData = async (url, object) =>{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': accessToken.accessToken
+                'authorization': accessToken?.accessToken
               },
             body: JSON.stringify(object),
         })

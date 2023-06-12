@@ -19,13 +19,6 @@ export default function EmailInput(props){
                                             props.setEmail(text)
                                         }
                                     }}/>
-                <View>
-                    {!props.isValidEmail && (<Text 
-                                    style={[general.inputComment, general.errorText,
-                                        {color: props.isValidEmail ?'#D8D8D8' : '#973F3F'}]
-                                        }>
-                                        error: you entered the data incorrectly</Text>)}
-                </View>
             </View>
         </View>
     );

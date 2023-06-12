@@ -4,12 +4,10 @@ import general from "../../styles/general";
 import styles from "../../styles/TransactionPage";
 import getImage from "../../resources/imageComponent";
 import { useDispatch, useSelector } from "react-redux";
-import {useRoute} from "@react-navigation/native";
 
 function IconsList(props){
     const dispatch = useDispatch();
     const selectedCategory = useSelector(state => state.category.selectedCategory);
-    const route = useRoute();
 
     const handleSelectCategory = (id, catId) => {
         dispatch({type: 'SET_SELECTED', payload: catId});

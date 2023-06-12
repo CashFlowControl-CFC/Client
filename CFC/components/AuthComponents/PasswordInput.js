@@ -25,17 +25,10 @@ export default function PasswordInput(props){
                     }}
                 />
                 <TouchableWithoutFeedback onPress={() => setIsClose(!isClose)}>
-                    <View style={{position: 'absolute', zIndex: 1, top: '50%'}}>
+                    <View style={{fontSize: 20, position: 'absolute', left: 10, bottom: 10}}>
                         {getImage( isClose ? process.env.API_CLOSE_URL : process.env.API_OPEN_URL, 20, 20, '#FFFFFF')}
                     </View>
                 </TouchableWithoutFeedback>
-                <View>
-                    {!props.isValidPassword && (<Text 
-                                    style={[general.inputComment, general.errorText,
-                                        {position: 'absolute', color: props.isValidPassword ?'#D8D8D8' : '#973F3F'}]
-                                        }>
-                                        error: you entered the data incorrectly</Text>)}
-                </View>
             </View>
         </View>
     );

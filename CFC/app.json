@@ -12,7 +12,11 @@
       "backgroundColor": "#ffffff",
       "packagerOpts": {
         "config": "metro.config.js",
-        "sourceExts": ["js", "jsx", "svg"]
+        "sourceExts": [
+          "js",
+          "jsx",
+          "svg"
+        ]
       },
       "extra": {
         "expo": {
@@ -26,16 +30,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.margos.CFC"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.margos.CFC"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "77cebb0d-e973-462c-819e-de070ddb2834"
+      }
     }
   }
 }
