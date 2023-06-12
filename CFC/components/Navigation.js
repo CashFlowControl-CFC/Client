@@ -14,7 +14,7 @@ import Registration from "./pages/Registration";
 import VerifiedEmail from "./pages/VerifiedEmail"
 import TargetForm from "./TargetComponents/TargetForm";
 import TargetInfo from "./pages/TargetInfo";
-import { getAccessToken, saveAccessToken } from "../modules/storage";
+import { getAccessToken, saveAccessToken, saveRefreshToken } from "../modules/storage";
 import { ActivityIndicator, View } from "react-native";
 import general from "../styles/general";
 import ScheduledPayments from "./pages/SheduledPayments";
@@ -71,6 +71,7 @@ export default function Navigation() {
       dispatch({ type: "SET_USER", payload: result })
       if(result){
         await saveAccessToken(result.accesstoken)
+        await saveRefreshToken(result.refreshtoken)
       }
     }
     else {

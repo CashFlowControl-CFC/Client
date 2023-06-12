@@ -1,9 +1,17 @@
 
+import { getAccessToken,getRefreshToken } from "./storage";
+
 
 const getData = async (url) =>{
+    const accessToken = await getAccessToken();
+    const refreshToken = await getRefreshToken();
     console.log('getData')
     try{
         const result = await fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization':`Bearer ${accessToken.accessToken} Refresh ${refreshToken.refreshToken}`
+              },
             method: 'GET',
         })
         if(result.status == 200){
@@ -19,12 +27,14 @@ const getData = async (url) =>{
 }
 
 const addData = async (url, object) =>{
+    const accessToken = await getAccessToken();
     console.log('addData')
     try{
         const result = await fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization': accessToken.accessToken
               },
             body: JSON.stringify(object),
         })
@@ -42,12 +52,14 @@ const addData = async (url, object) =>{
 }
 
 const removeData = async (url) =>{
+    const accessToken = await getAccessToken();
     console.log('removeData')
     try{
         const result = await fetch(url, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization': accessToken.accessToken
               },
         })
         return result;
@@ -59,12 +71,15 @@ const removeData = async (url) =>{
 }
 
 const updateData = async (url, object) =>{
+    const accessToken = await getAccessToken();
+
     console.log('updateData')
     try{
         const result = await fetch(url, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization': accessToken.accessToken
               },
             body: await JSON.stringify(object)
         })
@@ -77,11 +92,13 @@ const updateData = async (url, object) =>{
 }
 
 const login = async (url, object) =>{
+    const accessToken = await getAccessToken();
     try{
         const result = await fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization': accessToken.accessToken
               },
             body: JSON.stringify(object),
         })

@@ -9,7 +9,14 @@ const saveAccessToken = async (accessToken) => {
     console.log('Помилка при збереженні accesstoken:', error);
   }
 };
-
+const saveRefreshToken = async (accessToken) => {
+  try {
+    await SecureStore.setItemAsync('refreshToken', accessToken);
+    console.log('refreshToken збережено.');
+  } catch (error) {
+    console.log('Помилка при збереженні refreshToken:', error);
+  }
+};
 // Отримання accesstoken
 const getAccessToken = async () => {
   try {
@@ -30,7 +37,15 @@ const removeAccessToken = async () => {
     console.log('Помилка при видаленні accesstoken:', error);
   }
 };
-
+const getRefreshToken = async () => {
+  try {
+    const accessToken = await SecureStore.getItemAsync('refreshToken');
+    return {accessToken:accessToken};
+  } catch (error) {
+    console.log('Помилка при отриманні accesstoken:', error);
+    return null;
+  }
+};
 const saveCurrency = async (currency) => {
   try {
     await SecureStore.setItemAsync('currency', currency);
@@ -55,5 +70,7 @@ export{
     getAccessToken,
     removeAccessToken,
     saveCurrency,
-    getCurrency
+    getCurrency,
+    saveRefreshToken,
+    getRefreshToken
 }
