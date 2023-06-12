@@ -14,6 +14,7 @@ import TransactionList from "../MainPageComponents/TransactionList";
 import ModalMenu from "../MainPageComponents/ModalMenu";
 import { changeCurrencyFromUAH, changeCurrencyToUAH } from "../../modules/generalFuncs";
 import { getCurrency } from "../../modules/storage";
+import Loader from "../General/Loader";
 
 export default function Main({ navigation }) {
     const dispatch = useDispatch();
@@ -210,7 +211,7 @@ export default function Main({ navigation }) {
         <MainContext.Provider value={contextValue}>
             <View style={general.app}>
                 {loading ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <ActivityIndicator size='large' color="#fcbe53" />
+                    <Loader/>
                 </View> :
                     <>
                         <ModalCash object={object} />

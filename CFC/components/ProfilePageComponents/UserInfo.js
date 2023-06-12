@@ -12,11 +12,8 @@ export default function UserInfo(props) {
         if(isAlphanumeric(nickname) && /^[a-zA-Z]+$/.test(nickname)){
             const result = await updateData(`${process.env.API_URL}/user/${user.uid}`,{name:nickname})
             if(result.status==200){
-                alert("Success")
                 console.log('Nickname submitted:', nickname);
             }
-        }else{
-            alert("Not validate")
         }
     };
     return (
@@ -26,7 +23,9 @@ export default function UserInfo(props) {
                     <Text style={[general.generalText, { color: '#D8D8D8' }]}>Name</Text>
                     <TextInput
                         style={[general.generalText, { fontSize: 19, marginTop: 5 }]}
-                        value={nickname}
+                        placeholder="User"
+                        placeholderTextColor={'#D8D8D8'}
+                        value={nickname == 'User' ? '' : nickname}
                         onChangeText={setNickname}
                         onSubmitEditing={handleNicknameSubmit}
                     />

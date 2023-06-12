@@ -22,6 +22,7 @@ import { addData } from "../modules/requests";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Profile from "./pages/Profile";
+import Loader from "./General/Loader";
 const InsideStack = createStackNavigator();
 const RegisterStack = createStackNavigator();
 
@@ -92,7 +93,7 @@ export default function Navigation() {
     <NavigationContainer>
       {loading ? <View style={general.app}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <ActivityIndicator size='large' color="#fcbe53" />
+          <Loader/>
         </View>
       </View>
         : user ? <InsideLayout /> : <RegisterLayout />}

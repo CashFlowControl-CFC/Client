@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, TouchableWithoutFeedback, View } from "react-native";
+import { Modal, Text, TouchableWithoutFeedback, View } from "react-native";
 import styles from "../../styles/MainPage";
 import getImage from "../../resources/imageComponent";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,7 +14,6 @@ function ModalAvatar(props) {
     const user = useSelector(state => state.user.user)
     const dispatch = useDispatch();
     const handleSelectedAvatar = async (id) => {
-        console.log("in avatar module")
         updateData(`${process.env.API_URL}/user/${user.uid}`,{avatar_id:id})
         user.avatar_id = id;
         dispatch({ type: 'SET_USER', payload: user });
@@ -29,20 +28,22 @@ function ModalAvatar(props) {
                 <View style={styles.pModal} >
                     <View style={styles.sModal}>
                         <TouchableWithoutFeedback onPress={() => props.action()}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <FlatList
-                                    data={avatars}
-                                    renderItem={({ item }) =>
-                                        <TouchableWithoutFeedback onPress={() => handleSelectedAvatar(item.id)}>
-                                            <View style={{ alignItems: 'center' }}>
-                                                    <View style={[styles.catCircle, {backgroundColor: item.color}]}> 
-                                                        {getImage(item.image_link, 60, 60, item.image_color)}
-                                                    </View>
-                                            </View>
-                                        </TouchableWithoutFeedback>}
-                                keyExtractor={(item) => item.id}
-                                numColumns={3}
-                                contentContainerStyle={styles.catList}/>
+                            <View style={[styles.categories,{ flexDirection: 'row', justifyContent: 'center'}]}>
+                                <View>
+                                    <FlatList
+                                        data={avatars}
+                                        renderItem={({ item }) =>
+                                            <TouchableWithoutFeedback onPress={() => handleSelectedAvatar(item.id)}>
+                                                <View style={{ alignItems: 'center', margin: 5}}>
+                                                        <View style={[styles.catCircle, {backgroundColor: item.color}]}> 
+                                                            {getImage(item.image_link, 60, 60, item.image_color)}
+                                                        </View>
+                                                </View>
+                                            </TouchableWithoutFeedback>}
+                                    keyExtractor={(item) => item.id}
+                                    numColumns={3}
+                                    contentContainerStyle={[styles.catList]}/>
+                                </View>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>

@@ -11,14 +11,12 @@ export default function Avatar(props) {
     const { width, height } = Dimensions.get('screen');
     const user = useSelector(state => state.user.user)
     const avatars = useSelector(state => state.avatar.avatars)
-    console.log("avatars in Avatar.js\n",avatars,"\n\nuser in avatar.js\n",user.avatar_id)
     const [modalVisible, setModalVisible] = useState(false);
 
     const openImagePicker = async (user) => {
         setModalVisible(true)
     };
     const handleAvatar = async()=>{
-        console.log("action")
         setModalVisible(false)
     }
     return (

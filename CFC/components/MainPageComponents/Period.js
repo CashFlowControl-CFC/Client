@@ -41,7 +41,7 @@ function Period(){
             <View  style={styles.date}>
             <TouchableWithoutFeedback onPress={() => setStep(step - 1)}>
                 <View>
-                    {getImage(process.env.API_LEFT_ARROW_URL, 20, 20, '#FFFFFF')}
+                    {getImage(process.env.API_LEFT_ARROW_URL, 25, 25, '#FFFFFF')}
                 </View>
             </TouchableWithoutFeedback>
             <View>
@@ -49,7 +49,7 @@ function Period(){
             </View>
             <TouchableWithoutFeedback onPress={() => setStep(step + 1)}>
                 <View>
-                    {getImage(process.env.API_RIGHT_ARROW_URL, 20, 20, '#FFFFFF')}
+                    {getImage(process.env.API_RIGHT_ARROW_URL, 25, 25, '#FFFFFF')}
                 </View>
             </TouchableWithoutFeedback>
         </View>      

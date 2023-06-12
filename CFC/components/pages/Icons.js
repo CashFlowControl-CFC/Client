@@ -14,10 +14,10 @@ function Icons({navigation}){
     },[]);
     const filter = () =>{
         if(iconType){
-           setData(icons.filter(item => item.category_id == iconType));
+           setData(icons.filter(item => item.category_id == iconType).sort((a,b) => a.category_id - b.category_id));
         }
         else{
-           setData(icons);
+           setData(icons.sort((a,b) => a.category_id - b.category_id));
         }
     }
     return (
